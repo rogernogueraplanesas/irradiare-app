@@ -1,2 +1,2 @@
 # irradiare-app
-Irradiare's project efficiency app: track investments, ROI, and energy consumption for insightful analysis.
+Irradiare's project efficiency app: track investments, ROI, and energy consumption for insightful analysis. (In process)
