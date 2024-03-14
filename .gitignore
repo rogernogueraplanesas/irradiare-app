@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 # Ignore the venv
-app/venv_app
+venv_app
 
 # JSON files retrieved from INE website are ignored (they can be obtained by running 'ine_api.py')
 app/indicators_data/ine_files/
