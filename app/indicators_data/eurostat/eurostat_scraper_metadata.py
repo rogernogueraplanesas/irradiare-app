@@ -174,7 +174,24 @@ def get_metadata_links(url: str, headers: Dict[str, str]) -> List[Dict[str, str]
         print(f"Error in main webpage request: {response.status_code}")
         return [], []
 
-def download_metadata(code: str, link: str, headers: Dict[str, str]) -> None:
+def save_links_to_csv(links: List[Dict[str, str]], save_folder: str, filename: str) -> None:
+    """
+    Save the list of links to a CSV file.
+
+    Args:
+        links (List[Dict[str, str]]): The list of dictionaries containing links to save.
+        save_folder (str): The folder where the CSV file will be saved.
+        filename (str): The name of the CSV file.
+    """
+    os.makedirs(save_folder, exist_ok=True) # Create the folder if it doesn't exist
+    with open(os.path.join(save_folder, filename), mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=["htm_link", "download_link"])
+        writer.writeheader()
+        for link in links:
+            writer.writerow(link)
+    print(f"Links saved to {filename}")
+
+def download_metadata(save_path: str, code: str, link: str, headers: Dict[str, str]) -> None:
     """
     Download and extract a metadata file from the given link.
 
@@ -184,8 +201,10 @@ def download_metadata(code: str, link: str, headers: Dict[str, str]) -> None:
         headers (dict): Headers to use for the HTTP request.
     """
     print(f"Downloading from: {link}")
-    save_dir = f"app/indicators_data/eurostat/eurostat_metadata/{code}"
 
+    # Ensure the directory exists
+    os.makedirs(save_path, exist_ok=True)
+    save_dir = os.path.join(save_path, f"{code}")
     try:
         # Send a GET request to the download link
         response = requests.get(link, headers=headers)
@@ -222,38 +241,21 @@ def download_metadata(code: str, link: str, headers: Dict[str, str]) -> None:
     else:
         print(f"Could not download the file: {link}")
 
-def save_links_to_csv(links: List[Dict[str, str]], filename: str) -> None:
-    """
-    Save the list of links to a CSV file.
-
-    Args:
-        links (List[Dict[str, str]]): The list of dictionaries containing links to save.
-        filename (str): The name of the CSV file.
-    """
-    with open(filename, mode='w', newline='', encoding='utf-8') as file:
-        writer = csv.DictWriter(file, fieldnames=["htm_link", "download_link"])
-        writer.writeheader()
-        for link in links:
-            writer.writerow(link)
-    print(f"Links saved to {filename}")
-
 def main() -> None:
     """
     Main function to download metadata files from Eurostat.
     """
     # Get metadata links
     download_links, manual_download_links = get_metadata_links(url=s.eurostat_metadata_url, headers=s.headers)
-    
     # Save links to CSV
-    save_links_to_csv(download_links, s.eurostat_metadata_url_path)
-    save_links_to_csv(manual_download_links, s.eurostat_metadata_manual_urls)
-    
+    save_links_to_csv(download_links, s.eurostat_folder , s.eurostat_metadata_filename)
+    save_links_to_csv(manual_download_links, s.eurostat_folder, s.eurostat_metadata_manual_filename)
     if download_links:
         for link in download_links:
             # Extract the code from the link
             code = link["download_link"].split("/")[-1].split(".")[0]
             # Download the metadata for the given code and link
-            download_metadata(code=code, link=link["download_link"], headers=s.headers)
+            download_metadata(save_path=s.eurostat_metadata_folder, code=code, link=link["download_link"], headers=s.headers)
     else:
         print("No valid download links found.")
 

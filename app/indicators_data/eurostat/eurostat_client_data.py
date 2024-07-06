@@ -15,7 +15,7 @@ from eurostatapiclient import EurostatAPIClient
 
 
 
-def get_eurostat_data() -> None:
+def get_eurostat_data(save_path: str) -> None:
     """
     Fetch and save Eurostat data for specified codes usin EurostatAPIClient.
 
@@ -41,13 +41,16 @@ def get_eurostat_data() -> None:
         'geo': 'PT',
     }
 
+    # Ensure the directory exists
+    os.makedirs(save_path, exist_ok=True)
+
 # Read the Eurostat indicators TOC file
     with open(s.eurostat_table_contents, 'r', encoding='utf-8') as codes_file:
         reader = csv.reader(codes_file, delimiter='\t', quotechar='"', quoting=csv.QUOTE_NONE)
         for row in reader:
             code = row[1].strip('"') # Extract the code for the indicator in each row
             print(code)
-            path = f"app/indicators_data/eurostat/eurostat_data/{code}.json" # Define a code adjustable path to save the JSON datasets
+            path = os.path.join(save_path, f"{code}.json") # Define a code adjustable path to save the JSON datasets
             print(path)
             try:
                 # Get data from the server for the code+query parameters specified
@@ -69,7 +72,7 @@ def get_eurostat_data() -> None:
 
 
 if __name__ == "__main__":
-    get_eurostat_data()
+    get_eurostat_data(save_path=s.eurostat_data_folder)
 
 
 

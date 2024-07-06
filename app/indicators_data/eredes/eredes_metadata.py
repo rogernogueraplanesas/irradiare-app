@@ -18,7 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 import time
 import csv
-
+from typing import List, Dict
 
 def set_driver(url: str) -> webdriver.Edge:
     """
@@ -56,7 +56,7 @@ def scroll_page(driver: webdriver.Edge) -> None:
     print("Scrolling completed")
 
 
-def get_metadata_items(driver: webdriver.Edge):
+def get_metadata_items(driver: webdriver.Edge) -> List[Dict[str, str]]:
     """
     Extract all label-value pairs from the page.
 
@@ -121,29 +121,38 @@ def get_metadata_items(driver: webdriver.Edge):
 
     return metadata_list
 
-
-def save_metadata_to_csv(metadata_list, csv_filename):
+def save_metadata_to_csv(metadata_list: List[Dict[str, str]], save_folder: str, csv_filename: str) -> None:
     """
     Save the metadata list to a CSV file.
 
     Args:
     - metadata_list (list): List of dictionaries containing metadata.
+    - save_folder (str): The folder where the CSV file will be saved.
     - csv_filename (str): The filename for the CSV file.
     """
-    # Extract headers
+
+    # Crear la carpeta, si ya existe no lanzará un error
+    os.makedirs(save_folder, exist_ok=True) 
+
+    # Extraer encabezados
     headers = ["title", "description", "src_code"] + sorted({k for d in metadata_list for k in d['metadata'].keys()})
 
-    with open(csv_filename, mode='w', newline='', encoding='utf-8') as csv_file:
+    # Abrir el archivo CSV en modo escritura
+    with open(os.path.join(save_folder, csv_filename), mode='w', newline='', encoding='utf-8') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=headers)
+        
+        # Escribir encabezados en el archivo CSV
         writer.writeheader()
         
+        # Escribir cada fila de datos en el archivo CSV
         for data in metadata_list:
             row = {**data['metadata'], "title": data['title'], "description": data['description'], "src_code": data['src_code']}
             writer.writerow(row)
             
+    # Imprimir mensaje de confirmación
     print(f"CSV file saved as {csv_filename}")
 
-def main():
+def main() -> None:
     """
     Main entry point of the script.
     """
@@ -151,7 +160,7 @@ def main():
     try:
         driver = set_driver(s.eredes_url)
         indicators_metadata = get_metadata_items(driver=driver)
-        save_metadata_to_csv(indicators_metadata, s.eredes_files_folder)
+        save_metadata_to_csv(indicators_metadata, s.eredes_metadata, 'metadata.csv')
         
     finally:
         if driver:
