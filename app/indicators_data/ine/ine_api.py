@@ -21,10 +21,8 @@ def extract_catalog(host_url: str, lang: str) -> Dict[str, Any]:
     url = f"{host_url}/ine/xml_indic.jsp?opc=3&lang={lang}" # Create the custom download link for indicators catalog
     response = requests.get(url) # Make a request to get the catalog data
     root = ET.fromstring(response.content) # ElementTree module to parse the data put it in a ET element (root is the higher level)
-
     catalog_data = {} 
     indicators = [] 
-
 # Create a JSON dict with the XML data
     for indicator in root.findall('.//indicator'): # Find all <indicator> elements in the tree
         indicator_data = {}
@@ -35,7 +33,7 @@ def extract_catalog(host_url: str, lang: str) -> Dict[str, Any]:
     return catalog_data
 
 
-def get_save_catalog(save_path: str, catalog_data: Dict[str, Any]) -> None:
+def save_catalog(save_path: str, filename: str, catalog_data: Dict[str, Any]) -> None:
     """
     Save the extracted catalog data to a JSON file.
 
@@ -43,7 +41,8 @@ def get_save_catalog(save_path: str, catalog_data: Dict[str, Any]) -> None:
     - save_path (str): Path where indicators catalog is saved.
     - catalog_data (Dict[str, Any]): The catalog data to save. JSON dict.
     """
-    with open(save_path, "w", encoding="utf-8") as catalog_file:
+    os.makedirs(save_path, exist_ok=True) # Create the folder if it doesn't exist
+    with open(os.path.join(save_path, filename), "w", encoding="utf-8") as catalog_file:
         json.dump(catalog_data, catalog_file, indent=4, ensure_ascii=False) # Dump content avoiding ascii sequences
     print("Catalog of indicators saved in catalogo_indicadores.json")
 
@@ -82,7 +81,7 @@ def extract_metadata(host_url:str, varcd_cod: str, lang: str) -> Dict[str, Any]:
     return response.json()
 
 
-def get_save_data(catalog_data: Dict[str, Any], lang: str) -> None:
+def get_save_data(save_path: str, catalog_data: Dict[str, Any], lang: str) -> None:
     """
     Use the function 'extract_data' and save the data for each indicator in the catalog
 
@@ -90,9 +89,11 @@ def get_save_data(catalog_data: Dict[str, Any], lang: str) -> None:
     - catalog_data (Dict[str, Any]): The catalog data containing indicators.
     - lang (str): The language code for the data.
     """
+    # Ensure the directory exists
+    os.makedirs(save_path, exist_ok=True)
     for indicator in catalog_data["indicators"]:
         varcd_cod = indicator["varcd"]
-        data_path = f"app/indicators_data/ine/ine_files/data_{varcd_cod}.json" # Create a custom path to store data for each indicator
+        data_path = os.path.join(save_path, f"data_{varcd_cod}.json") # Create a custom path to store data for each indicator
 
         if os.path.exists(data_path):
             print(f"Indicator {varcd_cod} files already exists. Skipping...")
@@ -107,7 +108,7 @@ def get_save_data(catalog_data: Dict[str, Any], lang: str) -> None:
         time.sleep(1)
 
 
-def get_save_metadata(catalog_data: Dict[str, Any], lang: str) -> None:
+def get_save_metadata(save_path: str, catalog_data: Dict[str, Any], lang: str) -> None:
     """
     Use the function 'extract_metadata' and save the data for each indicator in the catalog
 
@@ -115,9 +116,11 @@ def get_save_metadata(catalog_data: Dict[str, Any], lang: str) -> None:
     - catalog_data (Dict[str, Any]): The catalog data containing indicators.
     - lang (str): The language code for the metadata.
     """
+
+    os.makedirs(save_path, exist_ok=True) # Create the folder if it doesn't exist
     for indicator in catalog_data["indicators"]:
         varcd_cod = indicator["varcd"]
-        metadata_path = f"app/indicators_data/ine/ine_files/metadata_{varcd_cod}.json" # Create a custom path to store data for each indicator
+        metadata_path = os.path.join(save_path, f"metadata_{varcd_cod}.json") # Create a custom path to store data for each indicator
 
         if os.path.exists(metadata_path):
             print(f"Indicator {varcd_cod} files already exists. Skipping...")
@@ -138,9 +141,9 @@ def main():
     # Indicate language: PT or EN
     lang = "PT"
     catalog_data = extract_catalog(host_url=s.ine_url, lang=lang)
-    get_save_catalog(save_path=s.ine_catalog_path, catalog_data=catalog_data)
-    get_save_data(catalog_data=catalog_data, lang=lang)
-    get_save_metadata(catalog_data=catalog_data, lang=lang)
+    save_catalog(save_path=s.ine_catalog_path, filename=s.ine_catalog_filename, catalog_data=catalog_data)
+    get_save_data(save_path=s.ine_data_path, catalog_data=catalog_data, lang=lang)
+    get_save_metadata(save_path=s.ine_metadata_path, catalog_data=catalog_data, lang=lang)
 
 
 if __name__ == "__main__":

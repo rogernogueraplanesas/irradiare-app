@@ -2,6 +2,7 @@ import settings as s
 import requests
 import json
 import time
+import os
 
 
 def get_catalog(format: str) -> list:
@@ -35,7 +36,7 @@ def get_catalog(format: str) -> list:
     return catalog_data
 
 
-def save_catalog(catalog_path: str, catalog_data: list) -> None:
+def save_catalog(save_path: str, filename: str, catalog_data: list) -> None:
     """
     Save the catalog data to a JSON file.
 
@@ -43,7 +44,8 @@ def save_catalog(catalog_path: str, catalog_data: list) -> None:
     - catalog_path (str): The path where the catalog file will be saved.
     - catalog_data (list): The catalog data to save.
     """
-    with open(catalog_path, "w", encoding="utf-8") as data_file:
+    os.makedirs(save_path, exist_ok=True) 
+    with open(os.path.join(save_path, filename), "w", encoding="utf-8") as data_file:
         json.dump(catalog_data, data_file, indent=4, ensure_ascii=False)
     print("Indicators saved")
 
@@ -152,7 +154,7 @@ def get_indicator_data(source_id_list: list, indicator_id_list: list) -> list:
     return indicators_data_dict
 
 
-def get_metadata_source_id() -> list:
+def get_metadata_source_id(data_file: str) -> list:
     """
     Retrieve source IDs from the metadata file.
 
@@ -160,8 +162,7 @@ def get_metadata_source_id() -> list:
     - list: A list of source IDs.
     """
     llista_source_id = []
-
-    with open("app/indicators_data/worldbank/wb_files/wb_data.json", "r", encoding="utf-8") as file:
+    with open(data_file, "r", encoding="utf-8") as file:
         try:
             data = json.load(file)
         except json.decoder.JSONDecodeError as e:
@@ -176,7 +177,7 @@ def get_metadata_source_id() -> list:
     return llista_source_id
 
 
-def get_metadata_id() -> list:
+def get_metadata_id(data_file: str) -> list:
     """
     Retrieve indicator IDs from the metadata file.
 
@@ -184,8 +185,7 @@ def get_metadata_id() -> list:
     - list: A list of indicator IDs.
     """
     llista_ids = []
-
-    with open("app/indicators_data/worldbank/wb_files/wb_data.json", "r", encoding="utf-8") as file:
+    with open(data_file, "r", encoding="utf-8") as file:
         try:
             data = json.load(file)
         except json.decoder.JSONDecodeError as e:
@@ -254,7 +254,7 @@ def save_json_file(path: str, data_dict: dict) -> None:
     - data_dict (dict): The data to save.
     """
     converted_dict = {str(k): v for k, v in data_dict.items()} # Convert tuple keys to strings
-
+    os.makedirs(path, exist_ok=True)
     with open(path, "w", encoding="utf-8") as data_file:
         json.dump(converted_dict, data_file, indent=4, ensure_ascii=False)
     print("Indicators saved")
@@ -266,7 +266,7 @@ def main() -> None:
     """
     format = 'json'
     data = get_catalog(format=format)
-    save_catalog(catalog_path=s.wb_catalog_path, catalog_data=data)
+    save_catalog(catalog_path=s.wb_catalog_path, filename=s.wb_catalog_filename, catalog_data=data)
 
     source_id = get_source_id(catalog_path=s.wb_catalog_path)
     indicator_id = get_id(catalog_path=s.wb_catalog_path)
@@ -274,8 +274,8 @@ def main() -> None:
     indicator_data_dict = get_indicator_data(source_id_list=source_id, indicator_id_list=indicator_id)
     save_json_file(path=s.wb_data_path, data_dict=indicator_data_dict)
 
-    metadata_source_id = get_metadata_source_id()
-    metadata_id = get_metadata_id()
+    metadata_source_id = get_metadata_source_id(s.wb_data_path)
+    metadata_id = get_metadata_id(s.wb_data_path)
 
     indicator_metadata_dict = get_indicator_metadata(source_id_list=metadata_source_id, indicator_id_list=metadata_id)
     save_json_file(path=s.wb_metadata_path, data_dict=indicator_metadata_dict)
