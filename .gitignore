@@ -127,6 +127,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+venv_app
 
 # Spyder project settings
 .spyderproject
@@ -152,16 +153,29 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+# Data folders for eredes
+app/indicators_data/eredes/eredes_data/
+app/indicators_data/eredes/eredes_metadata.csv
+app/indicators_data/eredes/info.txt
 
-# Ignore the venv
-venv_app
+# Data folders for eurostat
+app/indicators_data/eurostat/eurostat_data/
+app/indicators_data/eurostat/eurostat_metadata/
+app/indicators_data/eurostat/metadata_manual_download.zip
+app/indicators_data/eurostat/metadata_zip_links.zip
 
-# JSON files retrieved from INE website are ignored (they can be obtained by running 'ine_api.py')
-app/indicators_data/ine_files/
+# Data folders for ine
+app/indicators_data/ine/ine_files/
 
+# Data folders for wb
+app/indicators_data/worldbank/other_data/
+app/indicators_data/worldbank/wb_files/
+
+# API structure (empty)
+app/indicators_data/routers/
+app/indicators_data/database.py
+app/indicators_data/db2.py
+app/indicators_data/main.py
+app/indicators_data/models.py
+app/indicators_data/schemas.py
+app/indicators_data/utils.py
