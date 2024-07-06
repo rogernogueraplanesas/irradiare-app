@@ -1,0 +1,19 @@
+Descarregar tota la metadata de: https://ec.europa.eu/eurostat/cache/metadata/en/
+Un cop descarregada tota (mirar de fer-ho amb api si es pogués), es poden unir amb la data fent que el nom del data file inclogui el de la metadata,
+per exemple, el datafile es aact_esqrs i el de la metadata es aact_esqrs_pt_aas, llavors extraient el format (.htm), es relaciona la metadata comparant els dos noms.
+
+Un cop es faci això, es poden deixar la ressta o eliminar-los si no calen. En principi si puc, m'agradaria descarregar directament els metadata files que toquen i prou.
+
+Un cop es tingui això, per cada metadata tens l'explicació de la data.
+
+Per tots els indicadors, localitzar patros i data que entra a la db i no fer cas de la resta.
+Crear scripts que extreguin la data i metadata de cadascuna, les combini i la posi en el field que pertoqui amb el format correcte.
+
+Quan tingui la db dissenyada, indexada i particionada i s'hagin fet proves de càrrega de dades correctament, comentar al Rui.
+
+En principi la idea sería fer una càrrega total, i anar desenvolupament la API + JWT. 
+
+Un cop es tingui la db plena, la api feta i amb token, quedaria mirar el tema de les visualitzacions i la protecció (permisos) de la db.
+
+Preguntar sobre el deploy. Mirar si és possible realitzar el projecte a distància, al menys fins tenir fet el deploy o deixar fet tot per a que el puguin fer a l'empresa i funcioni al menys de forma local, rebent dades, processant,
+carregat a la BD i fent servir els end points de la API per treure dades i potser visualitzacions. (Preguntar sobre Docker i com es faria si calgués).
