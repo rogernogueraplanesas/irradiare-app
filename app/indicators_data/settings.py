@@ -5,8 +5,8 @@ headers = {'User-Agent': user_agent}
 
 # __________________________________________EREDES_________________________________________
 eredes_url = 'https://e-redes.opendatasoft.com/explore/?sort=modified'
-eredes_files_folder = "app/indicators_data/eredes/eredes_data"
-eredes_metadata = "app/indicators_data/eredes/"
+eredes_files_folder = "app/indicators_data/eredes/eredes_data/"
+eredes_metadata = "app/indicators_data/eredes/metadata/"
 
 # _________________________________________EUROSTAT________________________________________
 # When interested in working with from Eurostat navigation tree , a classification of Eurostat datasets into hierarchical categories, it is possible to retrieve a TXT or XML representation named "table of contents" (TOC)
