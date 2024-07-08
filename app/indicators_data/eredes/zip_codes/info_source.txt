@@ -1,2 +1,2 @@
-Source for the zip codes:
-https://github.com/dssg-pt/mp-mapeamento-cp7
+Source for the dicofre codes:
+https://dados.gov.pt/pt/datasets/freguesias-de-portugal/
