@@ -1,0 +1,636 @@
+{
+    "Continental Portugal": {
+      "NUTS 2": {
+        "Norte Region (Northern Portugal)": {
+          "NUTS 3": {
+            "Porto metropolitan area": {
+              "Municipalities": [
+                "Arouca",
+                "Espinho",
+                "Oliveira de Azeméis",
+                "Santa Maria da Feira",
+                "São João da Madeira",
+                "Vale de Cambra",
+                "Porto",
+                "Gondomar",
+                "Maia",
+                "Matosinhos",
+                "Paredes",
+                "Póvoa de Varzim",
+                "Santo Tirso",
+                "Trofa",
+                "Valongo",
+                "Vila do Conde",
+                "Vila Nova de Gaia"
+              ]
+            },
+            "Aveiro District": {
+              "Municipalities": [
+                "Arouca",
+                "Espinho",
+                "Oliveira de Azeméis",
+                "Santa Maria da Feira",
+                "São João da Madeira",
+                "Vale de Cambra"
+              ]
+            },
+            "Porto District": {
+              "Municipalities": [
+                "Gondomar",
+                "Maia",
+                "Matosinhos",
+                "Paredes",
+                "Porto",
+                "Póvoa de Varzim",
+                "Santo Tirso",
+                "Trofa",
+                "Valongo",
+                "Vila do Conde",
+                "Vila Nova de Gaia"
+              ]
+            },
+            "Alto Minho": {
+              "Municipalities": [
+                "Arcos de Valdevez",
+                "Caminha",
+                "Melgaço",
+                "Monção",
+                "Paredes de Coura",
+                "Ponte da Barca",
+                "Ponte de Lima",
+                "Valença",
+                "Viana do Castelo",
+                "Vila Nova de Cerveira"
+              ]
+            },
+            "Alto Tâmega": {
+              "Municipalities": [
+                "Boticas",
+                "Chaves",
+                "Montalegre",
+                "Ribeira de Pena",
+                "Valpaços",
+                "Vila Pouca de Aguiar"
+              ]
+            },
+            "Ave": {
+              "Municipalities": [
+                "Cabeceiras de Basto",
+                "Fafe",
+                "Guimarães",
+                "Póvoa de Lanhoso",
+                "Vieira do Minho",
+                "Vila Nova de Famalicão",
+                "Vizela"
+              ]
+            },
+            "Douro": {
+              "Municipalities": [
+                "Armamar",
+                "Lamego",
+                "Moimenta da Beira",
+                "Penedono",
+                "São João da Pesqueira",
+                "Sernancelhe",
+                "Tabuaço",
+                "Tarouca"
+              ]
+            },
+            "Tâmega e Sousa": {
+              "Municipalities": [
+                "Amarante",
+                "Baião",
+                "Felgueiras",
+                "Lousada",
+                "Marco de Canaveses",
+                "Paços de Ferreira",
+                "Penafiel",
+                "Cinfães",
+                "Resende"
+              ]
+            }
+          }
+        },
+        "Alto Minho": {
+          "NUTS 3": {
+            "Viana do Castelo District": {
+              "Municipalities": [
+                "Arcos de Valdevez",
+                "Caminha",
+                "Melgaço",
+                "Monção",
+                "Paredes de Coura",
+                "Ponte da Barca",
+                "Ponte de Lima",
+                "Valença",
+                "Viana do Castelo",
+                "Vila Nova de Cerveira"
+              ]
+            }
+          }
+        },
+        "Alto Tâmega": {
+          "NUTS 3": {
+            "Vila Real District": {
+              "Municipalities": [
+                "Boticas",
+                "Chaves",
+                "Montalegre",
+                "Ribeira de Pena",
+                "Valpaços",
+                "Vila Pouca de Aguiar"
+              ]
+            }
+          }
+        },
+        "Ave": {
+          "NUTS 3": {
+            "Braga District": {
+              "Municipalities": [
+                "Cabeceiras de Basto",
+                "Fafe",
+                "Guimarães",
+                "Póvoa de Lanhoso",
+                "Vieira do Minho",
+                "Vila Nova de Famalicão",
+                "Vizela"
+              ]
+            }
+          }
+        },
+        "Douro": {
+          "NUTS 3": {
+            "Bragança District": {
+              "Municipalities": [
+                "Carrazeda de Ansiães",
+                "Freixo de Espada à Cinta",
+                "Torre de Moncorvo"
+              ]
+            },
+            "Guarda District": {
+              "Municipalities": [
+                "Vila Nova de Foz Côa"
+              ]
+            },
+            "Vila Real District": {
+              "Municipalities": [
+                "Alijó",
+                "Mesão Frio",
+                "Murça",
+                "Peso da Régua",
+                "Sabrosa",
+                "Santa Marta de Penaguião",
+                "Vila Real"
+              ]
+            }
+          }
+        },
+        "Tâmega e Sousa": {
+          "NUTS 3": {
+            "Aveiro District": {
+              "Municipalities": [
+                "Castelo de Paiva"
+              ]
+            },
+            "Braga District": {
+              "Municipalities": [
+                "Celorico de Basto"
+              ]
+            },
+            "Porto District": {
+              "Municipalities": [
+                "Amarante",
+                "Baião",
+                "Felgueiras",
+                "Lousada",
+                "Marco de Canaveses",
+                "Paços de Ferreira",
+                "Penafiel"
+              ]
+            },
+            "Viseu District": {
+              "Municipalities": [
+                "Cinfães",
+                "Resende"
+              ]
+            }
+          }
+        },
+        "Terras de Trás-os-Montes": {
+          "NUTS 3": {
+            "Bragança District": {
+              "Municipalities": [
+                "Alfândega da Fé",
+                "Bragança",
+                "Macedo de Cavaleiros",
+                "Miranda do Douro",
+                "Mirandela",
+                "Mogadouro",
+                "Vila Flor",
+                "Vimioso",
+                "Vinhais"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "Centro Region (Central Portugal)": {
+      "NUTS 2": {
+        "Beira Baixa": {
+          "NUTS 3": {
+            "Castelo Branco District": {
+              "Municipalities": [
+                "Castelo Branco",
+                "Idanha-a-Nova",
+                "Oleiros",
+                "Penamacor",
+                "Proença-a-Nova",
+                "Vila Velha de Ródão"
+              ]
+            }
+          }
+        },
+        "Beiras e Serra da Estrela": {
+          "NUTS 3": {
+            "Castelo Branco District": {
+              "Municipalities": [
+                "Belmonte",
+                "Covilhã",
+                "Fundão"
+              ]
+            },
+            "Guarda District": {
+              "Municipalities": [
+                "Almeida",
+                "Celorico da Beira",
+                "Figueira de Castelo Rodrigo",
+                "Fornos de Algodres",
+                "Gouveia",
+                "Guarda",
+                "Manteigas",
+                "Mêda",
+                "Pinhel",
+                "Sabugal",
+                "Seia",
+                "Trancoso"
+              ]
+            }
+          }
+        },
+        "Médio Tejo": {
+          "NUTS 3": {
+            "Castelo Branco District": {
+              "Municipalities": [
+                "Sertã",
+                "Vila de Rei"
+              ]
+            },
+            "Santarém District": {
+              "Municipalities": [
+                "Abrantes",
+                "Alcanena",
+                "Constância",
+                "Entroncamento",
+                "Ferreira do Zêzere",
+                "Mação",
+                "Ourém",
+                "Sardoal",
+                "Tomar",
+                "Torres Novas",
+                "Vila Nova da Barquinha"
+              ]
+            }
+          }
+        },
+        "Oeste": {
+          "NUTS 3": {
+            "Leiria District": {
+              "Municipalities": [
+                "Alcobaça",
+                "Bombarral",
+                "Caldas da Rainha",
+                "Nazaré",
+                "Óbidos",
+                "Peniche"
+              ]
+            },
+            "Lisbon District": {
+              "Municipalities": [
+                "Alenquer",
+                "Arruda dos Vinhos",
+                "Cadaval",
+                "Lourinhã",
+                "Sobral de Monte Agraço",
+                "Torres Vedras"
+              ]
+            }
+          }
+        },
+        "Região de Aveiro": {
+          "NUTS 3": {
+            "Aveiro District": {
+              "Municipalities": [
+                "Águeda",
+                "Albergaria-a-Velha",
+                "Anadia",
+                "Aveiro",
+                "Estarreja",
+                "Ílhavo",
+                "Murtosa",
+                "Oliveira do Bairro",
+                "Ovar",
+                "Sever do Vouga",
+                "Vagos"
+              ]
+            }
+          }
+        },
+        "Região de Coimbra": {
+          "NUTS 3": {
+            "Aveiro District": {
+              "Municipalities": [
+                "Mealhada"
+              ]
+            },
+            "Coimbra District": {
+              "Municipalities": [
+                "Arganil",
+                "Cantanhede",
+                "Coimbra",
+                "Condeixa-a-Nova",
+                "Figueira da Foz",
+                "Góis",
+                "Lousã",
+                "Mira",
+                "Miranda do Corvo",
+                "Montemor-o-Velho",
+                "Oliveira do Hospital",
+                "Pampilhosa da Serra",
+                "Penacova",
+                "Penela",
+                "Soure",
+                "Tábua",
+                "Vila Nova de Poiares"
+              ]
+            },
+            "Viseu District": {
+              "Municipalities": [
+                "Mortágua"
+              ]
+            }
+          }
+        },
+        "Região de Leiria": {
+          "NUTS 3": {
+            "Leiria District": {
+              "Municipalities": [
+                "Alvaiázere",
+                "Ansião",
+                "Batalha",
+                "Castanheira de Pêra",
+                "Figueiró dos Vinhos",
+                "Leiria",
+                "Marinha Grande",
+                "Pedrógão Grande",
+                "Pombal",
+                "Porto de Mós"
+              ]
+            }
+          }
+        },
+        "Viseu Dão Lafões": {
+          "NUTS 3": {
+            "Guarda District": {
+              "Municipalities": [
+                "Aguiar da Beira"
+              ]
+            },
+            "Viseu District": {
+              "Municipalities": [
+                "Carregal do Sal",
+                "Castro Daire",
+                "Mangualde",
+                "Nelas",
+                "Oliveira de Frades",
+                "Penalva do Castelo",
+                "Santa Comba Dão",
+                "São Pedro do Sul",
+                "Sátão",
+                "Tondela",
+                "Vila Nova de Paiva",
+                "Viseu",
+                "Vouzela"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "Lisboa Region": {
+      "NUTS 2": {
+        "Lisbon metropolitan area": {
+          "NUTS 3": {
+            "Lisbon District": {
+              "Municipalities": [
+                "Amadora",
+                "Cascais",
+                "Lisbon",
+                "Loures",
+                "Mafra",
+                "Odivelas",
+                "Oeiras",
+                "Sintra",
+                "Vila Franca de Xira"
+              ]
+            },
+            "Setúbal District": {
+              "Municipalities": [
+                "Alcochete",
+                "Almada",
+                "Barreiro",
+                "Moita",
+                "Montijo",
+                "Palmela",
+                "Seixal",
+                "Sesimbra",
+                "Setúbal"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "Alentejo Region": {
+      "NUTS 2": {
+        "Alentejo Central": {
+          "NUTS 3": {
+            "Évora District": {
+              "Municipalities": [
+                "Alandroal",
+                "Arraiolos",
+                "Borba",
+                "Estremoz",
+                "Évora",
+                "Montemor-o-Novo",
+                "Mora",
+                "Mourão",
+                "Portel",
+                "Redondo",
+                "Reguengos de Monsaraz",
+                "Vendas Novas",
+                "Viana do Alentejo",
+                "Vila Viçosa"
+              ]
+            }
+          }
+        },
+        "Alentejo Litoral": {
+          "NUTS 3": {
+            "Beja District": {
+              "Municipalities": [
+                "Odemira"
+              ]
+            },
+            "Setúbal District": {
+              "Municipalities": [
+                "Alcácer do Sal",
+                "Grândola",
+                "Santiago do Cacém",
+                "Sines"
+              ]
+            }
+          }
+        },
+        "Alto Alentejo": {
+          "NUTS 3": {
+            "Portalegre District": {
+              "Municipalities": [
+                "Alter do Chão",
+                "Arronches",
+                "Avis",
+                "Campo Maior",
+                "Castelo de Vide",
+                "Crato",
+                "Elvas",
+                "Fronteira",
+                "Gavião",
+                "Marvão",
+                "Monforte",
+                "Nisa",
+                "Ponte de Sôr",
+                "Portalegre",
+                "Sousel"
+              ]
+            }
+          }
+        },
+        "Baixo Alentejo": {
+          "NUTS 3": {
+            "Beja District": {
+              "Municipalities": [
+                "Aljustrel",
+                "Almodôvar",
+                "Alvito",
+                "Barrancos",
+                "Beja",
+                "Castro Verde",
+                "Cuba",
+                "Ferreira do Alentejo",
+                "Mértola",
+                "Moura",
+                "Ourique",
+                "Serpa",
+                "Vidigueira"
+              ]
+            }
+          }
+        },
+        "Lezíria do Tejo": {
+          "NUTS 3": {
+            "Lisbon District": {
+              "Municipalities": [
+                "Azambuja"
+              ]
+            },
+            "Santarém District": {
+              "Municipalities": [
+                "Almeirim",
+                "Alpiarça",
+                "Benavente",
+                "Cartaxo",
+                "Chamusca",
+                "Coruche",
+                "Golegã",
+                "Rio Maior",
+                "Salvaterra de Magos",
+                "Santarém"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "Azores, Autonomous Region of": {
+      "NUTS 2": {
+        "Azores": {
+          "NUTS 3": {
+            "Angra do Heroísmo District": {
+              "Municipalities": [
+                "Angra do Heroísmo",
+                "Calheta",
+                "Praia da Vitória",
+                "Santa Cruz da Graciosa",
+                "Velas"
+              ]
+            },
+            "Horta District": {
+              "Municipalities": [
+                "Corvo",
+                "Horta",
+                "Lajes das Flores",
+                "Lajes do Pico",
+                "Madalena",
+                "Santa Cruz das Flores",
+                "São Roque do Pico"
+              ]
+            },
+            "Ponta Delgada District": {
+              "Municipalities": [
+                "Lagoa",
+                "Nordeste",
+                "Ponta Delgada",
+                "Povoação",
+                "Ribeira Grande",
+                "Vila do Porto",
+                "Vila Franca do Campo"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "Madeira, Autonomous Region of": {
+      "NUTS 2": {
+        "Madeira": {
+          "NUTS 3": {
+            "Funchal District": {
+              "Municipalities": [
+                "Calheta",
+                "Câmara de Lobos",
+                "Funchal",
+                "Machico",
+                "Ponta do Sol",
+                "Porto Moniz",
+                "Porto Santo",
+                "Ribeira Brava",
+                "Santa Cruz",
+                "Santana"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+  
