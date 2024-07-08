@@ -11,3 +11,10 @@
 
 # Declare files that will always have LF line endings on checkout.
 *.sh text eol=lf
+
+# Declare CSV files to always have LF line endings on checkout.
+*.csv text eol=lf
+
+# Optionally, declare other file types as needed
+# For example, Markdown files to always have LF line endings
+*.md text eol=lf
