@@ -4,5 +4,5 @@
 </div>
 <br>
 
-# irradiare-app
+# DevTrack app IrRadiare
 Irradiare's project efficiency and forecasting app: track investments, ROI, and energy consumption for insightful analysis.
