@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/images/logo.png" width="70%" height="70%" alt="Irradiare-app-logo">
+  <img src="docs/images/logo.png" width="65%" height="65%" alt="Irradiare-app-logo">
   <br style="margin-bottom: 0.25em;">
 </div>
 <br>
