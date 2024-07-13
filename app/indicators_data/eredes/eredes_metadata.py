@@ -1,5 +1,19 @@
 import sys
 import os
+import time
+import logging
+from selenium import webdriver
+from selenium.webdriver.edge.service import Service
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from concurrent.futures import ThreadPoolExecutor
+import csv
+from typing import List, Dict
+
+# Logging configuration
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Get the path of the 'irradiare-app' directory (two levels up from eredes_metadata.py)
 irradiare_app_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
@@ -9,16 +23,6 @@ sys.path.append(irradiare_app_path)
 
 # Now you can import settings
 import app.indicators_data.settings as s
-
-from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
-import time
-import csv
-from typing import List, Dict
 
 def set_driver(url: str) -> webdriver.Edge:
     """
@@ -34,9 +38,8 @@ def set_driver(url: str) -> webdriver.Edge:
     options.add_experimental_option("detach", True)
     driver = webdriver.Edge(options=options, service=Service(EdgeChromiumDriverManager().install()))
     driver.get(url)
-    print(driver.title)
+    logging.info(f"Opened URL: {driver.title}")
     return driver
-
 
 def scroll_page(driver: webdriver.Edge) -> None:
     """
@@ -53,8 +56,7 @@ def scroll_page(driver: webdriver.Edge) -> None:
         if new_body_height == body_height:
             break
         body_height = new_body_height
-    print("Scrolling completed")
-
+    logging.info("Scrolling completed")
 
 def get_metadata_items(driver: webdriver.Edge) -> List[Dict[str, str]]:
     """
@@ -74,6 +76,7 @@ def get_metadata_items(driver: webdriver.Edge) -> List[Dict[str, str]]:
         main = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "main"))
         )
+        logging.info("Main element located")
 
         ods_elements = main.find_elements(By.TAG_NAME, "ods-catalog-card")
         
@@ -114,10 +117,10 @@ def get_metadata_items(driver: webdriver.Edge) -> List[Dict[str, str]]:
                 })
 
             except Exception as e:
-                print(f"Error extracting metadata from card: {e}")
+                logging.error(f"Error extracting metadata from card: {e}")
 
     except Exception as e:
-        print(f"Error accessing main element: {e}")
+        logging.error(f"Error accessing main element: {e}")
 
     return metadata_list
 
@@ -130,27 +133,21 @@ def save_metadata_to_csv(metadata_list: List[Dict[str, str]], save_folder: str, 
     - save_folder (str): The folder where the CSV file will be saved.
     - csv_filename (str): The filename for the CSV file.
     """
+    os.makedirs(save_folder, exist_ok=True)
 
-    # Crear la carpeta, si ya existe no lanzará un error
-    os.makedirs(save_folder, exist_ok=True) 
-
-    # Extraer encabezados
+    # Extract headers
     headers = ["title", "description", "src_code"] + sorted({k for d in metadata_list for k in d['metadata'].keys()})
 
-    # Abrir el archivo CSV en modo escritura
     with open(os.path.join(save_folder, csv_filename), mode='w', newline='', encoding='utf-8') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=headers)
         
-        # Escribir encabezados en el archivo CSV
         writer.writeheader()
         
-        # Escribir cada fila de datos en el archivo CSV
         for data in metadata_list:
             row = {**data['metadata'], "title": data['title'], "description": data['description'], "src_code": data['src_code']}
             writer.writerow(row)
             
-    # Imprimir mensaje de confirmación
-    print(f"CSV file saved as {csv_filename}")
+    logging.info(f"CSV file saved as {csv_filename}")
 
 def main() -> None:
     """
@@ -162,9 +159,14 @@ def main() -> None:
         indicators_metadata = get_metadata_items(driver=driver)
         save_metadata_to_csv(indicators_metadata, s.eredes_metadata, 'metadata.csv')
         
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        
     finally:
         if driver:
             driver.quit()  # Ensure WebDriver is closed at the end
+            logging.info("WebDriver closed")
 
 if __name__ == "__main__":
     main()
+
