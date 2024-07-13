@@ -1,3 +1,5 @@
+# Especificar que triga aprox.1,5h o 2h (depèn de l'internet)
+
 import sys
 import os
 import time

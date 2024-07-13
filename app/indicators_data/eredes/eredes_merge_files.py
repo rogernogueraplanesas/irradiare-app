@@ -4,7 +4,14 @@ import csv
 # Paths to the data and metadata directories
 data_path = "app/indicators_data/eredes/eredes_data/"
 metadata_file_path = "app/indicators_data/eredes/eredes_metadata/metadata.csv"
-merged_files = "app/indicators_data/eredes/eredes_merged_nozip/"
+merged_files = "app/indicators_data/eredes/temp_eredes_merged/"
+
+# Lista de archivos a excluir
+excluded_files = [
+    "civil-parishes-portugal.csv",
+    "districts-portugal.csv",
+    "municipalities-portugal.csv"
+]
 
 def load_metadata(metadata_file_path):
     metadata_dict = {}
@@ -18,7 +25,7 @@ def load_metadata(metadata_file_path):
 
 def combine_data_and_metadata(data_path, metadata_headers, metadata_dict):
     for filename in os.listdir(data_path):
-        if filename.endswith(".csv"):
+        if filename.endswith(".csv") and filename not in excluded_files:
             src_code = filename.replace('.csv', '')
             if src_code in metadata_dict:
                 metadata_row = metadata_dict[src_code]
@@ -32,7 +39,7 @@ def combine_data_and_metadata(data_path, metadata_headers, metadata_dict):
                         combined_rows.append(combined_row)
                 # Write the combined rows to a new CSV file
                 os.makedirs(merged_files, exist_ok=True)
-                output_file_path = os.path.join(merged_files, f"nozip_combined_{filename}")
+                output_file_path = os.path.join(merged_files, f"temp_merged_{filename}")
                 with open(output_file_path, "w", encoding='utf-8', newline='') as output_file:
                     writer = csv.writer(output_file, delimiter=';')
                     writer.writerows(combined_rows)
