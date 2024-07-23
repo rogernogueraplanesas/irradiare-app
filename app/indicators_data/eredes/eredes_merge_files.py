@@ -13,6 +13,26 @@ excluded_files = [
     "municipalities-portugal.csv"
 ]
 
+# Lista de archivos a eliminar
+files_to_delete = [
+    "articles.csv",
+    "civil-parishes-portugal.csv",
+    "districts-portugal.csv",
+    "municipalities-portugal.csv",
+    "network-scheduling-work.csv",
+    "news-events.csv",
+    "consumo_horario_codigo_postal_7_digitos.csv"
+]
+
+def eliminar_archivos_csv(data_path, files_to_delete):
+    for filename in files_to_delete:
+        file_path = os.path.join(data_path, filename)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            print(f"Archivo {filename} eliminado.")
+        else:
+            print(f"Archivo {filename} no encontrado.")
+
 def load_metadata(metadata_file_path):
     metadata_dict = {}
     with open(metadata_file_path, "r", encoding='utf-8') as metadata_file:
@@ -44,6 +64,9 @@ def combine_data_and_metadata(data_path, metadata_headers, metadata_dict):
                     writer = csv.writer(output_file, delimiter=';')
                     writer.writerows(combined_rows)
                 print(f"Combined data written to {output_file_path}")
+
+# Eliminar archivos especificados
+eliminar_archivos_csv(data_path, files_to_delete)
 
 # Load the metadata
 metadata_headers, metadata_dict = load_metadata(metadata_file_path)

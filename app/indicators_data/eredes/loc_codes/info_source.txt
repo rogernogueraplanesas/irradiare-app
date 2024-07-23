@@ -1,0 +1,5 @@
+Source for the dicofre codes:
+https://dados.gov.pt/pt/datasets/freguesias-de-portugal/
+
+Source for zipcodes:
+https://github.com/temospena/CP7
