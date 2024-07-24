@@ -1,12 +1,12 @@
 # E-REDES Data Pathway
 
-```
-External files involved along the process:
-  - dicofre.csv (Original source: [Filename: freguesias-metadata.json](https://dados.gov.pt/pt/datasets/freguesias-de-portugal/)
-  - zipcodes.csv (Modified version. Original source: [Filename: CP7_Portugal_nov2022.txt](https://github.com/temospena/CP7/tree/master/CP7%20Portugal)
+
+>External files involved along the process:
+  >- dicofre.csv (Original source: [freguesias-metadata.json](https://dados.gov.pt/pt/datasets/freguesias-de-portugal/)
+  - zipcodes.csv (Modified version. Original source: [CP7_Portugal_nov2022.txt](https://github.com/temospena/CP7/tree/master/CP7%20Portugal)
   - NUTS.csv (Proprietary file. Created based on the following article: [List of regions and sub-regions of Portugal](https://en.wikipedia.org/wiki/List_of_regions_and_sub-regions_of_Portugal)
 
-```
+
 
 This document is a guide that describes how data for indicators is obtained from the E-REDES Open Data Portal, as well as the processes for completing and cleaning this data.
 
