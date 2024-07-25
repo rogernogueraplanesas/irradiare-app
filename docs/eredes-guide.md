@@ -2,9 +2,10 @@
 
 
 >External files involved along the process (found in /utils):
-  >- dicofre.csv (Original source: [freguesias-metadata.json](https://dados.gov.pt/pt/datasets/freguesias-de-portugal/) )
+  >- dicofre.csv (Modified version. Original source: [freguesias-metadata.json](https://dados.gov.pt/pt/datasets/freguesias-de-portugal/) )
   >- zipcodes.csv (Modified version. Original source: [CP7_Portugal_nov2022.txt](https://github.com/temospena/CP7/tree/master/CP7%20Portugal) )
   >- NUTS.csv (Proprietary file. Created based on the following article: [List of regions and sub-regions of Portugal](https://en.wikipedia.org/wiki/List_of_regions_and_sub-regions_of_Portugal) )
+>The dicofre and zipcodes original files where formatted by means of /format_loc_codes.py, found in the same utils folder.
 
 
 
