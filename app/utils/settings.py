@@ -1,7 +1,9 @@
 
 # ____________________________________COMMON METADATA FILES____________________________________
+original_dicofre_data = "app/utils/loc_codes/original_dicofre.json"
+original_zipcode_data = "app/utils/loc_codes/original_zipcodes.csv"
 dicofre_data = "app/utils/loc_codes/dicofre.json"
-zipcode_data = "app/utils/loc_codes/zipcodes.csv"
+zipcode_data = "app/utils/loc_codes/zipcodes.json"
 nuts_data = "app/utils/nuts_levels/NUTS.json"
 
 
