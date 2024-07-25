@@ -172,46 +172,17 @@ def add_timecode(merged_files_path, final_data_path):
 #////////////////////////////     ADDING GEOLOCATION DATA     ////////////////////////////
 #/////////////////////////////////////////////////////////////////////////////////////////
 
-# Carga de datos JSON y CSV
-def format_dicofre_dict(dicofre_path):
+def load_dicofre_data(dicofre_path):
     with open(dicofre_path, 'r', encoding='utf-8') as dicofre_file:
-        dicofre_data = json.load(dicofre_file)
-    return {item['dicofre']: {
-        'distrito': item['distrito'],
-        'concelho': item['concelho'],
-        'freguesia': item['freguesia']
-    } for item in dicofre_data['data']}
-
+        return json.load(dicofre_file)
+ 
+def load_zipcode_data(zipcode_path):
+    with open(zipcode_path, 'r', encoding='utf-8') as zipcode_file:
+        return json.load(zipcode_file)
+    
 def load_nuts_data(nuts_path):
     with open(nuts_path, 'r', encoding='utf-8') as nuts_file:
         return json.load(nuts_file)
-
-def load_zipcode_data(zipcode_path):
-    zipcode_dict = {}
-    
-    with open(zipcode_path, 'r', encoding='utf-8') as zip_file:
-        reader = csv.DictReader(zip_file, delimiter=';')
-        
-        # Limpiar BOM en los encabezados
-        headers = [clean_header(header) for header in reader.fieldnames]
-
-        for row in reader:
-            # Limpiar valores de la fila usando encabezados limpios
-            clean_row = {clean_header(header): row.get(header, '').strip() for header in reader.fieldnames}
-            # Verificar los valores del encabezado
-            zip_code = clean_row.get('ZipCode', '')
-            zipcode_dict[zip_code] = {
-                'distrito': clean_row.get('Distrito', 'undefined'),
-                'concelho': clean_row.get('Concelho', 'undefined'),
-                'freguesia': clean_row.get('Freguesia', 'undefined'),
-                'ZipNoFormat': clean_row.get('ZipNoFormat', '')
-            }
-    
-    return zipcode_dict
-
-def clean_header(header):
-    # Limpiar encabezado eliminando BOM y espacios no deseados
-    return header.strip().lstrip('\ufeff').strip()
 
 # Obtener datos de localización
 def get_location_data_dicofre(zipcode, zip_dict):
@@ -334,7 +305,7 @@ def add_geodata(final_data_path, dicofre_dict, zipcode_dict, nuts_dict):
 
 # Ejecutar las funciones
 add_timecode(merged_files_path = s.eredes_merged, final_data_path = s.eredes_final_data)
-dicofre_dict = format_dicofre_dict(dicofre_path = s.dicofre_data)
+dicofre_dict = load_dicofre_data(dicofre_path= s.dicofre_data)
 zipcode_dict = load_zipcode_data(zipcode_path = s.zipcode_data)
 nuts_dict = load_nuts_data(nuts_path = s.nuts_data)
 add_geodata(final_data_path = s.eredes_final_data, dicofre_dict = dicofre_dict, zipcode_dict = zipcode_dict, nuts_dict = nuts_dict)
