@@ -1,4 +1,4 @@
-import settings as s
+import app.utils.settings as s
 import requests
 import xml.etree.ElementTree as ET
 import json

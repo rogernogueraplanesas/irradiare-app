@@ -7,7 +7,7 @@ irradiare_app_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..
 # Añade la ruta al sys.path
 sys.path.append(irradiare_app_path)
 
-import app.indicators_data.settings as s
+import app.utils.settings as s
 import csv
 import json
 import requests

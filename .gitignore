@@ -154,10 +154,10 @@ dmypy.json
 cython_debug/
 
 # Data folders for eredes
-app/indicators_data/eredes/capacidade-rececao-rnd.csv
-app/indicators_data/eredes/eredes_data/
+app/indicators_data/eredes/data/processed/
+app/indicators_data/eredes/data/raw/
+app/indicators_data/eredes/metadata
 app/indicators_data/eredes/temp_eredes_merged/
-app/indicators_data/eredes/eredes_metadata/metadata.csv
 
 # Data folders for eurostat
 app/indicators_data/eurostat/eurostat_data/
