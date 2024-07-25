@@ -70,4 +70,6 @@ eredes
         +- eredes_final_format  . --> Metadata file
 ```
 
-The processed data is selected and inserted into the SQLite database: [![My Skills](https://skillicons.dev/icons?i=sqlite&theme=light)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=sqlite&theme=light)](https://skillicons.dev)
+The processed data is selected and inserted into the SQLite database. Source code in /database.
+
