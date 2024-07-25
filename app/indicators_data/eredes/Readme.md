@@ -1,3 +1,3 @@
 # Content
 
-More information to be found in [eredes-guide](/app/docs/eredes-guide.md)
+More information to be found in [eredes-guide](../app/docs/eredes-guide.md)
