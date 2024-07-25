@@ -8,8 +8,7 @@
 > 
 >The dicofre and zipcodes original files where formatted by means of /format_loc_codes.py, found in the same utils folder.
 
-
-
+<br>
 This document is a guide that describes how data for indicators is obtained from the E-REDES Open Data Portal, as well as the processes for completing and cleaning this data.
 
 ---
