@@ -29,17 +29,17 @@ The  folder structure before executing the program is as it follows:
 ```
 eredes
     |
-    +- data_extraction .......... --> Code to retrieve data and metadata
+    +- data_extraction ............. --> Code to retrieve data and metadata
     |   |
-    |   +- eredes_data .......... --> Code to retrieve data from E-REDES data source
+    |   +- eredes_data.py .......... --> Code to retrieve data from E-REDES data source
     |   |
-    |   +- eredes_metadata ...... --> Code to retrieve metadata related to each data file
+    |   +- eredes_metadata.py ...... --> Code to retrieve metadata related to each data file
     |
-    +- data_processing .......... --> Code to merge, clean and complete the raw data files
+    +- data_processing ............. --> Code to merge, clean and complete the raw data files
         |
-        +- eredes_final_format  . --> Code to clean and complete data files
+        +- eredes_final_format.py  . --> Code to clean and complete data files
         |    
-        +- eredes_merge_files  .. --> Code to merge each data file with its corresponding metadata
+        +- eredes_merge_files.py  .. --> Code to merge each data file with its corresponding metadata
 ```
 
 After running the program, the resulting directory structure, excluding the temporary folder (which is deleted during execution and used to hold files generated from merging raw data files with their metadata), is as follows:
@@ -47,27 +47,27 @@ After running the program, the resulting directory structure, excluding the temp
 ```
 eredes
     |
-    +- data ..................... --> Holds processed and unprocessed data files
+    +- data ........................ --> Holds processed and unprocessed data files
     |   |
-    |   +- processed  ........... --> Processed data files.
+    |   +- processed  .............. --> Processed data files.
     |   |
-    |   +- raw  ................. --> Unprocessed data files.
+    |   +- raw  .................... --> Unprocessed data files.
     |
-    +- data_extraction .......... --> Code to retrieve data and metadata
+    +- data_extraction ............. --> Code to retrieve data and metadata
     |   |
-    |   +- eredes_data .......... --> Code to retrieve data from E-REDES data source
+    |   +- eredes_data.py .......... --> Code to retrieve data from E-REDES data source
     |   |
-    |   +- eredes_metadata ...... --> Code to retrieve metadata related to each data file
+    |   +- eredes_metadata.py ...... --> Code to retrieve metadata related to each data file
     |
-    +- data_processing .......... --> Code to merge, clean and complete the raw data files
+    +- data_processing ............. --> Code to merge, clean and complete the raw data files
     |   |
-    |   +- eredes_final_format  . --> Code to clean and complete data files
+    |   +- eredes_final_format.py  . --> Code to clean and complete data files
     |   |
-    |   +- eredes_merge_files  .. --> Code to merge each data file with its corresponding metadata
+    |   +- eredes_merge_files.py  .. --> Code to merge each data file with its corresponding metadata
     |
-    +- metadata  ................ --> Contains the extracted metadata file
+    +- metadata  ................... --> Contains the extracted metadata file
         |
-        +- eredes_final_format  . --> Metadata file
+        +- eredes_final_format  .... --> Metadata file
 ```
 
 <br>
