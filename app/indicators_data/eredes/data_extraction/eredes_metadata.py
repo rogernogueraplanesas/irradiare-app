@@ -83,13 +83,13 @@ def scroll_page(driver: webdriver.Edge) -> None:
 
 def get_metadata_items(driver: webdriver.Edge) -> List[Dict[str, str]]:
     """
-    Extract all label-value pairs from the page.
+    From each indicator card in the catalog, extract a set of label-value pairs.
 
     Args:
     - driver (webdriver.Edge): Instance of the WebDriver to control the browser.
 
     Returns:
-    - list: List of dictionaries containing the title, description, and a dictionary of metadata.
+    - list: List of dictionaries containing the title, description, indicator's id code (src_code), language, license, last modified, num. of registers/records and publisher name.
     """
     metadata_list = []
 
