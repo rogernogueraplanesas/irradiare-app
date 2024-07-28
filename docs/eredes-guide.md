@@ -18,10 +18,13 @@ Brief description of E-REDES data lifecycle:
 
   1. The data is downloaded by means of dynamic web scraping the [E-REDES Open Data Portal](https://e-redes.opendatasoft.com/pages/homepage/) site using the 'Selenium' library. One data file is obtained per indicator.
   <br>
+  
   2. The required metadata is extracted by web scraping the `Informação` tab for each of the involved indicators. A single file is obtained for all the metadata.
   <br>
+  
   3. The indicators' data files are merged with their corresponding metadata, creating a temporary file for each.
-  <br> 
+  <br>
+
   4. The merged files are completed by adding time and geolocation data. <br>
      A timecode is added based solely on the data from the file itself (columns such as date, year, month, etc.). <br>
      Geolocation data (distrito, concelho, freguesia, and NUTS I, II, III) is extracted from the dicofre.json, zipcodes.json, and NUTS.json files. <br>
@@ -30,6 +33,7 @@ Brief description of E-REDES data lifecycle:
      This match provides information about the distrito, concelho, and freguesia. <br>
      Using the concelho, we determine the NUTS I, II, and III regions. If the concelho is not available because the zipcode or dicofre is too short, a partial match is performed to extract at least the NUTS I and II levels, or just the NUTS I level.
   <br>
+  
   5. The merged and completed files are saved, while the temporary merged files alongside their temporary folder are deleted. Raw data files are never deleted but replaced eeverytime that the extraction scripts are executed.
 
 ---
