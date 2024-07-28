@@ -2,7 +2,7 @@
 
 
 >External files involved along the process (found in /utils):
-  >- [dicofre.json](../../../utils/loc_codes/dicofre.json). (Modified version. Original source: [freguesias-metadata.json](https://dados.gov.pt/pt/datasets/freguesias-de-portugal/) )
+  >- [dicofre.json](irradiare_app/app/utils/loc_codes/dicofre.json). (Modified version. Original source: [freguesias-metadata.json](https://dados.gov.pt/pt/datasets/freguesias-de-portugal/) )
   >- [zipcodes.json](../../../utils/loc_codes/zipcodes.json). (Modified version. Original source: [CP7_Portugal_nov2022.txt](https://github.com/temospena/CP7/tree/master/CP7%20Portugal) )
   >- [NUTS.json](../../../utils/nuts_levels/NUTS.json) (Proprietary file. Created based on the following article: [List of regions and sub-regions of Portugal](https://en.wikipedia.org/wiki/List_of_regions_and_sub-regions_of_Portugal) )
 > 
