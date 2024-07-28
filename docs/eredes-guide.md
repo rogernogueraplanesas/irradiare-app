@@ -91,6 +91,5 @@ eredes
 
 <br>
 
-[![My Skills](https://skillicons.dev/icons?i=sqlite&theme=light)](https://skillicons.dev)
-The `processed` data is selected and inserted into the SQLite database. Source code in /database (referenciar).
+[![My Skills](https://skillicons.dev/icons?i=sqlite&theme=light)](https://skillicons.dev)  The `processed` data is selected and inserted into the SQLite database. Source code in /database (referenciar).
 
