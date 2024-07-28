@@ -5,6 +5,12 @@ original_zipcode_data = "app/utils/loc_codes/original_zipcodes.csv"
 dicofre_data = "app/utils/loc_codes/dicofre.json"
 zipcode_data = "app/utils/loc_codes/zipcodes.json"
 nuts_data = "app/utils/nuts_levels/NUTS.json"
+continental_dicode = {'01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18'}
+madeira_dicode = {'31', '32'}
+açores_dicode = {'41', '42', '43', '44', '45', '46', '47', '48', '49'}
+continental_zipcode = {'1', '2', '3', '4', '5', '6', '7', '8'}
+madeira_zipcode = {'90', '91', '92', '93', '94'}
+açores_zipcode = {'95', '96', '97', '98', '99'}
 
 
 # _________________________________COMMON SCRAPING SETTINGS________________________________
@@ -35,6 +41,11 @@ eredes_removed_files = [
     "consumo_horario_codigo_postal_7_digitos.csv"
 ] 
 eredes_final_data = "app/indicators_data/eredes/data/processed/"
+eredes_date_cols = ["Date"]
+eredes_year_cols = ["Year", "ANO", "year", "ano"]     #------------------------------------------------------------------#
+eredes_month_cols = ["Month", "month", "mes"]         # Naming options for time related columns in the eredes data files #
+eredes_semester_cols = ["Semester"]                   #------------------------------------------------------------------#
+eredes_quarter_cols = ["Quarter"]
 
 
 # _________________________________________EUROSTAT________________________________________
