@@ -26,6 +26,7 @@ Brief description of E-REDES data lifecycle:
      Each value in this column is matched totally or partially with the corresponding entry in the dicofre or zipcode files.
      This match provides information about the distrito, concelho, and freguesia. <br>
      Using the concelho, we determine the NUTS I, II, and III regions. If the concelho is not available because the zipcode or dicofre is too short, a partial match is performed to extract at least the NUTS I and II levels, or just the NUTS I level.
+  5. The merged and completed files are saved, while the temporary merged files alongside their temporary folder are deleted. Raw data files are never deleted but replaced eeverytime that the extraction scripts are executed.
 
 ---
 
