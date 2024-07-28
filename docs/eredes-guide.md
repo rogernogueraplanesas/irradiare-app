@@ -35,11 +35,13 @@ eredes
     |   |
     |   +- eredes_metadata.py ...... --> Code to retrieve metadata related to each data file
     |
-    +- data_processing ............. --> Code to merge, clean and complete the raw data files
-        |
-        +- eredes_final_format.py  . --> Code to clean and complete data files
-        |    
-        +- eredes_merge_files.py  .. --> Code to merge each data file with its corresponding metadata
+    +- data_processing ............. --> Code to merge, clean, and complete the raw data files
+    |   |
+    |   +- eredes_final_format.py .. --> Code to clean and complete data files
+    |   |    
+    |   +- eredes_merge_files.py ... --> Code to merge each data file with its corresponding metadata
+    |
+    +- main.py ..................... --> Main script to execute the full E-REDES data process
 ```
 
 After running the program, the resulting directory structure, excluding the temporary folder (which is deleted during execution and used to hold files generated from merging raw data files with their metadata), is as follows:
@@ -53,17 +55,19 @@ eredes
     |   |
     |   +- raw  .................... --> Unprocessed data files.
     |
-    +- data_extraction ............. --> Code to retrieve data and metadata
+        +- data_extraction ............. --> Code to retrieve data and metadata
     |   |
     |   +- eredes_data.py .......... --> Code to retrieve data from E-REDES data source
     |   |
     |   +- eredes_metadata.py ...... --> Code to retrieve metadata related to each data file
     |
-    +- data_processing ............. --> Code to merge, clean and complete the raw data files
+    +- data_processing ............. --> Code to merge, clean, and complete the raw data files
     |   |
-    |   +- eredes_final_format.py  . --> Code to clean and complete data files
-    |   |
-    |   +- eredes_merge_files.py  .. --> Code to merge each data file with its corresponding metadata
+    |   +- eredes_final_format.py .. --> Code to clean and complete data files
+    |   |    
+    |   +- eredes_merge_files.py ... --> Code to merge each data file with its corresponding metadata
+    |
+    +- main.py ..................... --> Main script to execute the full E-REDES data process
     |
     +- metadata  ................... --> Contains the extracted metadata file
         |
