@@ -27,6 +27,7 @@ Brief description of E-REDES data lifecycle:
     <br>
     <sub>Indicator's card metadata (example)</sub>
   </div>
+  
   <br>
   3. The indicators' data files are merged with their corresponding metadata found in the previously generated metadata file, creating a temporary file for each.
   The matching process is done based on the source code name (src_code).
