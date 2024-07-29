@@ -12,6 +12,17 @@
 This document is a guide that describes how data for indicators is obtained from the E-REDES Open Data Portal, as well as the processes for completing and cleaning this data.
 
 ---
+## Execution
+To execute the data exctraction and transformation scripts in order to obtain a set of data files ready to be inserted into the database, the follwoing commands must be input in the terminal:
+
+```
+cd /path/to/irradiare_app/app/indicators_data/eredes
+```
+```
+python main.py
+```
+
+---
 
 ## Process sequence
 Brief description of E-REDES data lifecycle:
