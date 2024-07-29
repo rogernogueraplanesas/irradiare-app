@@ -16,10 +16,10 @@ This document is a guide that describes how data for indicators is obtained from
 ## Process sequence
 Brief description of E-REDES data lifecycle:
 
-  1. The data is downloaded by means of dynamic web scraping the [E-REDES Open Data Portal](https://e-redes.opendatasoft.com/explore/?sort=modified) site using the 'Selenium' library. One data file is obtained per indicator.
+  1. The data is downloaded using dynamic web scraping on the [E-REDES Open Data Portal](https://e-redes.opendatasoft.com/explore/?sort=modified) site using the 'Selenium' library. The process involves navigating to the 'Download' tab on each indicator's page and executing the download link to retrieve the data in CSV format. One CSV file is obtained per indicator.
 
   
-  2. The required metadata is extracted by web scraping each of the indicators' metadata present in their interactive cards. A single file is obtained for all the metadata.
+  2. The required metadata is extracted by web scraping the metadata from each indicator's interactive card. All the metadata is compiled into a single file for all the indicators.
 
 
   <div align="center">
@@ -30,10 +30,10 @@ Brief description of E-REDES data lifecycle:
   
   <br>
   
-  3. The indicators' data files are merged with their corresponding metadata found in the previously generated metadata file, creating a temporary file for each. The matching process is done based on the source code name (src_code).
+  3. The indicator data files are merged with their corresponding metadata from the previously generated metadata file, creating a temporary file for each indicator. The matching process is based on the source code name (src_code).
 
 
-  4. The merged files are completed by adding time and geolocation data. <br>
+  4. The data in the temporary merged files is completed by adding time and geolocation information. After this enhancement, a final data file is generated for each indicator, and the corresponding temporary files are deleted. <br>
      A timecode is added based solely on the data from the file itself (columns such as date, year, month, etc.). <br>
      Geolocation data (distrito, concelho, freguesia, and NUTS I, II, III) is extracted from the dicofre.json, zipcodes.json, and NUTS.json files. <br>
      For each record in the data file, there is a column with either a dicofre or zipcode number (normally, one is present while the other is not).
@@ -42,7 +42,7 @@ Brief description of E-REDES data lifecycle:
      Using the concelho, we determine the NUTS I, II, and III regions. If the concelho is not available because the zipcode or dicofre is too short, a partial match is performed to extract at least the NUTS I and II levels, or just the NUTS I level.
 
   
-  5. The merged and completed files are saved, while the temporary merged files alongside their temporary folder are deleted. Raw data files are never deleted but replaced eeverytime that the extraction scripts are executed.
+  5. The raw data files are never deleted but are replaced each time the data extraction script is executed.
 
 ---
 
