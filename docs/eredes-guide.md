@@ -101,11 +101,11 @@ eredes
     |
     +- data ........................ --> Holds processed and unprocessed data files
     |   |
-    |   +- processed  .............. --> Processed data files.
+    |   +- processed  .............. --> Contains the processed data files.
     |   |
-    |   +- raw  .................... --> Unprocessed data files.
+    |   +- raw  .................... --> Contains the downloaded/unprocessed data files.
     |
-        +- data_extraction ............. --> Code to retrieve data and metadata
+    +- data_extraction ............. --> Code to retrieve data and metadata
     |   |
     |   +- eredes_data.py .......... --> Code to retrieve data from E-REDES data source
     |   |
@@ -120,8 +120,6 @@ eredes
     +- main.py ..................... --> Main script to execute the full E-REDES data process
     |
     +- metadata  ................... --> Contains the extracted metadata file
-        |
-        +- eredes_final_format  .... --> Metadata file
 ```
 
 <br>
