@@ -51,9 +51,8 @@ Brief description of E-REDES data lifecycle:
      - A timecode is added based solely on the data from the file itself (columns such as date, year, month, etc.). <br><br>
      - Geolocation data (distrito, concelho, freguesia, and NUTS I, II, III) is extracted from the dicofre.json, zipcodes.json, and NUTS.json files. <br>
      For each record in the data file, there is a column with either a dicofre or zipcode number (normally, one is present while the other is not).
-     Each value in this column is matched totally or partially with the corresponding entry in the dicofre or zipcode files.
-     This match provides information about the distrito, concelho, and freguesia. <br>
-     Using the concelho, we determine the NUTS I, II, and III regions. If the concelho is not available because the zipcode or dicofre is too short, a partial match is performed to extract at least the NUTS I and II levels, or just the NUTS I level.
+     Each value in this column is matched totally or partially with the corresponding entry in the dicofre or zipcode files, this match provides information about the distrito, concelho, and freguesia. <br>
+     Using the concelho, it is possible to determine the NUTS I, II, and III regions. If the concelho is not available because the zipcode or dicofre is too short, a partial match is performed to extract at least the NUTS I and II levels, or just the NUTS I level.
 
   
   5. The raw data files are never deleted but are replaced each time the data extraction script is executed.
