@@ -90,9 +90,9 @@ eredes
     +- main.py ..................... --> Main script to execute the full E-REDES data process
 ```
 
-
+<br>
 **After running** the program, the resulting directory structure, is as follows:
-
+<br>
 
 ```
 eredes
