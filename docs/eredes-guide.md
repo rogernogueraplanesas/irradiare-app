@@ -91,7 +91,9 @@ eredes
 ```
 
 <br>
+
 **After running** the program, the resulting directory structure, is as follows:
+
 <br>
 
 ```
