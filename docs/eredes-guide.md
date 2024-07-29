@@ -57,7 +57,7 @@ Brief description of E-REDES data lifecycle:
        + *Any previous combination* + S*X*: S followed by a digit shows the semester of the year
        + *Any previous combination* + Q*X*: Q followed by a digit shows the quarter of the year
 
-<br>
+      <br>
  
      - **Geolocation data (distrito, concelho, freguesia, and NUTS I, II, III)** is extracted from the `dicofre.json`, `zipcodes.json`, and `NUTS.json` files. <br>
      For each record in the data file, there is a column with either a dicofre or zipcode number (normally, one is present while the other is not).
@@ -65,7 +65,7 @@ Brief description of E-REDES data lifecycle:
      Using the concelho, it is possible to determine the NUTS I, II, and III regions. If the concelho is not available because the zipcode or dicofre is too short, a partial match is performed to extract at least the NUTS I and II levels, or just the NUTS I level.
 
   
-  5. The raw data files are never deleted but are replaced each time the data extraction script is executed.
+  6. The raw data files are never deleted but are replaced each time the data extraction script is executed.
 
 ---
 
