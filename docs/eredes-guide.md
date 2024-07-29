@@ -51,6 +51,7 @@ Brief description of E-REDES data lifecycle:
      - A **timecode** is added based solely on the data from the file itself (columns such as date, year, month, etc.). <br><br>
      > [!NOTE]
      > The timecode structure follows a logical sequence:
+     
        + YYYY: Year only (4 digits)
        + YYYYMM: Year + Month (6 digits)
        + YYYYMMDD: Year + Month + Day (8 digits)
