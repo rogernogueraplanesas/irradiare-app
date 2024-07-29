@@ -44,7 +44,7 @@ Brief description of E-REDES data lifecycle:
   
   <br>
   
-  3. The indicator data files are merged with their corresponding metadata from the previously generated metadata file, creating a **temporary** file for each indicator. The matching process is based on the source code name (src_code).
+  3. The indicator data files are **merged** with their corresponding metadata from the previously generated metadata file, creating a **temporary** file for each indicator. The matching process is based on the source code name (src_code).
 
 
   4. The data in the temporary merged files is completed by adding time and geolocation information. After this enhancement, a final data file is generated for each indicator, and the corresponding temporary files are **deleted**. <br>
