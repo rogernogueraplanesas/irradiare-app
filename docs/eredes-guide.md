@@ -65,12 +65,12 @@ Brief description of E-REDES data lifecycle:
      Using the concelho, it is possible to determine the NUTS I, II, and III regions. If the concelho is not available because the zipcode or dicofre is too short, a partial match is performed to extract at least the NUTS I and II levels, or just the NUTS I level.
 
   
-  6. The raw data files are never deleted but are replaced each time the data extraction script is executed.
+  6. The raw data files are **never deleted** but are replaced each time the data extraction script is executed.
 
 ---
 
 ## E-REDES Folder Structure:
-The  folder structure before executing the program is as it follows:
+The folder structure **before executing** the program is as follows:
 
 ```
 eredes
@@ -90,7 +90,7 @@ eredes
     +- main.py ..................... --> Main script to execute the full E-REDES data process
 ```
 
-After running the program, the resulting directory structure, excluding the temporary folder (which is deleted during execution and used to hold files generated from merging raw data files with their metadata), is as follows:
+**After running** the program, the resulting directory structure, is as follows:
 
 ```
 eredes
