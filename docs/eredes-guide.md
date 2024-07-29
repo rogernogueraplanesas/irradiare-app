@@ -53,8 +53,8 @@ Brief description of E-REDES data lifecycle:
        + YYYY: Year only (4 digits)
        + YYYYMM: Year + Month (6 digits)
        + YYYYMMDD: Year + Month + Day (8 digits)
-       + *Any previous combination* + S_: S followed by a digit shows the semester of the year
-       + *Any previous combination* + Q_: Q followed by a digit shows the quarter of the year
+       + *Any previous combination* + SX: S followed by a digit shows the semester of the year
+       + *Any previous combination* + QX: Q followed by a digit shows the quarter of the year
          
      - **Geolocation data (distrito, concelho, freguesia, and NUTS I, II, III)** is extracted from the `dicofre.json`, `zipcodes.json`, and `NUTS.json` files. <br>
      For each record in the data file, there is a column with either a dicofre or zipcode number (normally, one is present while the other is not).
