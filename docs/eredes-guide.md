@@ -52,7 +52,7 @@ Brief description of E-REDES data lifecycle:
      
 > [!NOTE]
 > The timecode structure follows a logical sequence:
-     
+<br>
        + YYYY: Year only (4 digits)
        + YYYYMM: Year + Month (6 digits)
        + YYYYMMDD: Year + Month + Day (8 digits)
