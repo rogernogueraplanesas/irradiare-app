@@ -12,12 +12,15 @@
 This document is a guide that describes how data for indicators is obtained from the E-REDES Open Data Portal, as well as the processes for completing and cleaning this data.
 
 ---
-## Execution
-To execute the data exctraction and transformation scripts in order to obtain a set of data files ready to be inserted into the database, the follwoing commands must be input in the terminal:
+## Isolated execution
+To execute the data extraction and transformation scripts in order to obtain a set of data files ready to be inserted into the database, input the following commands in the terminal:
 
+Set the current directory to the eredes folder:
 ```
 cd /path/to/irradiare_app/app/indicators_data/eredes
 ```
+
+Execute the main script:
 ```
 python main.py
 ```
