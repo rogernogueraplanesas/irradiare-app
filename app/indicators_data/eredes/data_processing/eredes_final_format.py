@@ -461,10 +461,10 @@ def add_geodata(final_data_path, dicofre_dict, zipcode_dict, nuts_dict):
                     row.extend([distrito, concelho, freguesia, nuts1, nuts2, nuts3])
                     new_rows.append(row)
 
-            with open(final_data_path, 'w', encoding='utf-8', newline='') as csv_file:
+            with open(file_path, 'w', encoding='utf-8', newline='') as csv_file:
                 writer = csv.writer(csv_file, delimiter=';')
                 writer.writerow(headers)
-                writer.writerows(new_rows)
+                writer.writerows(new_rows)          
 
             print(f"Archivo procesado y guardado en: {final_data_path}")
 
