@@ -21,6 +21,12 @@ Brief description of E-REDES data lifecycle:
   
   2. The required metadata is extracted by web scraping each of the indicators' metadata present in their interactive cards. A single file is obtained for all the metadata.
 
+  <br>
+  <div align="center">
+    <img src="images/card_metadata.png" width="70%" height="70%" alt="Card Metadata">
+    <br>
+    <sub>Indicator's card metadata (example)</sub>
+  </div>
   
   3. The indicators' data files are merged with their corresponding metadata, creating a temporary file for each.
 
