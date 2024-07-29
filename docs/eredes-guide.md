@@ -50,13 +50,13 @@ Brief description of E-REDES data lifecycle:
   4. The data in the temporary merged files is completed by adding time and geolocation information. After this enhancement, a final data file is generated for each indicator, and the corresponding temporary files are **deleted**. <br>
      - A **timecode** is added based solely on the data from the file itself (columns such as date, year, month, etc.). <br><br>
      The timecode structure follows a logical sequence:
-<details>
+       [!IMPORTANT]
        + YYYY: Year only (4 digits)
        + YYYYMM: Year + Month (6 digits)
        + YYYYMMDD: Year + Month + Day (8 digits)
        + *Any previous combination* + S*X*: S followed by a digit shows the semester of the year
        + *Any previous combination* + Q*X*: Q followed by a digit shows the quarter of the year
-</details>   
+ 
      - **Geolocation data (distrito, concelho, freguesia, and NUTS I, II, III)** is extracted from the `dicofre.json`, `zipcodes.json`, and `NUTS.json` files. <br>
      For each record in the data file, there is a column with either a dicofre or zipcode number (normally, one is present while the other is not).
      Each value in this column is matched totally or partially with the corresponding entry in the dicofre or zipcode files, this match provides information about the distrito, concelho, and freguesia. <br>
