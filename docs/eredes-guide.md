@@ -16,10 +16,10 @@ This document is a guide that describes how data for indicators is obtained from
 ## Process sequence
 Brief description of E-REDES data lifecycle:
 
-  1. The data is downloaded by means of dynamic web scraping the [E-REDES Open Data Portal](https://e-redes.opendatasoft.com/pages/homepage/) site using the 'Selenium' library. One data file is obtained per indicator.
+  1. The data is downloaded by means of dynamic web scraping the [E-REDES Open Data Portal](https://e-redes.opendatasoft.com/explore/?sort=modified) site using the 'Selenium' library. One data file is obtained per indicator.
 
   
-  2. The required metadata is extracted by web scraping the `Informação` tab for each of the involved indicators. A single file is obtained for all the metadata.
+  2. The required metadata is extracted by web scraping each of the indicators' metadata present in their interactive cards. A single file is obtained for all the metadata.
 
   
   3. The indicators' data files are merged with their corresponding metadata, creating a temporary file for each.
