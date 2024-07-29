@@ -30,10 +30,10 @@ python main.py
 ## Process sequence
 Brief description of E-REDES data lifecycle:
 
-  1. The data is downloaded using dynamic web scraping on the [E-REDES Open Data Portal](https://e-redes.opendatasoft.com/explore/?sort=modified) site using the 'Selenium' library. The process involves navigating to the 'Download' tab on each indicator's page and executing the download link to retrieve the data in CSV format. One CSV file is obtained per indicator.
+  1. The data is downloaded using dynamic web scraping on the [E-REDES Open Data Portal](https://e-redes.opendatasoft.com/explore/?sort=modified) site using the 'Selenium' library. The process involves navigating to the 'Download' tab on each indicator's page and executing the download link to retrieve the data in CSV format. *One CSV file is obtained per indicator*.
 
   
-  2. The required metadata is extracted by web scraping the metadata from each indicator's interactive card. All the metadata is compiled into a single file for all the indicators.
+  2. The required metadata is extracted by web scraping the metadata from each indicator's interactive card. *All the metadata is compiled into a single file for all the indicators*.
 
 
   <div align="center">
@@ -44,12 +44,12 @@ Brief description of E-REDES data lifecycle:
   
   <br>
   
-  3. The indicator data files are merged with their corresponding metadata from the previously generated metadata file, creating a temporary file for each indicator. The matching process is based on the source code name (src_code).
+  3. The indicator data files are merged with their corresponding metadata from the previously generated metadata file, creating a **temporary** file for each indicator. The matching process is based on the source code name (src_code).
 
 
-  4. The data in the temporary merged files is completed by adding time and geolocation information. After this enhancement, a final data file is generated for each indicator, and the corresponding temporary files are deleted. <br>
-     - A timecode is added based solely on the data from the file itself (columns such as date, year, month, etc.). <br><br>
-     - Geolocation data (distrito, concelho, freguesia, and NUTS I, II, III) is extracted from the `dicofre.json`, `zipcodes.json`, and `NUTS.json` files. <br>
+  4. The data in the temporary merged files is completed by adding time and geolocation information. After this enhancement, a final data file is generated for each indicator, and the corresponding temporary files are **deleted**. <br>
+     - A **timecode** is added based solely on the data from the file itself (columns such as date, year, month, etc.). <br><br>
+     - **Geolocation data (distrito, concelho, freguesia, and NUTS I, II, III)** is extracted from the `dicofre.json`, `zipcodes.json`, and `NUTS.json` files. <br>
      For each record in the data file, there is a column with either a dicofre or zipcode number (normally, one is present while the other is not).
      Each value in this column is matched totally or partially with the corresponding entry in the dicofre or zipcode files, this match provides information about the distrito, concelho, and freguesia. <br>
      Using the concelho, it is possible to determine the NUTS I, II, and III regions. If the concelho is not available because the zipcode or dicofre is too short, a partial match is performed to extract at least the NUTS I and II levels, or just the NUTS I level.
