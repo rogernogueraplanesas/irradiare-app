@@ -47,7 +47,7 @@ Brief description of E-REDES data lifecycle:
   3. The indicator data files are merged with their corresponding metadata from the previously generated metadata file, creating a temporary file for each indicator. The matching process is based on the source code name (src_code).
 
 
-  4. The data in the temporary merged files is completed by adding time and geolocation information. After this enhancement, a final data file is generated for each indicator, and the corresponding temporary files are deleted. <br><br>
+  4. The data in the temporary merged files is completed by adding time and geolocation information. After this enhancement, a final data file is generated for each indicator, and the corresponding temporary files are deleted. <br>
      - A timecode is added based solely on the data from the file itself (columns such as date, year, month, etc.). <br><br>
      - Geolocation data (distrito, concelho, freguesia, and NUTS I, II, III) is extracted from the dicofre.json, zipcodes.json, and NUTS.json files. <br>
      For each record in the data file, there is a column with either a dicofre or zipcode number (normally, one is present while the other is not).
