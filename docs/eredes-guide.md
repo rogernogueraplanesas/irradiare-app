@@ -23,7 +23,7 @@ Brief description of E-REDES data lifecycle:
 
   <br>
   <div align="center">
-    <img src="images/card_metadata.png" width="70%" height="70%" alt="Card Metadata">
+    <img src="images/card_metadata.jpg" width="70%" height="70%" alt="Card Metadata">
     <br>
     <sub>Indicator's card metadata (example)</sub>
   </div>
