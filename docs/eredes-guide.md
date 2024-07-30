@@ -1,3 +1,10 @@
+<br>
+<div align="center">
+  <img src="images/eredes-logo.png" width="70%" height="70%" alt="Jerarquia de les pàgines">
+  <br>
+  <sub>Jerarquia de les pàgines</sub>
+</div>
+
 # E-REDES Data Pathway
 
 
