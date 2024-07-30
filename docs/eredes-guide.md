@@ -1,8 +1,8 @@
 <br>
 <div align="center">
-  <img src="images/eredes-logo.png" width="70%" height="70%" alt="Jerarquia de les pàgines">
+  <img src="images/eredes-logo.png" width="40%" height="40%">
   <br>
-  <sub>Jerarquia de les pàgines</sub>
+  <sub>E-Redes</sub>
 </div>
 
 # E-REDES Data Pathway
