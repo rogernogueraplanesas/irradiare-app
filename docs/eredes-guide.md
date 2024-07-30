@@ -1,7 +1,7 @@
 <br>
 <div align="center">
   <img src="images/eredes-logo.png" width="40%" height="40% alt="E-Redes"">
-  <br>
+<br>
 
 # E-REDES Data Pathway
 
