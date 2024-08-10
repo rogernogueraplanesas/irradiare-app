@@ -1,5 +1,4 @@
-
-# ____________________________________COMMON METADATA FILES____________________________________
+# ____________________________________GENERAL METADATA DATA____________________________________
 original_dicofre_data = "app/utils/loc_codes/original_dicofre.json"
 original_zipcode_data = "app/utils/loc_codes/original_zipcodes.csv"
 dicofre_data = "app/utils/loc_codes/dicofre.json"
@@ -13,7 +12,7 @@ madeira_zipcode = {'90', '91', '92', '93', '94'}
 açores_zipcode = {'95', '96', '97', '98', '99'}
 
 
-# _________________________________COMMON SCRAPING SETTINGS________________________________
+# _________________________________GENERAL SCRAPING SETTINGS________________________________
 user_agent = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                   "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 headers = {'User-Agent': user_agent}
@@ -23,7 +22,6 @@ headers = {'User-Agent': user_agent}
 
 # DATA/METADATA EXTRACTION:
 eredes_url = 'https://e-redes.opendatasoft.com/explore/?sort=modified'
-eredes_files_folder = "app/indicators_data/eredes/data/raw/"
 eredes_metadata = "app/indicators_data/eredes/metadata/metadata.csv"
 
 # DATA/METADATA PROCESSING:
@@ -49,22 +47,39 @@ eredes_quarter_cols = ["Quarter"]
 
 
 # _________________________________________EUROSTAT________________________________________
-# When interested in working with from Eurostat navigation tree , a classification of Eurostat datasets into hierarchical categories, it is possible to retrieve a TXT or XML representation named "table of contents" (TOC)
-# Path to the table of contents file
-eurostat_table_contents = "app/indicators_data/eurostat/table_of_contents_en.txt" # Obtained from https://wikis.ec.europa.eu/display/EUROSTATHELP/API+-+Getting+started+with+catalogue+API
-# Base URL for Eurostat metadata
-eurostat_metadata_url = "https://ec.europa.eu/eurostat/cache/metadata/en/"
-# Eurostat base folder
-eurostat_folder = "app/indicators_data/eurostat/"
-# Folder to save Eurostat data
-eurostat_data_folder = "app/indicators_data/eurostat/eurostat_data"
+# Eurostat TOC (Table of Contents) URL in .xml format
+eurostat_toc_url_txt = "https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/txt?lang=en"
+# Path to TOC (Eurostat Table of Contents) in .txt
+eurostat_toc_txt = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files/table_of_contents_en.txt"
+# Folder to save Eurostat raw data
+eurostat_raw_data = "app/indicators_data/eurostat/eurostat_data/raw"
+# Path to eurostat complementary data files
+eurostat_comp_files = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files"
+# File with definitions for each eurostat dataset code (datacode)
+eurostat_dataset_def = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files/datasets_definitions.csv"
+# Eurostat TOC (Table of Contents) URL in .xml format
+eurostat_toc_url_xml = "https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/xml"
+# Path to TOC (Eurostat Table of Contents) in .xml
+eurostat_toc_xml = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files/table_of_contents.xml"
+# Path to Eurostat indicators codes list
+eurostat_datacodes = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files/eurostat_datacodes.csv"
+# Abbreviations for all the possible countries to select in the Eurostat db
+eurostat_country_codes = [
+    "eu", "be", "el", "lt", "pt", "bg", "es", "lu", "ro", "cz", "fr", "hu", "si", 
+    "dk", "hr", "mt", "sk", "de", "it", "nl", "fi", "ee", "cy", "at", "se", 
+    "ie", "lv", "pl", "is", "no", "li", "ch", "ba", "me", "md", "mk", "ge", 
+    "al", "rs", "tr", "ua", "xk", "am", "by", "az", "dz", "lb", "sy", "eg", 
+    "ly", "tn", "il", "ma", "jo", "ps", "ar", "au", "br", "ca", "cn_x_hk", 
+    "hk", "in", "jp", "mx", "ng", "nz", "ru", "sg", "za", "kr", "tw", "uk", "us"
+]
+# Filename for saving metadata zip links
+eurostat_download_metadata = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files/download_metadata.csv"
+# Filename for saving manual download links
+eurostat_manual_metadata = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files/manual_metadata.csv"
 # Folder to save Eurostat metadata
 eurostat_metadata_folder = "app/indicators_data/eurostat/eurostat_metadata"
-# Filename for saving metadata zip links
-eurostat_metadata_filename = "metadata_zip_links.csv"
-# Filename for saving manual download links
-eurostat_metadata_manual_filename = "metadata_manual_download.csv"
-
+# Filename for saving merged codes (datacode,metadatacode)
+merged_codes_file = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files/merged_codes.csv"
 
 # ___________________________________________INE___________________________________________
 ine_url = "https://www.ine.pt"
