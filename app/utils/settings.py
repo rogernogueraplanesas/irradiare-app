@@ -80,6 +80,8 @@ eurostat_manual_metadata = "app/indicators_data/eurostat/eurostat_data/eurostat_
 eurostat_metadata_folder = "app/indicators_data/eurostat/eurostat_metadata"
 # Filename for saving merged codes (datacode,metadatacode)
 merged_codes_file = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files/merged_codes.csv"
+# Folder to save Eurostat processed data
+eurostat_processed_data = "app/indicators_data/eurostat/eurostat_data/processed"
 
 # ___________________________________________INE___________________________________________
 ine_url = "https://www.ine.pt"
