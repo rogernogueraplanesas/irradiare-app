@@ -164,7 +164,8 @@ app/indicators_data/eurostat/eurostat_metadata/
 app/indicators_data/eurostat/info.txt
 
 # Data folders for ine
-app/indicators_data/ine/ine_files/
+app/indicators_data/ine/ine_data/
+app/indicators_data/ine/ine_metadata/
 
 # Data folders for wb
 app/indicators_data/worldbank/other_data/
