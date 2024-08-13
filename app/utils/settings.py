@@ -85,10 +85,10 @@ eurostat_processed_data = "app/indicators_data/eurostat/eurostat_data/processed"
 
 # ___________________________________________INE___________________________________________
 ine_url = "https://www.ine.pt"
-ine_catalog_path = "app/indicators_data/ine/ine_files/"
-ine_catalog_filename = "indicators_catalog.json"
-ine_data_path = "app/indicators_data/ine/ine_files/ine_data/"
-ine_metadata_path = "app/indicators_data/ine/ine_files/ine_metadata/"
+ine_catalog_path = "app/indicators_data/ine/ine_data/ine_comp_files/"
+ine_catalog_filename = "ine_indicators_catalog.json"
+ine_data_path = "app/indicators_data/ine/ine_data/raw/"
+ine_metadata_path = "app/indicators_data/ine/ine_metadata/"
 
 
 # _____________________________________THE WORLD BANK______________________________________

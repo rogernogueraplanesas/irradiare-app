@@ -6,6 +6,7 @@ import html
 import concurrent.futures
 import sys
 import logging
+from bs4 import BeautifulSoup  # Importa BeautifulSoup
 
 # Logging configuration
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -21,12 +22,16 @@ import app.utils.settings as s
 def extract_text(element, tag, namespaces):
     value = element.find(tag, namespaces)
     if value is not None and value.text:
-        return html.unescape(value.text)
+        # Decodificar entidades HTML y limpiar HTML
+        text = html.unescape(value.text)
+        soup = BeautifulSoup(text, 'html.parser')
+        return soup.get_text()  # Devuelve solo el texto limpio
     return None
 
 def process_file(data_code, metadata_code, data_folder, metadata_folder, output_folder):
+    # Define los namespaces utilizados en el XML
     namespaces = {
-        'generic': 'http://www.SDMX.org/resources/SDMXML/schemas/v2_0/genericmetadata',
+        'genericmetadata': 'http://www.SDMX.org/resources/SDMXML/schemas/v2_0/genericmetadata',
         'common': 'http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common'
     }
 
@@ -76,13 +81,15 @@ def process_file(data_code, metadata_code, data_folder, metadata_folder, output_
                 time = record.get('time', None)
 
                 try:
+                    # Usar xml.etree.ElementTree para parsear el XML
                     tree = ET.parse(metadata_file_path)
                     root = tree.getroot()
 
-                    description = extract_text(root, ".//generic:ReportedAttribute[@conceptID='DATA_DESCR']/generic:Value", namespaces)
-                    source = extract_text(root, ".//generic:ReportedAttribute[@conceptID='CONTACT_ORGANISATION']/generic:Value", namespaces)
-                    calculation = extract_text(root, ".//generic:ReportedAttribute[@conceptID='DATA_COMP']/generic:Value", namespaces)
-                    units_description = extract_text(root, ".//generic:ReportedAttribute[@conceptID='UNIT_MEASURE']/generic:Value", namespaces)
+                    # Usar el namespace correcto en las consultas XPath
+                    description = extract_text(root, ".//genericmetadata:ReportedAttribute[@conceptID='DATA_DESCR']/genericmetadata:Value", namespaces)
+                    source = extract_text(root, ".//genericmetadata:ReportedAttribute[@conceptID='CONTACT_ORGANISATION']/genericmetadata:Value", namespaces)
+                    calculation = extract_text(root, ".//genericmetadata:ReportedAttribute[@conceptID='DATA_COMP']/genericmetadata:Value", namespaces)
+                    units_description = extract_text(root, ".//genericmetadata:ReportedAttribute[@conceptID='UNIT_MEASURE']/genericmetadata:Value", namespaces)
                 except ET.ParseError as e:
                     logging.error(f"Error parsing XML from {metadata_file_path}: {e}")
                     continue
@@ -167,5 +174,3 @@ if __name__ == "__main__":
         sys.exit(1)
 
     add_definition_to_csv_files(s.eurostat_processed_data, s.eurostat_dataset_def, s.eurostat_processed_data)
-
-
