@@ -1,98 +1,109 @@
+import csv
+import re
 import os
 import json
-import csv
+from typing import Dict, Any
 
-# Rutas de las carpetas
-data_folder = "app/indicators_data/ine/ine_data/raw/"
-metadata_folder = "app/indicators_data/ine/ine_metadata/"
+def get_timecode_area(headers):
+    timecode_idx = next((i for i, h in enumerate(headers) if h in ['timecode']), None)
+    area_idx = next((i for i, h in enumerate(headers) if h in ["area"]), None)
+    return timecode_idx, area_idx
 
-# Obtener los nombres de los archivos en ambas carpetas
-data_files = [f for f in os.listdir(data_folder) if f.endswith('.json')]
-metadata_files = [f for f in os.listdir(metadata_folder) if f.endswith('.json')]
+def clean_timecode(row, timecode_idx):
+    timecode = row[timecode_idx]
+    timecode = re.sub(r'[^0-9]', '', timecode)
+    return timecode
 
-# Extraer los identificadores numéricos de los nombres de los archivos
-data_ids = {f.split('_')[1].split('.')[0] for f in data_files}
-metadata_ids = {f.split('_')[1].split('.')[0] for f in metadata_files}
+def load_nuts_data(nuts_path: str) -> Dict[str, Any]:
+    with open(nuts_path, 'r', encoding='utf-8') as nuts_file:
+        return json.load(nuts_file)
+    
+def load_dicofre_data(dicofre_path: str) -> Dict[str, Any]:
+    with open(dicofre_path, 'r', encoding='utf-8') as dicofre_file:
+        return json.load(dicofre_file)
 
-# Encontrar los identificadores que están presentes en ambas carpetas
-matching_ids = data_ids.intersection(metadata_ids)
+    
+def match_location(name, dicofre_data):
+    for key, value in dicofre_data.items():
+        if name == value["freguesia"]:
+            return value["distrito"], value["concelho"], value["freguesia"]
+    
+    for key, value in dicofre_data.items():
+        if name == value["concelho"]:
+            return value["distrito"], value["concelho"], "undefined"
+    
+    for key, value in dicofre_data.items():
+        if name == value["distrito"]:
+            return value["distrito"], "undefined", "undefined"
+    
+    return "undefined", "undefined", "undefined"
 
-# Diccionario para almacenar metadatos
-metadata_dict = {}
 
-# Leer y procesar los archivos de metadata
-for file_id in matching_ids:
-    metadata_filename = f"metadata_{file_id}.json"
-    with open(os.path.join(metadata_folder, metadata_filename), 'r', encoding='utf-8') as metadata_file:
-        metadata_json = json.load(metadata_file)
-        indicador_cod = metadata_json[0]["IndicadorCod"]
-        unidades_medida = metadata_json[0].get("UnidadeMedida", "")
-        dimensiones = {dim["dim_num"]: dim["abrv"] for dim in metadata_json[0]["Dimensoes"]["Descricao_Dim"]}
-        metadata_dict[indicador_cod] = {"units": unidades_medida, "dimensiones": dimensiones}
 
-# Leer y procesar los archivos de data
-for file_id in matching_ids:
-    data_filename = f"data_{file_id}.json"
-    combined_data = []
-    with open(os.path.join(data_folder, data_filename), 'r', encoding='utf-8') as data_file:
-        data_json = json.load(data_file)
-        indicador_cod = data_json[0].get("IndicadorCod", "")
-        indicador_dsg = data_json[0].get("IndicadorDsg", "")
-        datos = data_json[0].get("Dados", {})
-        
-        for timecode, registros in datos.items():
-            for registro in registros:
-                geocod = registro.get("geocod", "")
-                geolevel = registro.get("geodsg", "")
-                value = registro.get("valor", "")
-                
-                # Validar geocod
-                if not geocod.isdigit() or len(geocod) < 4:
-                    geocod = ""
+def match_nuts_location(area, dicofre_data, nuts_dict):
+    if area == 'Continente':
+        area = 'Portugal Continental'
+    elif area == 'Norte':
+        area = 'Norte Region'
+    elif area == 'Centro':
+        area = 'Centro Region'
 
-                # Inicializar entrada combinada
-                combined_entry = {
-                    "source_cod": indicador_cod,
-                    "name": indicador_dsg,
-                    "description": "",
-                    "geocode": geocod,
-                    "geolevel": geolevel,
-                    "value": value,
-                    "timecode": timecode
-                }
+    nuts1 = 'undefined'
+    nuts2 = 'undefined'
+    nuts3 = 'undefined'
 
-                # Agregar filtros (dim_3_t, dim_4_t, etc.)
-                filter_values = {f"filter_value{dim_num}": registro.get(f"dim_{dim_num}_t", "")
-                                 for dim_num in range(3, 10) if f"dim_{dim_num}_t" in registro}
+    distrito, concelho, freguesia = match_location(area, dicofre_data)
 
-                # Combinar los filtros en la entrada
-                combined_entry.update(filter_values)
+    if concelho != 'undefined':
+        area = concelho
 
-                # Obtener unidades y dimensiones desde metadata
-                metadata = metadata_dict.get(indicador_cod, {})
-                combined_entry["units"] = metadata.get("units", "")
-                
-                # Agregar los valores de las dimensiones desde metadata
-                for dim_num in range(3, 10):
-                    filter_key = f"filter_value{dim_num}"
-                    if filter_key in combined_entry:
-                        combined_entry[f"dimension_{dim_num}"] = metadata.get("dimensiones", {}).get(str(dim_num), "")
+    for nuts1_region, nuts1_info in nuts_dict.items():
+        for region_nuts2, nuts2_info in nuts1_info.get("NUTS 2", {}).items():
+            for nuts3_region, nuts3_data in nuts2_info.get("NUTS 3", {}).items():
+                if area in nuts3_data.get("Municipalities", []):
+                    return distrito, concelho, freguesia, nuts1_region, region_nuts2, nuts3_region
+                elif area == region_nuts2:
+                    return distrito, concelho, freguesia, nuts1_region, region_nuts2, nuts3
+                elif area == nuts1_region:
+                    return distrito, concelho, freguesia, nuts1_region, nuts2, nuts3
 
-                combined_data.append(combined_entry)
+    return distrito, concelho, freguesia, area, nuts2, nuts3
 
-    # Determinar los nombres de las columnas del CSV a partir de las claves del primer elemento en combined_data
-    fieldnames = list(set().union(*(entry.keys() for entry in combined_data)))
+folder = "app/indicators_data/ine/ine_data/processed/"
+os.makedirs(folder, exist_ok=True)
 
-    # Guardar los datos combinados en un archivo CSV separado
-    output_filename = f'app/indicators_data/ine/ine_data/processed/combined_data_{file_id}.csv'
-    with open(output_filename, 'w', newline='', encoding='utf-8') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        
-        # Escribir los encabezados
-        writer.writeheader()
-        
-        # Escribir las filas
-        for entry in combined_data:
-            writer.writerow(entry)
+for filename in os.listdir(folder):
+    if filename.endswith('.csv'):
+        csv_file = os.path.join(folder, filename)
+        with open(csv_file, 'r', encoding='utf-8') as file:
+            reader = csv.reader(file)
+            try:
+                headers = next(reader)
+            except StopIteration:
+                print(f"Archivo vacío: {filename}")
+                continue  # Saltar archivo vacío
+            
+            # Verificar si las columnas necesarias existen
+            timecode_idx, area_idx = get_timecode_area(headers)
+            if timecode_idx is None or area_idx is None:
+                print(f"Archivo no tiene las columnas necesarias: {filename}")
+                continue
 
-    print(f'Archivo CSV generado: {output_filename}')
+            headers.extend(['distrito', 'concelho', 'freguesia', 'nuts1', 'nuts2', 'nuts3'])
+            dicofre_file = load_dicofre_data("app/utils/loc_codes/dicofre.json")
+            nuts_file = load_nuts_data("app/utils/nuts_levels/NUTS.json")
+            new_rows = []
+            for row in reader:
+                row[timecode_idx] = clean_timecode(row, timecode_idx)
+                area = row[area_idx]
+                distrito, concelho, freguesia, nuts1, nuts2, nuts3 = match_nuts_location(area, dicofre_file, nuts_file)
+                row.extend([distrito, concelho, freguesia, nuts1, nuts2, nuts3])
+                new_rows.append(row)
+
+        output_file = os.path.join(folder, filename)
+        with open(output_file, 'w', encoding='utf-8', newline='') as file:
+            writer = csv.writer(file, delimiter=';')
+            writer.writerow(headers)
+            writer.writerows(new_rows)
+
+        print(f"Archivo procesado y guardado en: {output_file}")
