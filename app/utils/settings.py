@@ -26,7 +26,7 @@ eredes_metadata = "app/indicators_data/eredes/metadata/metadata.csv"
 
 # DATA/METADATA PROCESSING:
 eredes_raw_data = "app/indicators_data/eredes/data/raw/"
-eredes_metadata = "app/indicators_data/eredes/metadata/metadata.csv"
+eredes_metadata = "app/indicators_data/eredes/metadata/eredes_metadata.csv"
 eredes_merged = "app/indicators_data/eredes/data/temp_eredes_merged/"
 eredes_removed_files = [
     "articles.csv",
@@ -89,10 +89,12 @@ ine_catalog_path = "app/indicators_data/ine/ine_data/ine_comp_files/"
 ine_catalog_filename = "ine_indicators_catalog.json"
 ine_data_path = "app/indicators_data/ine/ine_data/raw/"
 ine_metadata_path = "app/indicators_data/ine/ine_metadata/"
+ine_processed_data = "app/indicators_data/ine/ine_data/processed/"
 
 
 # _____________________________________THE WORLD BANK______________________________________
-wb_catalog_path = "app/indicators_data/worldbank/wb_files/"
+wb_catalog_path = "app/indicators_data/worldbank/wb_data/wb_comp_files/"
 wb_catalog_filename = "wbindicators.json"
-wb_data_path = "app/indicators_data/worldbank/wb_files/wb_data.json"
-wb_metadata_path= "app/indicators_data/worldbank/wb_files/wb_metadata.json"
+wb_data_path = "app/indicators_data/worldbank/wb_data/raw/wb_data.json"
+wb_metadata_path = "app/indicators_data/worldbank/wb_metadata/wb_metadata.json"
+wb_final_path = "app/indicators_data/worldbank/wb_data/processed/wb_final_data.csv"

@@ -1,8 +1,45 @@
 import csv
 import re
 import os
+import sys
 import json
-from typing import Dict, Any
+from typing import List, Dict, Union, Any
+
+import logging
+
+
+# Logging configuration
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+"""
+Logging is used to check the events flux in this script.
+Firstly, its basic configuration is set.
+    - The minimum logging severity level set is INFO, including WARNING, ERROR, CRITICAL (lower levels).
+    - The format of the log messages is: timestamp - severity level - log message
+"""
+
+# Get the path of the root directory (irradiare-app)
+irradiare_app_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..'))
+
+"""
+In order to import the settings module from the utils folder, it is needed to calculate the abolute path of the project's root.
+    - 'os.path.dirname(__file__)' gets the absolute path to the folder containing the current file (not included)
+    - 'os.path.join()' allows the combination of path components into a single one.
+    - Combining the absolute path with each '..' component, moves up one level in the directory hierachy.
+    - It is needed to use 'os.path.abspath' to return the absolute path to the new directory set.
+"""
+
+# Add the path to sys.path
+sys.path.append(irradiare_app_path)
+
+"""
+The previous abolute path is added to the system path 'sys.path'.
+'sys.path' collects the paths to the directories where Python searches for modules by means of 'import' statements.
+As the root of the project is now in the 'sys.path', it is possible to import the 'settings' script from the 'utils' folder.
+"""
+
+# Import settings
+import app.utils.settings as s
 
 def get_timecode_area(headers):
     timecode_idx = next((i for i, h in enumerate(headers) if h in ['timecode']), None)
@@ -69,41 +106,42 @@ def match_nuts_location(area, dicofre_data, nuts_dict):
 
     return distrito, concelho, freguesia, area, nuts2, nuts3
 
-folder = "app/indicators_data/ine/ine_data/processed/"
-os.makedirs(folder, exist_ok=True)
 
-for filename in os.listdir(folder):
-    if filename.endswith('.csv'):
-        csv_file = os.path.join(folder, filename)
-        with open(csv_file, 'r', encoding='utf-8') as file:
-            reader = csv.reader(file)
-            try:
-                headers = next(reader)
-            except StopIteration:
-                print(f"Archivo vacío: {filename}")
-                continue  # Saltar archivo vacío
-            
-            # Verificar si las columnas necesarias existen
-            timecode_idx, area_idx = get_timecode_area(headers)
-            if timecode_idx is None or area_idx is None:
-                print(f"Archivo no tiene las columnas necesarias: {filename}")
-                continue
+def main(final_data_path, dicofre_dict: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]):
+    os.makedirs(final_data_path, exist_ok=True)
+    for filename in os.listdir(final_data_path):
+        if filename.endswith('.csv'):
+            csv_file = os.path.join(final_data_path, filename)
+            with open(csv_file, 'r', encoding='utf-8') as file:
+                reader = csv.reader(file)
+                try:
+                    headers = next(reader)
+                except StopIteration:
+                    print(f"Archivo vacío: {filename}")
+                    continue  # Saltar archivo vacío
+                
+                # Verificar si las columnas necesarias existen
+                timecode_idx, area_idx = get_timecode_area(headers)
+                if timecode_idx is None or area_idx is None:
+                    print(f"Archivo no tiene las columnas necesarias: {filename}")
+                    continue
 
-            headers.extend(['distrito', 'concelho', 'freguesia', 'nuts1', 'nuts2', 'nuts3'])
-            dicofre_file = load_dicofre_data("app/utils/loc_codes/dicofre.json")
-            nuts_file = load_nuts_data("app/utils/nuts_levels/NUTS.json")
-            new_rows = []
-            for row in reader:
-                row[timecode_idx] = clean_timecode(row, timecode_idx)
-                area = row[area_idx]
-                distrito, concelho, freguesia, nuts1, nuts2, nuts3 = match_nuts_location(area, dicofre_file, nuts_file)
-                row.extend([distrito, concelho, freguesia, nuts1, nuts2, nuts3])
-                new_rows.append(row)
+                headers.extend(['distrito', 'concelho', 'freguesia', 'nuts1', 'nuts2', 'nuts3'])
+                new_rows = []
+                for row in reader:
+                    row[timecode_idx] = clean_timecode(row, timecode_idx)
+                    area = row[area_idx]
+                    distrito, concelho, freguesia, nuts1, nuts2, nuts3 = match_nuts_location(area, dicofre_dict, nuts_dict)
+                    row.extend([distrito, concelho, freguesia, nuts1, nuts2, nuts3])
+                    new_rows.append(row)
 
-        output_file = os.path.join(folder, filename)
-        with open(output_file, 'w', encoding='utf-8', newline='') as file:
-            writer = csv.writer(file, delimiter=';')
-            writer.writerow(headers)
-            writer.writerows(new_rows)
+            output_file = os.path.join(final_data_path, filename)
+            with open(output_file, 'w', encoding='utf-8', newline='') as file:
+                writer = csv.writer(file, delimiter=';')
+                writer.writerow(headers)
+                writer.writerows(new_rows)
 
-        print(f"Archivo procesado y guardado en: {output_file}")
+            print(f"Archivo procesado y guardado en: {output_file}")
+
+if __name__=="__main__":
+    main(s.ine_processed_data,s.dicofre_data, s.nuts_data)

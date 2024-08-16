@@ -51,7 +51,6 @@ def download_toc(url: str, save_path: str) -> None:
     Returns:
     - None
     """
-
     try:
         # Send a HTTP GET request to the URL
         response = requests.get(url)
