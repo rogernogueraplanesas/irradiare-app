@@ -50,7 +50,7 @@ import app.utils.settings as s
 
 def set_driver(url: str) -> webdriver.Edge:
     """
-    Set an Edge driver with an specific configuration
+    Set an Edge driver with a specific configuration and the url needed to scrap the site.
 
     Args:
     - url (str): The URL to navigate to.
@@ -77,7 +77,7 @@ def scroll_page(driver: webdriver.Edge) -> None:
         driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
         time.sleep(5)
         new_body_height = driver.execute_script("return document.body.scrollHeight")
-        if new_body_height == body_height:
+        if new_body_height == body_height: # In this case, there is no more content to load.
             break
         body_height = new_body_height
     logging.info("Scrolling completed")
@@ -95,8 +95,8 @@ def get_urls(driver: webdriver.Edge) -> list:
     filtered_urls = []
     scroll_page(driver)
     try:
-        main = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "main"))
+        main = WebDriverWait(driver, 10).until(             # Waiting 10 seconds to let the page load the whole content
+            EC.presence_of_element_located((By.ID, "main")) # and locate the main element
         )
         logging.info("Main element located")
         ods = main.find_elements(By.TAG_NAME, "ods-catalog-card")
@@ -144,7 +144,7 @@ def download_csv_file(url: str, save_folder: str, retries: int = 3) -> None:
     for attempt in range(retries):
         try:
             logging.info(f"Starting download for {url}")
-            response = requests.get(url, timeout=60)
+            response = requests.get(url, timeout=60) # Give 60sec. to get a response
             response.raise_for_status()
             file_name = url.split("/")[-3] + ".csv"
             with open(os.path.join(save_folder, file_name), "wb") as file:
@@ -181,7 +181,7 @@ def download_csv_files_parallel(urls: list, save_folder: str, max_workers: int =
         futures = [executor.submit(download_csv_file, url, save_folder) for url in urls] # Set the action 'download_csv_file' and the parameters for the action to be executed by the pool of workers
         for future in tqdm(as_completed(futures), total=len(futures), desc="Downloading CSV files"): # The tqdm library adds very basic download information such a progress bar, download speed, etc.
             try:                                                                                     # as_completed(futures) iterates over the 'future' objects while tasks are completed
-                future.result()
+                future.result() # shows the result once each download process is completed
             except Exception as e:
                 logging.error(f"Error: {e}")
 
@@ -201,7 +201,7 @@ def main() -> None:
     for url in indicators_url:
         get_datasets_url(url, final_urls)
         logging.info(f"Collected URLs: {final_urls}")
-    download_csv_files_parallel(final_urls, s.eredes_files_folder)
+    download_csv_files_parallel(final_urls, s.eredes_raw_data)
     print("PROCESS COMPLETED. DATA EXTRACTED.")
 
 

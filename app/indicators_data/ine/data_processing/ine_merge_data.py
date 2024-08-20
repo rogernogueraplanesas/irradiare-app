@@ -40,7 +40,21 @@ As the root of the project is now in the 'sys.path', it is possible to import th
 import app.utils.settings as s
 
 
-def merge_data(raw_data_path, metadata_path, output_folder):
+def merge_data(raw_data_path: str, metadata_path: str, output_folder: str) -> None:
+    """
+    Merge data from JSON files in raw_data_path and metadata_path, then save the combined data to CSV files.
+
+    This function reads JSON files from the specified directories, processes the data and metadata, 
+    and saves the combined data into CSV files in the output_folder.
+
+    Args:
+        raw_data_path (str): The directory path where raw data JSON files are located.
+        metadata_path (str): The directory path where metadata JSON files are located.
+        output_folder (str): The directory path where the output CSV files will be saved.
+
+    Returns:
+        None
+    """
     # Obtener los nombres de los archivos en ambas carpetas
     data_files = [f for f in os.listdir(raw_data_path) if f.endswith('.json')]
     metadata_files = [f for f in os.listdir(metadata_path) if f.endswith('.json')]
@@ -113,7 +127,6 @@ def merge_data(raw_data_path, metadata_path, output_folder):
         fieldnames = list(set().union(*(entry.keys() for entry in combined_data)))
 
         # Guardar los datos combinados en un archivo CSV separado
-        output_folder = "app/indicators_data/ine/ine_data/processed/"
         filename = f'combined_data_{file_id}.csv'
         output_file = os.path.join(output_folder, filename)
         with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:

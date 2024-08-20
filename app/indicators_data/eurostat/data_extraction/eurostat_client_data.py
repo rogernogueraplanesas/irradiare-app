@@ -47,14 +47,12 @@ def download_toc(url: str, save_path: str) -> None:
     Download the TOC (Table of Contents) for the Eurostat database through a given URL and save it to a specified directory.
 
     Args:
-    - url: The URL to download the file from.
-    - save_dir: The directory to save the downloaded file.
-    - filename: The name to save the downloaded file as.
+    - url (str): The URL to download the file from.
+    - save_path (str): The file path where the downloaded TOC will be saved.
 
     Returns:
     - None
     """
-
     try:
         # Send a HTTP GET request to the URL
         response = requests.get(url)
@@ -70,14 +68,19 @@ def download_toc(url: str, save_path: str) -> None:
     except requests.exceptions.RequestException as e:
         print(f"An error occurred while downloading the file: {e}")
 
-def get_eurostat_data(data_save_path: str, labels_save_path:  str, eurostat_toc_txt: str, labels_file: str) -> None:
-    """
-    Fetch and save Eurostat data for specified codes usin EurostatAPIClient.
 
-    The data is filtered based on predefined parameters and saved as JSON files.
+def get_eurostat_data(data_save_path: str, labels_save_path: str, eurostat_toc_txt: str, labels_file: str) -> None:
+    """
+    Fetch and save Eurostat data for specified codes using EurostatAPIClient.
+
+    The data is filtered based on predefined parameters (for Portugal) and saved as JSON files. 
+    Additionally, a CSV file with the dataset codes and labels is created.
 
     Args:
-    - None
+    - data_save_path (str): The directory where the JSON files with the datasets will be saved.
+    - labels_save_path (str): The directory where the CSV file with the dataset labels will be saved.
+    - eurostat_toc_txt (str): Path to the file containing the Eurostat Table of Contents (TOC) with the codes.
+    - labels_file (str): Path where the CSV file with the dataset codes and labels will be saved.
 
     Returns:
     - None
@@ -108,12 +111,12 @@ def get_eurostat_data(data_save_path: str, labels_save_path:  str, eurostat_toc_
     with open(eurostat_toc_txt, 'r', encoding='utf-8') as codes_file:
         reader = csv.reader(codes_file, delimiter='\t', quotechar='"', quoting=csv.QUOTE_NONE)
         for row in reader:
-            code = row[1].strip('"') # Extract the code for the indicator in each row
+            code = row[1].strip('"')  # Extract the code for the indicator in each row
             print(code)
-            path = os.path.join(data_save_path, f"{code}.json") # Define a code adjustable path to save the JSON datasets
+            path = os.path.join(data_save_path, f"{code}.json")  # Define a code adjustable path to save the JSON datasets
             print(path)
             try:
-                # Get data from the server for the code+query parameters specified
+                # Get data from the server for the code + query parameters specified
                 filtered_dataset = client.get_dataset(code, params=params)
                 # Get the label for the dataset
                 label = filtered_dataset.label
@@ -125,9 +128,9 @@ def get_eurostat_data(data_save_path: str, labels_save_path:  str, eurostat_toc_
                 # Convert the dataframe into JSON. orient='records': each row from the df is converted into a dict. The result is a list of dictionaries. 
                 filtered_dataframe_json = filtered_dataframe.to_json(orient='records')
                 print("DataFrame converted to JSON.")
-                #Create/open the code adjustable path in 'write' mode
+                # Create/open the code adjustable path in 'write' mode
                 with open(path, 'w', encoding='utf-8') as dataset:
-                    json.dump(filtered_dataframe_json, dataset, indent=4, ensure_ascii=False) # Dump the JSON data into the file
+                    json.dump(filtered_dataframe_json, dataset, indent=4, ensure_ascii=False)  # Dump the JSON data into the file
                     print(f"Data for {code} saved.")
 
             except requests.exceptions.RequestException as e:
@@ -140,10 +143,21 @@ def get_eurostat_data(data_save_path: str, labels_save_path:  str, eurostat_toc_
         writer.writerow(['Code', 'Label'])
         writer.writerows(code_label_list)
 
-if __name__ == "__main__":
+def main() -> None:
+    """
+    Main function to download the TOC and fetch Eurostat data.
+    """
+    # Download the Eurostat TOC file
     download_toc(url=s.eurostat_toc_url_txt, save_path=s.eurostat_toc_txt)
-    get_eurostat_data(data_save_path=s.eurostat_raw_data, labels_save_path=s.eurostat_comp_files, eurostat_toc_txt=s.eurostat_toc_txt, labels_file=s.eurostat_dataset_def)
+    
+    # Fetch and save the Eurostat data
+    get_eurostat_data(
+        data_save_path=s.eurostat_raw_data,
+        labels_save_path=s.eurostat_comp_files,
+        eurostat_toc_txt=s.eurostat_toc_txt,
+        labels_file=s.eurostat_dataset_def
+    )
 
-
-
-
+# Call main() within the if statement
+if __name__ == "__main__":
+    main()
