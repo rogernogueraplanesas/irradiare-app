@@ -180,7 +180,6 @@ def get_indicator_data(source_id_list: list, indicator_id_list: list) -> list:
 
     for source_id, indicator_id in zip(source_id_list, indicator_id_list): # 'zip' to iterate over both lists
         indicator_data = get_data(source_id, indicator_id)
-        indicator_data = get_data(source_id, indicator_id)
         if indicator_data:
             print(f"Data for indicator {indicator_id} and source {source_id}: {indicator_data}")
             indicators_data_dict.append(indicator_data)
@@ -270,7 +269,6 @@ def get_indicator_metadata(source_id_list: list, indicator_id_list: list) -> dic
     indicators_metadata_dict = {}
 
     for source_id, indicator_id in zip(source_id_list, indicator_id_list): # 'zip' to iterate over both lists
-        metadata = get_metadata(source_id, indicator_id)
         metadata = get_metadata(source_id, indicator_id)
         if metadata:
             print(f"Metadata for indicator {indicator_id} and source {source_id}: {metadata}")

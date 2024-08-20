@@ -2,6 +2,7 @@ import os
 import xml.etree.ElementTree as ET
 import csv
 import requests
+from typing import Dict, List, Optional
 
 import sys
 import logging
@@ -44,12 +45,11 @@ def download_toc(url: str, save_path: str) -> None:
     Download the TOC (Table of Contents) for the Eurostat database through a given URL and save it to a specified directory.
 
     Args:
-    - url: The URL to download the file from.
-    - save_dir: The directory to save the downloaded file.
-    - filename: The name to save the downloaded file as.
+        url (str): The URL to download the file from.
+        save_path (str): The path where the downloaded file will be saved.
 
     Returns:
-    - None
+        None
     """
     try:
         # Send a HTTP GET request to the URL
@@ -66,7 +66,17 @@ def download_toc(url: str, save_path: str) -> None:
     except requests.exceptions.RequestException as e:
         print(f"An error occurred while downloading the file: {e}")
 
-def get_data_names(path, output_file):
+def get_data_names(path: str, output_file: str) -> None:
+    """
+    Write the names of JSON files in a directory to a text file.
+
+    Args:
+        path (str): The directory containing JSON files.
+        output_file (str): The file where the names of the JSON files will be saved.
+
+    Returns:
+        None
+    """
     with open(output_file, 'w') as f:
         # Recorrer todos los archivos en el directorio
         for archivo in os.listdir(path):
@@ -76,9 +86,17 @@ def get_data_names(path, output_file):
                 f.write(os.path.splitext(archivo)[0] + '\n')
     print(f"Filenames CSV saved in: {output_file}")
 
+def encontrar_link(codigo: str, archivo_xml: str) -> Optional[str]:
+    """
+    Find the metadata link for a given code in an XML file.
 
-# Función para buscar en el XML y extraer el enlace de metadatos en HTML
-def encontrar_link(codigo, archivo_xml):
+    Args:
+        codigo (str): The code to search for in the XML.
+        archivo_xml (str): The XML file to search in.
+
+    Returns:
+        Optional[str]: The metadata link if found, otherwise None.
+    """
     # Parsear el archivo XML
     tree = ET.parse(archivo_xml)
     root = tree.getroot()
@@ -94,8 +112,18 @@ def encontrar_link(codigo, archivo_xml):
                 return metadata_element.text
     return None
 
+def fill_metadata_list(nombres_json: List[str], archivo_xml: str, metadata_dict: Dict[str, str]) -> Dict[str, str]:
+    """
+    Fill the metadata dictionary with links found in an XML file.
 
-def fill_metadata_list(nombres_json, archivo_xml, metadata_dict):
+    Args:
+        nombres_json (List[str]): The list of JSON file names to search for.
+        archivo_xml (str): The XML file to search in.
+        metadata_dict (Dict[str, str]): The dictionary to fill with metadata links.
+
+    Returns:
+        Dict[str, str]: The updated metadata dictionary.
+    """
     # Llenar el diccionario con los enlaces de metadatos
     for nombre in nombres_json:
         link = encontrar_link(nombre, archivo_xml)
@@ -103,8 +131,18 @@ def fill_metadata_list(nombres_json, archivo_xml, metadata_dict):
             metadata_dict[nombre] = link
     return metadata_dict
 
+def merge_datacode_metadata_link(archivo_csv: str, metadata_dict: Dict[str, str], archivo_csv_actualizado: str) -> None:
+    """
+    Merge metadata links into an existing CSV file based on a metadata dictionary.
 
-def merge_datacode_metadata_link(archivo_csv, metadata_dict, archivo_csv_actualizado):
+    Args:
+        archivo_csv (str): The CSV file to read and update.
+        metadata_dict (Dict[str, str]): The dictionary of metadata links.
+        archivo_csv_actualizado (str): The path to the updated CSV file.
+
+    Returns:
+        None
+    """
     # Leer el archivo CSV y agregar enlaces de metadatos
     with open(archivo_csv, 'r', newline='') as csvfile:
         reader = csv.reader(csvfile)
@@ -122,14 +160,37 @@ def merge_datacode_metadata_link(archivo_csv, metadata_dict, archivo_csv_actuali
 
     print("Archivo CSV actualizado con enlaces de metadatos.")
 
+def main() -> None:
+    """
+    Main function to execute the workflow of downloading TOC, extracting JSON file names,
+    filling metadata links, and merging them into a CSV file.
 
-if __name__ == "__main__":
+    This function performs the following tasks:
+    1. Downloads the TOC (Table of Contents) XML file.
+    2. Extracts JSON file names and saves them to a CSV file.
+    3. Fills a metadata dictionary with links from the XML file.
+    4. Merges the metadata links into the CSV file.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
     download_toc(url=s.eurostat_toc_url_xml, save_path=s.eurostat_toc_xml)
-    # Llamar a la función con los parámetros adecuados
     get_data_names(path=s.eurostat_raw_data, output_file=s.eurostat_datacodes)
+    
     # Obtener nombres de archivos JSON sin la extensión
     nombres_json = [f.split('.')[0] for f in os.listdir(s.eurostat_raw_data) if f.endswith('.json')]
+    
     # Crear un diccionario para almacenar los enlaces de metadatos
-    metadata_links = {}
-    metadata_dict = fill_metadata_list(nombres_json=nombres_json,archivo_xml=s.eurostat_toc_xml ,metadata_dict=metadata_links)
+    metadata_links: Dict[str, str] = {}
+    
+    # Llenar el diccionario con los enlaces de metadatos
+    metadata_dict = fill_metadata_list(nombres_json=nombres_json, archivo_xml=s.eurostat_toc_xml, metadata_dict=metadata_links)
+    
+    # Actualizar el archivo CSV con los enlaces de metadatos
     merge_datacode_metadata_link(archivo_csv=s.eurostat_datacodes, metadata_dict=metadata_dict, archivo_csv_actualizado=s.eurostat_datacodes)
+
+if __name__ == "__main__":
+    main()

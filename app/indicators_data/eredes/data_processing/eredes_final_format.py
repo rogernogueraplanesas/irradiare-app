@@ -7,33 +7,91 @@ import re
 import sys
 from concurrent.futures import ThreadPoolExecutor
 
+import requests
 import logging
+
 
 # Logging configuration
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+"""
+Logging is used to check the events flux in this script.
+Firstly, its basic configuration is set.
+    - The minimum logging severity level set is INFO, including WARNING, ERROR, CRITICAL (lower levels).
+    - The format of the log messages is: timestamp - severity level - log message
+"""
 
 # Get the path of the root directory (irradiare-app)
 irradiare_app_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..'))
+"""
+In order to import the settings module from the utils folder, it is needed to calculate the abolute path of the project's root.
+    - 'os.path.dirname(__file__)' gets the absolute path to the folder containing the current file (not included)
+    - 'os.path.join()' allows the combination of path components into a single one.
+    - Combining the absolute path with each '..' component, moves up one level in the directory hierachy.
+    - It is needed to use 'os.path.abspath' to return the absolute path to the new directory set.
+"""
 
 # Add the path to sys.path
 sys.path.append(irradiare_app_path)
+"""
+The previous abolute path is added to the system path 'sys.path'.
+'sys.path' collects the paths to the directories where Python searches for modules by means of 'import' statements.
+As the root of the project is now in the 'sys.path', it is possible to import the 'settings' script from the 'utils' folder.
+"""
 
 # Import settings
 import app.utils.settings as s
 
 # Function to clean 'Date' columns
 def clean_date(value: str) -> str:
+    """
+    Cleans the 'Date' column by removing non-numeric characters and converting the string to uppercase.
+
+    Args:
+        value (str): The original date string.
+
+    Returns:
+        str: The cleaned and formatted date string.
+    """
     return re.sub(r'[^SQsq0-9]', '', value).upper()
 
 # Function used to create a timecode combining year+period (month, semester, quarter)
 def combine_year_with_period(year: str, period: str) -> str:
+    """
+    Combines a year and a period (month, semester, quarter) into a timecode.
+
+    Args:
+        year (str): The year value as a string.
+        period (str): The period value as a string.
+
+    Returns:
+        str: A combined string representing the timecode (year + period).
+    """
     return year + period
 
 def extract_date(value: str) -> str:
+    """
+    Extracts a date from a string, and cleans it if necessary.
+
+    Args:
+        value (str): The string containing the date.
+
+    Returns:
+        str: The cleaned and extracted date in the format YYYYMMDD.
+    """
     date_match = re.match(r"(\d{4}-\d{2}-\d{2})", value)
     return date_match.group(1).replace("-", "") if date_match else clean_date(value)
 
 def get_column_indices(headers: List[str], column_groups: Dict[str, List[str]]) -> Dict[str, Union[int, None]]:
+    """
+    Maps header column names to their corresponding indices, based on predefined column groups.
+
+    Args:
+        headers (List[str]): The list of header names from the CSV file.
+        column_groups (Dict[str, List[str]]): A dictionary of column groups with possible column names.
+
+    Returns:
+        Dict[str, Union[int, None]]: A dictionary mapping group names to their respective column index or None.
+    """
     column_indices = {}
     header_map = {col.lower(): idx for idx, col in enumerate(headers)}
 
@@ -49,6 +107,14 @@ def get_column_indices(headers: List[str], column_groups: Dict[str, List[str]]) 
     return column_indices
 
 def process_file(filename: str, merged_files_path: str, final_data_path: str) -> None:
+    """
+    Processes a CSV file by adding a 'timecode' column and saving the modified file.
+
+    Args:
+        filename (str): The name of the CSV file to process.
+        merged_files_path (str): The path where the merged files are located.
+        final_data_path (str): The path where the processed files will be saved.
+    """
     file_path = os.path.join(merged_files_path, filename)
     print(f"Processing file: {file_path}")
 
@@ -114,11 +180,18 @@ def process_file(filename: str, merged_files_path: str, final_data_path: str) ->
         writer.writerow(headers)
         writer.writerows(new_rows)
 
-    print(f"Archivo procesado y guardado en: {output_file_path}")
+    print(f"File processed and saved at: {output_file_path}")
     os.remove(file_path)
-    print(f"Archivo original eliminado: {file_path}")
+    print(f"Original file deleted: {file_path}")
 
 def add_timecode(merged_files_path: str, final_data_path: str) -> None:
+    """
+    Adds timecodes to all CSV files in the merged files directory and saves the results.
+
+    Args:
+        merged_files_path (str): The directory containing the merged files.
+        final_data_path (str): The directory where the processed files will be saved.
+    """
     files = [filename for filename in os.listdir(merged_files_path) if filename.endswith(".csv")]
     with ThreadPoolExecutor(max_workers=4) as executor:
         for filename in files:
@@ -172,14 +245,21 @@ def load_nuts_data(nuts_path: str) -> Dict[str, Any]:
         return json.load(nuts_file)
 
 
-# Función para obtener datos de localización a partir de un código dicofre
 def get_location_data_dicofre(dicofre: Union[int, str], dicofre_dict: Dict[str, Dict[str, str]]) -> Tuple[str, str, str]:
+    """
+    Retrieve location data (district, county, parish) from a dicofre code.
+
+    Args:
+        dicofre (Union[int, str]): The dicofre code as an integer or string.
+        dicofre_dict (Dict[str, Dict[str, str]]): Dictionary with dicofre location data.
+
+    Returns:
+        Tuple[str, str, str]: A tuple containing district, county, and parish.
+    """
     dicofre_str = str(dicofre)
     location_data = {}
-    distrito = 'undefined'
-    concelho = 'undefined'
-    freguesia = 'undefined'
-    
+    distrito, concelho, freguesia = 'undefined', 'undefined', 'undefined'
+
     if len(dicofre_str) >= 6:
         location_data = dicofre_dict.get(dicofre_str, {})
         distrito = location_data.get('distrito', 'undefined')
@@ -201,8 +281,18 @@ def get_location_data_dicofre(dicofre: Union[int, str], dicofre_dict: Dict[str, 
         
     return distrito, concelho, freguesia
 
-# Función para obtener datos de localización a partir de un código postal
+
 def get_location_data_zipcode(zipcode: Union[int, str], zipcode_dict: Dict[str, Dict[str, str]]) -> Tuple[str, str, str]:
+    """
+    Retrieve location data (district, county, parish) from a zipcode.
+
+    Args:
+        zipcode (Union[int, str]): The zipcode as an integer or string.
+        zipcode_dict (Dict[str, Dict[str, str]]): Dictionary with zipcode location data.
+
+    Returns:
+        Tuple[str, str, str]: A tuple containing district, county, and parish.
+    """
     zipcode_clean = re.sub(r'[^0-9]', '', str(zipcode))
     
     if len(zipcode_clean) == 4:
@@ -221,11 +311,19 @@ def get_location_data_zipcode(zipcode: Union[int, str], zipcode_dict: Dict[str, 
     
     return 'undefined', 'undefined', 'undefined'
 
-# Función para obtener datos NUTS a partir de un concelho
+
 def get_nuts_data(concelho: str, nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]) -> Tuple[str, str, str]:
-    nuts1 = 'undefined'
-    nuts2 = 'undefined'
-    nuts3 = 'undefined'
+    """
+    Retrieve NUTS (Nomenclature of Territorial Units for Statistics) data from a county (concelho).
+
+    Args:
+        concelho (str): The county name.
+        nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): Dictionary containing NUTS data.
+
+    Returns:
+        Tuple[str, str, str]: A tuple containing NUTS 1, NUTS 2, and NUTS 3 regions.
+    """
+    nuts1, nuts2, nuts3 = 'undefined', 'undefined', 'undefined'
     
     for nuts1_region, nuts1_info in nuts_dict.items():
         for region_nuts2, nuts2_info in nuts1_info.get("NUTS 2", {}).items():
@@ -235,8 +333,17 @@ def get_nuts_data(concelho: str, nuts_dict: Dict[str, Dict[str, Dict[str, Union[
     
     return nuts1, nuts2, nuts3
 
-# Función para añadir datos de geolocalización a archivos CSV
-def add_geodata(final_data_path, dicofre_dict, zipcode_dict, nuts_dict):
+
+def add_geodata(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], zipcode_dict: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]) -> None:
+    """
+    Add geolocation data to CSV files by retrieving relevant information using dicofre and zipcode data.
+
+    Args:
+        final_data_path (str): Path to the folder containing CSV files to process.
+        dicofre_dict (Dict[str, Dict[str, str]]): Dictionary containing dicofre data.
+        zipcode_dict (Dict[str, Dict[str, str]]): Dictionary containing zipcode data.
+        nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): Dictionary containing NUTS data.
+    """
     for filename in os.listdir(final_data_path):
         if filename.endswith(".csv"):
             file_path = os.path.join(final_data_path, filename)
@@ -307,6 +414,7 @@ def add_geodata(final_data_path, dicofre_dict, zipcode_dict, nuts_dict):
                 writer.writerows(new_rows)
 
             print(f"Archivo procesado y guardado en: {final_data_path}")
+
 
 def main() -> None:
     """

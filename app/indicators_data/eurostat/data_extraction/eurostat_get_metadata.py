@@ -43,6 +43,27 @@ As the root of the project is now in the 'sys.path', it is possible to import th
 
 import app.utils.settings as s
 
+def read_metadata_links_from_csv(csv_file: str) -> List[str]:
+    """
+    Read and save a list of metadata download links with no repeated elements.
+
+    Args:
+        csv_file (str): CSV file path
+
+    Returns:
+        List[str]: List of unique metadata download links
+    """
+    links = set()  # Utilizar un set para almacenar enlaces únicos
+    with open(csv_file, mode='r', newline='', encoding='utf-8') as file:
+        reader = csv.reader(file)
+        next(reader)  # Saltar la fila del encabezado
+        for row in reader:
+            if len(row) > 1:
+                links.add(row[1])  # Añadir el segundo elemento (enlace de metadatos) al set
+            else:
+                # Log or handle the case where there's no link
+                print(f"No link found in row: {row}")
+    return list(links)  # Convertir el set a una lista
 
 def any_country_condition(link: str, eurostat_country_codes) -> bool:
     """
@@ -217,41 +238,34 @@ def download_metadata(save_path: str, link: str, download_link: str, headers: Di
     else:
         print(f"Could not download the file: {download_link}")
 
-def read_metadata_links_from_csv(csv_file: str) -> List[str]:
+def main() -> None:
     """
-    Read and save a list of metadata download links with no repeated elements.
-
-    Args:
-        csv_file (str): CSV file path
-
-    Returns:
-        List[str]: List of unique metadata download links
+    Main function to read metadata links, process them, and download the metadata files.
     """
-    links = set()  # Utilizar un set para almacenar enlaces únicos
-    with open(csv_file, mode='r', newline='', encoding='utf-8') as file:
-        reader = csv.reader(file)
-        next(reader)  # Saltar la fila del encabezado
-        for row in reader:
-            if len(row) > 1:
-                links.add(row[1])  # Añadir el segundo elemento (enlace de metadatos) al set
-            else:
-                # Log or handle the case where there's no link
-                print(f"No link found in row: {row}")
-    return list(links)  # Convertir el set a una lista
-
-
-
-if __name__=="__main__":
-
+    # Read metadata links from a CSV file
     metadata_links = read_metadata_links_from_csv(csv_file=s.eurostat_datacodes)
 
+    # Process metadata links to get download and manual download links
     download_links, manual_download_links = process_metadata_links(links=metadata_links, headers=s.headers)
 
+    # Save download and manual download links to CSV files
     save_links_to_csv(links=download_links, save_path=s.eurostat_download_metadata)
     save_links_to_csv(links=manual_download_links, save_path=s.eurostat_manual_metadata)
 
+    # Initialize a set to keep track of processed download links
     processed_links = set()  # Set to track processed download links
+
+    # Iterate over the download links and download the metadata files
     for link_info in download_links:
         if link_info["download_link"] not in processed_links:
-            download_metadata(s.eurostat_metadata_folder, link=link_info["htm_link"], download_link=link_info["download_link"], headers=s.headers)
-            processed_links.add(link_info["download_link"])  # Add the processed link to the set
+            download_metadata(
+                s.eurostat_metadata_folder,
+                link=link_info["htm_link"],
+                download_link=link_info["download_link"],
+                headers=s.headers
+            )
+            # Add the processed link to the set to avoid reprocessing
+            processed_links.add(link_info["download_link"])
+
+if __name__ == "__main__":
+    main()

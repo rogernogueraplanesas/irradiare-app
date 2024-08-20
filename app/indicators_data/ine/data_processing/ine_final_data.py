@@ -3,7 +3,7 @@ import re
 import os
 import sys
 import json
-from typing import List, Dict, Union, Any
+from typing import Dict, Any, Union, List, Tuple
 
 import logging
 
@@ -41,26 +41,72 @@ As the root of the project is now in the 'sys.path', it is possible to import th
 # Import settings
 import app.utils.settings as s
 
-def get_timecode_area(headers):
+def get_timecode_area(headers: List[str]) -> Tuple[Union[int, None], Union[int, None]]:
+    """
+    Obtiene los índices de las columnas 'timecode' y 'area' en la lista de encabezados.
+
+    Args:
+        headers (List[str]): Lista de nombres de las columnas.
+
+    Returns:
+        Tuple[Union[int, None], Union[int, None]]: Índices de las columnas 'timecode' y 'area'.
+    """
     timecode_idx = next((i for i, h in enumerate(headers) if h in ['timecode']), None)
     area_idx = next((i for i, h in enumerate(headers) if h in ["area"]), None)
     return timecode_idx, area_idx
 
-def clean_timecode(row, timecode_idx):
+def clean_timecode(row: List[str], timecode_idx: int) -> str:
+    """
+    Limpia el valor del 'timecode' eliminando caracteres no numéricos.
+
+    Args:
+        row (List[str]): Lista de valores de la fila del archivo CSV.
+        timecode_idx (int): Índice de la columna 'timecode'.
+
+    Returns:
+        str: Valor del 'timecode' limpio.
+    """
     timecode = row[timecode_idx]
     timecode = re.sub(r'[^0-9]', '', timecode)
     return timecode
 
 def load_nuts_data(nuts_path: str) -> Dict[str, Any]:
+    """
+    Carga los datos de NUTS desde un archivo JSON.
+
+    Args:
+        nuts_path (str): Ruta del archivo JSON que contiene los datos de NUTS.
+
+    Returns:
+        Dict[str, Any]: Datos de NUTS cargados desde el archivo.
+    """
     with open(nuts_path, 'r', encoding='utf-8') as nuts_file:
         return json.load(nuts_file)
     
 def load_dicofre_data(dicofre_path: str) -> Dict[str, Any]:
+    """
+    Carga los datos de DICOFRE desde un archivo JSON.
+
+    Args:
+        dicofre_path (str): Ruta del archivo JSON que contiene los datos de DICOFRE.
+
+    Returns:
+        Dict[str, Any]: Datos de DICOFRE cargados desde el archivo.
+    """
     with open(dicofre_path, 'r', encoding='utf-8') as dicofre_file:
         return json.load(dicofre_file)
 
-    
-def match_location(name, dicofre_data):
+def match_location(name: str, dicofre_data: Dict[str, Dict[str, str]]) -> Tuple[str, str, str]:
+    """
+    Coincide un nombre con la ubicación en los datos de DICOFRE.
+
+    Args:
+        name (str): Nombre de la ubicación a coincidir.
+        dicofre_data (Dict[str, Dict[str, str]]): Datos de DICOFRE.
+
+    Returns:
+        Tuple[str, str, str]: Tuple con distrito, concelho y freguesia.
+    """
     for key, value in dicofre_data.items():
         if name == value["freguesia"]:
             return value["distrito"], value["concelho"], value["freguesia"]
@@ -75,9 +121,18 @@ def match_location(name, dicofre_data):
     
     return "undefined", "undefined", "undefined"
 
+def match_nuts_location(area: str, dicofre_data: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]) -> Tuple[str, str, str, str, str, str]:
+    """
+    Coincide un área con la ubicación NUTS correspondiente en los datos de DICOFRE y NUTS.
 
+    Args:
+        area (str): Nombre del área a coincidir.
+        dicofre_data (Dict[str, Dict[str, str]]): Datos de DICOFRE.
+        nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): Datos de NUTS.
 
-def match_nuts_location(area, dicofre_data, nuts_dict):
+    Returns:
+        Tuple[str, str, str, str, str, str]: Tuple con distrito, concelho, freguesia, y códigos NUTS.
+    """
     if area == 'Continente':
         area = 'Portugal Continental'
     elif area == 'Norte':
@@ -106,8 +161,18 @@ def match_nuts_location(area, dicofre_data, nuts_dict):
 
     return distrito, concelho, freguesia, area, nuts2, nuts3
 
+def main(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]) -> None:
+    """
+    Procesa archivos CSV en el directorio final_data_path, agregando información de ubicación y NUTS.
 
-def main(final_data_path, dicofre_dict: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]):
+    Args:
+        final_data_path (str): Ruta del directorio con los archivos CSV a procesar.
+        dicofre_dict (Dict[str, Dict[str, str]]): Datos de DICOFRE.
+        nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): Datos de NUTS.
+
+    Returns:
+        None
+    """
     os.makedirs(final_data_path, exist_ok=True)
     for filename in os.listdir(final_data_path):
         if filename.endswith('.csv'):
@@ -143,5 +208,6 @@ def main(final_data_path, dicofre_dict: Dict[str, Dict[str, str]], nuts_dict: Di
 
             print(f"Archivo procesado y guardado en: {output_file}")
 
-if __name__=="__main__":
-    main(s.ine_processed_data,s.dicofre_data, s.nuts_data)
+if __name__ == "__main__":
+    # Ejecutar la función principal del script con los parámetros configurados
+    main(s.ine_processed_data, s.dicofre_data, s.nuts_data)
