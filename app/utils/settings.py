@@ -22,11 +22,10 @@ headers = {'User-Agent': user_agent}
 
 # DATA/METADATA EXTRACTION:
 eredes_url = 'https://e-redes.opendatasoft.com/explore/?sort=modified'
-eredes_metadata = "app/indicators_data/eredes/metadata/metadata.csv"
+eredes_metadata = "app/indicators_data/eredes/eredes_metadata/metadata.csv"
 
 # DATA/METADATA PROCESSING:
 eredes_raw_data = "app/indicators_data/eredes/data/raw/"
-eredes_metadata = "app/indicators_data/eredes/metadata/eredes_metadata.csv"
 eredes_merged = "app/indicators_data/eredes/data/temp_eredes_merged/"
 eredes_removed_files = [
     "articles.csv",

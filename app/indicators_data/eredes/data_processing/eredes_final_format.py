@@ -346,14 +346,14 @@ def add_geodata(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], z
     """
     for filename in os.listdir(final_data_path):
         if filename.endswith(".csv"):
-            file_path = os.path.join(final_data_path, filename)
+            file_path = os.path.join(final_data_path, f"final_geodata_{filename}")
             print(f"Processing file: {file_path}")
 
             with open(file_path, 'r', encoding='utf-8') as csv_file:
                 reader = csv.reader(csv_file, delimiter=';')
                 headers = next(reader)
                 headers = [header.lstrip('\ufeff') for header in headers]
-                headers.extend(['distrito', 'concelho', 'freguesia', 'nuts1', 'nuts2', 'nuts3'])
+                headers.extend(['distrito', 'concelho', 'freguesia', 'nuts1', 'nuts2', 'nuts3','dicofre', 'zipcode'])
 
                 zip_col_idx = next((i for i, h in enumerate(headers) if h in ['Zip Code', 'ZipCode']), None)
                 dicofre_col_idx = next((i for i, h in enumerate(headers) if h in ['DistrictMunicipalityParishCode', 'CodDistritoConcelhoFreguesia', 'DistrictMunicipalityCode', 'MinicipalityCode', 'CodConcelho', 'CODIGO_CONCELHO']), None)
@@ -366,6 +366,8 @@ def add_geodata(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], z
                 for row in reader:
                     distrito, concelho, freguesia = 'undefined', 'undefined', 'undefined'
                     nuts1, nuts2, nuts3 = 'undefined', 'undefined', 'undefined'
+                    dicofre = 'undefined'
+                    zipcode = 'undefined'
 
                     if zip_col_idx is not None:
                         zipcode = re.sub(r'[^0-9]', '', row[zip_col_idx])
@@ -377,6 +379,7 @@ def add_geodata(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], z
                                 if concelho == 'undefined':
                                     if len(zipcode) >= 2:
                                         partial_zipcode = zipcode[:2]
+                                        zipcode = partial_zipcode
                                         if partial_zipcode[0] in s.continental_zipcode:
                                             nuts1 = 'Continental Portugal'
                                         elif partial_zipcode == s.madeira_dicode:
@@ -385,6 +388,7 @@ def add_geodata(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], z
                                             nuts1 = 'Região Autónoma dos Açores'
                                     elif len(zipcode) == 1:
                                         partial_zipcode = zipcode[0]
+                                        zipcode = partial_zipcode
                                         if partial_zipcode in s.continental_zipcode:
                                             nuts1 = 'Continental Portugal'
                                         elif partial_zipcode == '9':
@@ -400,12 +404,15 @@ def add_geodata(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], z
                             elif concelho == 'undefined':
                                 if dicofre[:2] in s.continental_dicode:
                                     nuts1 = 'Continental Portugal'
+                                    dicofre = dicofre[:2]
                                 elif dicofre[:2] in s.madeira_dicode:
                                     nuts1 = 'Região Autónoma dos Madeira'
+                                    dicofre = dicofre[:2]
                                 elif dicofre[:2] in s.açores_dicode:
                                     nuts1 = 'Região Autónoma dos Açores'
+                                    dicofre = dicofre[:2]
 
-                    row.extend([distrito, concelho, freguesia, nuts1, nuts2, nuts3])
+                    row.extend([distrito, concelho, freguesia, nuts1, nuts2, nuts3, dicofre, zipcode])
                     new_rows.append(row)
 
             with open(file_path, 'w', encoding='utf-8', newline='') as csv_file:
