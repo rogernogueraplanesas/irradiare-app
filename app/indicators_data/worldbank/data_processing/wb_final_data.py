@@ -133,5 +133,12 @@ def final_data(wb_data_path: str, wb_metadata_path: str, wb_final_path: str) -> 
         print("CSV successfully generated.")
 
 
+def main():
+    try:
+        final_data(wb_data_path=s.wb_data_path, wb_metadata_path=s.wb_metadata_path,wb_final_path=s.wb_final_path)
+    except Exception as e:
+        print("An exception occured: {e}")
+
+
 if __name__=="__main__":
-    final_data(wb_data_path=s.wb_data_path, wb_metadata_path=s.wb_metadata_path,wb_final_path=s.wb_final_path)
+    main()
