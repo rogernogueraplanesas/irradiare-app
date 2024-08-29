@@ -142,5 +142,12 @@ def merge_data(raw_data_path: str, metadata_path: str, output_folder: str) -> No
         print(f'Archivo CSV generado: {filename}')
 
 
+def main():
+    try:
+        merge_data(raw_data_path=s.ine_data_path, metadata_path=s.ine_metadata_path, output_folder=s.ine_processed_data)
+    except Exception as e:
+        print(f"Error: {e}")
+
+
 if __name__=="__main__":
-    merge_data(raw_data_path=s.ine_data_path, metadata_path=s.ine_metadata_path, output_folder=s.ine_processed_data)
+    main()
