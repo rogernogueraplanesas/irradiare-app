@@ -92,6 +92,12 @@ eredes
     |   |    
     |   +- eredes_merge_files.py ... --> Code to merge each data file with its corresponding metadata
     |
+    +- data_load ............. --> Code to select and load the desired data to the database(s)
+    |   |
+    |   +- sqlite_load.py .. --> Code to insert eredes indicators' data to the SQLite database
+    |   |    
+    |   +- sqlite_queries.py .. --> Reusable SQL queries for the SQLite data insertion
+    |
     +- main.py ..................... --> Main script to execute the full E-REDES data process
 ```
 
@@ -122,6 +128,12 @@ eredes
     |   |    
     |   +- eredes_merge_files.py ... --> Code to merge each data file with its corresponding metadata
     |
+    +- data_load ............. --> Code to select and load the desired data to the database(s)
+    |   |
+    |   +- sqlite_load.py .. --> Code to insert eredes indicators' data to the SQLite database
+    |   |    
+    |   +- sqlite_queries.py .. --> Reusable SQL queries for the SQLite data insertion
+    |
     +- main.py ..................... --> Main script to execute the full E-REDES data process
     |
     +- metadata  ................... --> Contains the extracted metadata file
@@ -129,5 +141,5 @@ eredes
 
 <br>
 
-[![My Skills](https://skillicons.dev/icons?i=sqlite&theme=light)](https://skillicons.dev)  As explained at the beginning, the `processed` data is selected and inserted into the SQLite database. The source code can be found 'here', while its execution is performed 'here'.
+[![My Skills](https://skillicons.dev/icons?i=sqlite&theme=light)](https://skillicons.dev)  As explained at the beginning, the `processed` data is selected and inserted into the SQLite database. The source code can be found 'here', while its execution is performed 'here', separately from the extraction and transformation logic.
 
