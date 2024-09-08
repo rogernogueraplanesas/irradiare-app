@@ -14,11 +14,11 @@
 > More information about the modified files and the modification process [here](../app/utils/Readme.md).
 
 <br>
-This document is a guide that describes how data for indicators is obtained from the E-REDES Open Data Portal, as well as the processes for completing and cleaning this data.
+This document is a guide that describes how data for indicators is obtained from the E-REDES Open Data Portal, as well as the processes for completing and cleaning this data. Although the data insertion scripts may be located in the same common folder as the extraction and transformation scripts, the insertion process will be executed separately from the other steps.
 
 ---
 ## Isolated execution
-To execute the data extraction and transformation scripts in order to obtain a set of data files ready to be inserted into the database, input the following commands in the terminal:
+To execute the data **extraction and transformation scripts** in order to obtain a set of data files ready to be inserted into the database, input the following commands in the terminal:
 
 Set the current directory to the eredes folder:
 ```
@@ -27,7 +27,7 @@ cd /path/to/irradiare_app/app/indicators_data/eredes
 
 Execute the main script:
 ```
-python main.py
+python eredes_main.py
 ```
 
 ---
@@ -129,5 +129,5 @@ eredes
 
 <br>
 
-[![My Skills](https://skillicons.dev/icons?i=sqlite&theme=light)](https://skillicons.dev)  The `processed` data is selected and inserted into the SQLite database. Source code in /database (referenciar).
+[![My Skills](https://skillicons.dev/icons?i=sqlite&theme=light)](https://skillicons.dev)  As explained at the beginning, the `processed` data is selected and inserted into the SQLite database. The source code can be found 'here', while its execution is performed 'here'.
 
