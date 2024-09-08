@@ -141,5 +141,6 @@ eredes
 
 <br>
 
-[![My Skills](https://skillicons.dev/icons?i=sqlite&theme=light)](https://skillicons.dev)  As explained at the beginning, the `processed` data is selected and inserted into the SQLite database. The source code can be found 'here', while its execution is performed 'here', separately from the extraction and transformation logic.
+[![My Skills](https://skillicons.dev/icons?i=sqlite&theme=light)](https://skillicons.dev)  As explained at the beginning, the `processed` data is selected and inserted into the **SQLite database**.<br>
+The source code can be found 'here', while its execution is performed 'here', separately from the extraction and transformation logic.
 
