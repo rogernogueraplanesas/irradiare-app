@@ -92,11 +92,11 @@ eredes
     |   |    
     |   +- eredes_merge_files.py ... --> Code to merge each data file with its corresponding metadata
     |
-    +- data_load ............. --> Code to select and load the desired data to the database(s)
+    +- data_load ................... --> Code to select and load the desired data to the database(s)
     |   |
-    |   +- sqlite_load.py .. --> Code to insert eredes indicators' data to the SQLite database
+    |   +- sqlite_load.py .......... --> Code to insert eredes indicators' data to the SQLite database
     |   |    
-    |   +- sqlite_queries.py .. --> Reusable SQL queries for the SQLite data insertion
+    |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
     |
     +- main.py ..................... --> Main script to execute the full E-REDES data process
 ```
@@ -128,11 +128,11 @@ eredes
     |   |    
     |   +- eredes_merge_files.py ... --> Code to merge each data file with its corresponding metadata
     |
-    +- data_load ............. --> Code to select and load the desired data to the database(s)
+    +- data_load ................... --> Code to select and load the desired data to the database(s)
     |   |
-    |   +- sqlite_load.py .. --> Code to insert eredes indicators' data to the SQLite database
+    |   +- sqlite_load.py .......... --> Code to insert eredes indicators' data to the SQLite database
     |   |    
-    |   +- sqlite_queries.py .. --> Reusable SQL queries for the SQLite data insertion
+    |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
     |
     +- main.py ..................... --> Main script to execute the full E-REDES data process
     |
