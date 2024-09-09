@@ -67,13 +67,11 @@ Brief description of E-REDES data lifecycle:
   (recorte amb merged_codes.csv)
   <br>
   
-  12.  The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database. *data_code, metadata_code, value, unit, time, description, source, calculation, units_description* are the columns forming the final data files.
+  12.  The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database. *data_code, metadata_code, value, unit, time, description, source, calculation, units_description* are the columns forming the final data files.<br>
 
-The complementary files generated during the program's execution—such as *datasets_definitions.csv*, *download_metadata.csv*, *eurostat_datacodes.csv*, *manual_metadata.csv*, and *merged_codes.csv*—are saved in a folder named **eurostat_comp_files/**, located within **eurostat_data/**.
-
-The purpose of these files is to **store and reuse key information** needed throughout the process, such as the relationships between dataset source codes and metadata codes/links. This information is used to merge files or in some cases to add data (e.g., dataset definitions) to complete the final data files.
-
-The raw data files are **never deleted but are replaced** each time the data extraction script is executed.
+>The complementary files generated during the program's execution—such as *datasets_definitions.csv*, *download_metadata.csv*, *eurostat_datacodes.csv*, *manual_metadata.csv*, and *merged_codes.csv*—are saved in a folder named **eurostat_comp_files/**, located within **eurostat_data/**.
+>The purpose of these files is to **store and reuse key information** needed throughout the process, such as the relationships between dataset source codes and metadata codes/links. This information is used to merge files or in some cases to add data (e.g., dataset definitions) to complete the final data files.
+>The raw data files are **never deleted but are replaced** each time the data extraction script is executed.
 
 
   <div align="center">
