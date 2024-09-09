@@ -44,15 +44,15 @@ Brief description of E-REDES data lifecycle:
 (Imatges on es troba el download link)
 <br>
 
-This link is then added to a **new CSV file** containing two columns: one for the original metadata HTML link and another for the final metadata download link (***download_metadata.csv***).
-<br>
-(recorte amb el download_metadata.csv)
-<br>
-
-**In case of an error**, a separate CSV file is generated (***manual_metadata.csv***), listing the original metadata HTML links that need to be manually processed to download the final metadata files. Typically, **only 4 or 5** indicators encounter errors.
-<br>
-(recorte amb manual_metadata.csv)
-<br>
+    This link is then added to a **new CSV file** containing two columns: one for the original metadata HTML link and another for the final metadata download link (***download_metadata.csv***).
+    <br>
+    (recorte amb el download_metadata.csv)
+    <br>
+    
+    **In case of an error**, a separate CSV file is generated (***manual_metadata.csv***), listing the original metadata HTML links that need to be manually processed to download the final metadata files. Typically, **only 4 or 5** indicators encounter errors.
+    <br>
+    (recorte amb manual_metadata.csv)
+    <br>
 
   7. The metadata links listed in *download_metadata.csv* are automatically executed, and the metadata is downloaded and stored in a specified folder. Meanwhile, the user can manually download the links from manual_metadata.csv and **save them in the same folder**.
 
