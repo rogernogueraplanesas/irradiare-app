@@ -29,11 +29,11 @@ The steps involved in the *eurostat_main* script can also be executed individual
 ## Process sequence
 Brief description of E-REDES data lifecycle:
 
-  1. The *Table of Contents* is downloaded. The "table of contents" (TOC) provides a textual representation of Eurostat navigation tree and information on datasets and tables available on the Eurostat website and via the API. The TOC is downloaded in .txt format via API from [API - Detailed guidelines - Catalogue API - TOC](https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/txt?lang=en).
+  1. The *Table of Contents* (TOC) is downloaded. It provides a textual representation of Eurostat navigation tree and information on datasets and tables available on the Eurostat website and via the API. The TOC is obtained in .txt format via API from [API - Detailed guidelines - Catalogue API - TOC](https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/txt?lang=en).
      
-  2. After the source code (uniquely identifier code) is extracted for the indicators listed in the TOC, all data files can be retrieved using the EurostatAPIClient. This client efficiently fetches JSON data from the Eurostat REST service and converts it into a pandas DataFrame. For more information, visit [here](https://github.com/opus-42/eurostat-api-client).
+  2. After the source code (uniquely identifier code) is extracted for all the indicators listed in the TOC, the data files can be retrieved using the EurostatAPIClient. This client efficiently fetches JSON data from the Eurostat REST service and converts it into a pandas DataFrame. For more information, visit [here](https://github.com/opus-42/eurostat-api-client).
 
-  3. During the data retrieval process, while the datasets are still in pandas format, the label (descriptive name) for each dataset is extracted. In each iteration, the source code and its corresponding label are appended to a list, which will be saved as a complementary file (datasets_definitions.csv) for later steps.
+  3. During the data retrieval process, while the datasets are still in pandas format, the label (descriptive name) for each dataset is extracted. In each iteration, the source code and its corresponding label are appended to a list, which will be saved as a complementary file (datasets_definitions.csv) for later steps. The final datasets are saved in JSON format.
 
   4. Before retrieving any metadata file, it is essential to match each indicator with its corresponding metadata. To facilitate this process, the TOC is downloaded again, but in XML format. 
 
