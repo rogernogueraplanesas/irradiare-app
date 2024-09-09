@@ -30,6 +30,8 @@ Execute the main script:
 python eredes_main.py
 ```
 
+The steps in *eredes_main.py* can also be executed individually through their respective scripts.
+
 ---
 
 ## Process sequence
