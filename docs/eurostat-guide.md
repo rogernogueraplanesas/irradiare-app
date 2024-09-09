@@ -60,19 +60,23 @@ Brief description of E-REDES data lifecycle:
   
 ---
 
-## E-REDES Folder Structure:
+## Eurostat Folder Structure:
 The folder structure **before executing** the program is as follows:
 
 ```
-eredes
+eurostat
     |
     +- data_extraction ............. --> Code to retrieve data and metadata
     |   |
-    |   +- eredes_data.py .......... --> Code to retrieve data from E-REDES data source
+    |   +- eredes_client_data.py .......... --> Code to retrieve Eurostat data using EurostatAPIClient
     |   |
-    |   +- eredes_metadata.py ...... --> Code to retrieve metadata related to each data file
+    |   +- eredes_get_metadata.py ...... --> Code to retrieve metadata files
     |
     +- data_processing ............. --> Code to merge, clean, and complete the raw data files
+    |   |
+    |   +- eurostat_datacodes.py .. --> SEGUIR D'AQUI
+    |   |    
+    |   +- eredes_merge_files.py ... --> Code to merge each data file with its corresponding metadata
     |   |
     |   +- eredes_final_format.py .. --> Code to clean and complete data files
     |   |    
