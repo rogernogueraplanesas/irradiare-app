@@ -12,7 +12,7 @@ This document is a guide that describes how data for indicators is obtained from
 ## Isolated execution
 To execute the data **extraction and transformation scripts** in order to obtain a set of data files ready to be inserted into the database, input the following commands in the terminal:
 
-Set the current directory to the eredes folder:
+Set the current directory to the eurostat folder:
 ```
 cd /path/to/irradiare_app/app/indicators_data/eurostat
 ```
@@ -22,7 +22,7 @@ Execute the main script:
 python eurostat_main.py
 ```
 
-The steps in the *eurostat_main* script can also be executed individually from their respective paths.
+The steps involved in the *eurostat_main* script can also be executed individually from their respective paths.
 
 ---
 
