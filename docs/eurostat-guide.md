@@ -41,7 +41,7 @@ Brief description of E-REDES data lifecycle:
 
   6. A request is made to each metadata HTML link to scrape the site using BeautifulSoup. Once the content is retrieved, the goal is to extract the final metadata download link. The first step is to check whether there is any link redirecting to metadata specific to Portuguese indicators. If such a link exists, a request is made to it. In both cases (whether or not there is a Portugal-specific link), the final step is to locate and extract the *Download* link for the metadata. This link is then added to a new CSV file containing two columns: one for the original metadata HTML link and another for the final metadata download link (download_metadata.csv). In case of an error, a separate CSV file is generated (manual_metadata.csv), listing the original metadata HTML links that need to be manually processed to download the final metadata files. Typically, only 4 or 5 indicators encounter errors.
 
-  7.The metadata links listed in 'download_metadata.csv' are automatically executed, and the metadata is downloaded and stored in a specified folder. Meanwhile, the user can manually download the links from manual_metadata.csv and save them in the same folder.
+  7. The metadata links listed in 'download_metadata.csv' are automatically executed, and the metadata is downloaded and stored in a specified folder. Meanwhile, the user can manually download the links from manual_metadata.csv and save them in the same folder.
 
   8. All metadata files are in .zip format. The next step is to unzip them and extract only the .xml metadata files.
 
