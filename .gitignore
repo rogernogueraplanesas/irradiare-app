@@ -155,7 +155,7 @@ cython_debug/
 
 # Data folders for eredes
 app/indicators_data/eredes/data/
-app/indicators_data/eredes/eredes_metadata/
+app\indicators_data\eredes\eredes_metadata
 app/indicators_data/eredes/temp_eredes_merged/
 
 # Data folders for eurostat
