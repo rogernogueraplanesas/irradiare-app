@@ -52,18 +52,20 @@ Brief description of E-REDES data lifecycle:
 <br>
 
   8. **In case of an error**, a separate CSV file is generated (***manual_metadata.csv***), listing the original metadata HTML links that need to be manually processed to download the final metadata files. Typically, **only 4 or 5** indicators encounter errors.
-
   <br>
   (recorte amb manual_metadata.csv)
   <br>
+  
+  9. The metadata links listed in *download_metadata.csv* are automatically executed, and the metadata is downloaded and stored in a specified folder. Meanwhile, the user can manually download the links from manual_metadata.csv and **save them in the same folder**.
 
-  8. The metadata links listed in *download_metadata.csv* are automatically executed, and the metadata is downloaded and stored in a specified folder. Meanwhile, the user can manually download the links from manual_metadata.csv and **save them in the same folder**.
+  10. All metadata files are in .zip format. The next step is to unzip them and extract only the **.xml metadata files**.
 
-  9. All metadata files are in .zip format. The next step is to unzip them and extract only the **.xml metadata files**.
 
-  10. With all the CSV data files in one folder and the XML metadata files in another, a new complementary file (***merged_codes.csv***) is created based on the information from *eurostat_datacodes.csv*, *download_metadata.csv*, and *manual_metadata.csv*. As mentioned earlier, the eurostat_datacodes file contains the source code for each data file (which matches the data filenames) along with their corresponding preeliminary HTML metadata link. Similarly, the download_metadata file lists the preeliminary HTML metadata links and the final metadata links, from which the metadata filenames can be extracted using regular expressions (re). A similar situation applies to the manual_metadata file. Obviously, **the connecting factor will be the preliminary HTML metadata link**, which is present in all the CSV files. The new file will have two columns: one for the source code (data filenames) and another for the corresponding metadata code (metadata filenames). This auxiliary file enables the association of each data file (.json) with its corresponding metadata file (.xml).
-
-  11. The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database.
+  11.  With all the CSV data files in one folder and the XML metadata files in another, a new complementary file (***merged_codes.csv***) is created based on the information from *eurostat_datacodes.csv*, *download_metadata.csv*, and *manual_metadata.csv*. As mentioned earlier, the eurostat_datacodes file contains the source code for each data file (which matches the data filenames) along with their corresponding preeliminary HTML metadata link. Similarly, the download_metadata file lists the preeliminary HTML metadata links and the final metadata links, from which the metadata filenames can be extracted using regular expressions (re). A similar situation applies to the manual_metadata file. Obviously, **the connecting factor will be the preliminary HTML metadata link**, which is present in all the CSV files. The new file will have two columns: one for the source code (data filenames) and another for the corresponding metadata code (metadata filenames). This auxiliary file enables the association of each data file (.json) with its corresponding metadata file (.xml).
+  <br>
+  (recorte amb merged_codes.csv)
+  <br>
+  12.  The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database.
 
 The complementary files generated during the program's execution—such as *datasets_definitions.csv*, *download_metadata.csv*, *eurostat_datacodes.csv*, *manual_metadata.csv*, and *merged_codes.csv*—are saved in a folder named **eurostat_comp_files/**, located within **eurostat_data/**.
 
