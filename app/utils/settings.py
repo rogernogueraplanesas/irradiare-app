@@ -22,6 +22,7 @@ headers = {'User-Agent': user_agent}
 
 # DATA/METADATA EXTRACTION:
 eredes_url = 'https://e-redes.opendatasoft.com/explore/?sort=modified'
+eredes_metadata_folder = "app/indicators_data/eredes/eredes_metadata/"
 eredes_metadata = "app/indicators_data/eredes/eredes_metadata/metadata.csv"
 
 # DATA/METADATA PROCESSING:
@@ -35,10 +36,18 @@ eredes_removed_files = [
     "network-scheduling-work.csv",              # List of files removed during the processing - not useful. #
     "news-events.csv",                          #-----------------------------------------------------------#
     "capacidade-rececao-rnd.csv",
-    "consumo_horario_codigo_postal_7_digitos.csv"
+    "consumo_horario_codigo_postal_7_digitos.csv",
+    "12-continuidade-de-servico-indicadores-gerais-de-continuidade-de-servico.csv",
+    "15-ordens-de-servico.csv",
+    "20-caracterizacao-pes-contrato-ativo.csv",
+    "21-contadores-de-energia.csv",
+    "outages-per-geography.csv",
+    "postos-transformacao-distribuicao.csv",
+    "rede-inteligente.csv"
+
 ] 
 eredes_final_data = "app/indicators_data/eredes/data/processed/"
-eredes_date_cols = ["Date"]
+eredes_date_cols = ["Date/Time", "Date"]
 eredes_year_cols = ["Year", "ANO", "year", "ano"]     #------------------------------------------------------------------#
 eredes_month_cols = ["Month", "month", "mes"]         # Naming options for time related columns in the eredes data files #
 eredes_semester_cols = ["Semester"]                   #------------------------------------------------------------------#
@@ -48,6 +57,8 @@ eredes_quarter_cols = ["Quarter"]
 # _________________________________________EUROSTAT________________________________________
 # Eurostat TOC (Table of Contents) URL in .xml format
 eurostat_toc_url_txt = "https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/txt?lang=en"
+# Path to TOC folder
+eurostat_toc_folder = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files/"
 # Path to TOC (Eurostat Table of Contents) in .txt
 eurostat_toc_txt = "app/indicators_data/eurostat/eurostat_data/eurostat_comp_files/table_of_contents_en.txt"
 # Folder to save Eurostat raw data
@@ -92,8 +103,7 @@ ine_processed_data = "app/indicators_data/ine/ine_data/processed/"
 
 
 # _____________________________________THE WORLD BANK______________________________________
-wb_catalog_path = "app/indicators_data/worldbank/wb_data/wb_comp_files/"
-wb_catalog_filename = "wbindicators.json"
+wb_catalog_file = "app/indicators_data/worldbank/wb_data/wb_comp_files/wbindicators.json"
 wb_data_path = "app/indicators_data/worldbank/wb_data/raw/wb_data.json"
 wb_metadata_path = "app/indicators_data/worldbank/wb_metadata/wb_metadata.json"
-wb_final_path = "app/indicators_data/worldbank/wb_data/processed/wb_final_data.csv"
+wb_complete_file = "app/indicators_data/worldbank/wb_data/processed/wb_final_data.csv"

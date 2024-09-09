@@ -161,7 +161,7 @@ def match_nuts_location(area: str, dicofre_data: Dict[str, Dict[str, str]], nuts
 
     return distrito, concelho, freguesia, area, nuts2, nuts3
 
-def main(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]) -> None:
+def main(final_data_path: str, dicofre_path: str, nuts_path: str) -> None:
     """
     Procesa archivos CSV en el directorio final_data_path, agregando información de ubicación y NUTS.
 
@@ -173,6 +173,10 @@ def main(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], nuts_dic
     Returns:
         None
     """
+
+    dicofre_dict = load_dicofre_data(dicofre_path)
+    nuts_dict = load_nuts_data(nuts_path)
+
     os.makedirs(final_data_path, exist_ok=True)
     for filename in os.listdir(final_data_path):
         if filename.endswith('.csv'):

@@ -7,7 +7,6 @@ import re
 import sys
 from concurrent.futures import ThreadPoolExecutor
 
-import requests
 import logging
 
 
@@ -70,16 +69,27 @@ def combine_year_with_period(year: str, period: str) -> str:
 
 def extract_date(value: str) -> str:
     """
-    Extracts a date from a string, and cleans it if necessary.
+    Extracts a date and optionally a time from a string, and cleans it if necessary.
 
     Args:
-        value (str): The string containing the date.
+        value (str): The string containing the date and time.
 
     Returns:
-        str: The cleaned and extracted date in the format YYYYMMDD.
+        str: The cleaned and extracted date and time in the format YYYYMMDDTHH if time is present, or just YYYYMMDD.
     """
-    date_match = re.match(r"(\d{4}-\d{2}-\d{2})", value)
-    return date_match.group(1).replace("-", "") if date_match else clean_date(value)
+    # Match a date with optional time part, e.g., 2024-04-17T15:00:00+01:00 or 2024-04-17
+    datetime_match = re.match(r"(\d{4})-(\d{2})-(\d{2})T(\d{2}):\d{2}:\d{2}", value)
+    if datetime_match:
+        # If the time part is present, return YYYYMMDDTHH
+        return f"{datetime_match.group(1)}{datetime_match.group(2)}{datetime_match.group(3)}T{datetime_match.group(4)}"
+    
+    # If there's no time part, just return the date in YYYYMMDD format
+    date_match = re.match(r"(\d{4})-(\d{2})-(\d{2})", value)
+    if date_match:
+        return f"{date_match.group(1)}{date_match.group(2)}{date_match.group(3)}"
+
+    # If the format is not recognized, clean the value
+    return clean_date(value)
 
 def get_column_indices(headers: List[str], column_groups: Dict[str, List[str]]) -> Dict[str, Union[int, None]]:
     """
@@ -203,59 +213,28 @@ def add_timecode(merged_files_path: str, final_data_path: str) -> None:
 #////////////////////////////     ADDING GEOLOCATION DATA     ////////////////////////////
 #/////////////////////////////////////////////////////////////////////////////////////////
 
+import os
+import re
+import csv
+import json
+from concurrent.futures import ThreadPoolExecutor
+from typing import Dict, Any, Union, Tuple
+
 def load_dicofre_data(dicofre_path: str) -> Dict[str, Any]:
-    """
-    Load data from a JSON file and return it as a dictionary.
-
-    Args:
-        dicofre_path (str): The file path to the JSON file.
-
-    Returns:
-        Dict[str, Any]: The data loaded from the JSON file, represented as a dictionary.
-    """
     with open(dicofre_path, 'r', encoding='utf-8') as dicofre_file:
+        print("Loaded dicofre data")
         return json.load(dicofre_file)
 
-
 def load_zipcode_data(zipcode_path: str) -> Dict[str, Any]:
-    """
-    Load data from a JSON file containing zipcode information and return it as a dictionary.
-
-    Args:
-        zipcode_path (str): The file path to the JSON file containing zipcode data.
-
-    Returns:
-        Dict[str, Any]: The data loaded from the JSON file, represented as a dictionary.
-    """
     with open(zipcode_path, 'r', encoding='utf-8') as zipcode_file:
+        print("Loaded zipcode data")
         return json.load(zipcode_file)
 
-
 def load_nuts_data(nuts_path: str) -> Dict[str, Any]:
-    """
-    Load data from a JSON file containing NUTS (Nomenclature of Territorial Units for Statistics) information and return it as a dictionary.
-
-    Args:
-        nuts_path (str): The file path to the JSON file containing NUTS data.
-
-    Returns:
-        Dict[str, Any]: The data loaded from the JSON file, represented as a dictionary.
-    """
     with open(nuts_path, 'r', encoding='utf-8') as nuts_file:
         return json.load(nuts_file)
 
-
 def get_location_data_dicofre(dicofre: Union[int, str], dicofre_dict: Dict[str, Dict[str, str]]) -> Tuple[str, str, str]:
-    """
-    Retrieve location data (district, county, parish) from a dicofre code.
-
-    Args:
-        dicofre (Union[int, str]): The dicofre code as an integer or string.
-        dicofre_dict (Dict[str, Dict[str, str]]): Dictionary with dicofre location data.
-
-    Returns:
-        Tuple[str, str, str]: A tuple containing district, county, and parish.
-    """
     dicofre_str = str(dicofre)
     location_data = {}
     distrito, concelho, freguesia = 'undefined', 'undefined', 'undefined'
@@ -278,21 +257,10 @@ def get_location_data_dicofre(dicofre: Union[int, str], dicofre_dict: Dict[str, 
                 location_data = data
                 break
         distrito = location_data.get('distrito', 'undefined')
-        
+
     return distrito, concelho, freguesia
 
-
 def get_location_data_zipcode(zipcode: Union[int, str], zipcode_dict: Dict[str, Dict[str, str]]) -> Tuple[str, str, str]:
-    """
-    Retrieve location data (district, county, parish) from a zipcode.
-
-    Args:
-        zipcode (Union[int, str]): The zipcode as an integer or string.
-        zipcode_dict (Dict[str, Dict[str, str]]): Dictionary with zipcode location data.
-
-    Returns:
-        Tuple[str, str, str]: A tuple containing district, county, and parish.
-    """
     zipcode_clean = re.sub(r'[^0-9]', '', str(zipcode))
     
     if len(zipcode_clean) == 4:
@@ -311,18 +279,7 @@ def get_location_data_zipcode(zipcode: Union[int, str], zipcode_dict: Dict[str, 
     
     return 'undefined', 'undefined', 'undefined'
 
-
 def get_nuts_data(concelho: str, nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]) -> Tuple[str, str, str]:
-    """
-    Retrieve NUTS (Nomenclature of Territorial Units for Statistics) data from a county (concelho).
-
-    Args:
-        concelho (str): The county name.
-        nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): Dictionary containing NUTS data.
-
-    Returns:
-        Tuple[str, str, str]: A tuple containing NUTS 1, NUTS 2, and NUTS 3 regions.
-    """
     nuts1, nuts2, nuts3 = 'undefined', 'undefined', 'undefined'
     
     for nuts1_region, nuts1_info in nuts_dict.items():
@@ -333,8 +290,69 @@ def get_nuts_data(concelho: str, nuts_dict: Dict[str, Dict[str, Dict[str, Union[
     
     return nuts1, nuts2, nuts3
 
+def process_file2(file_path: str, dicofre_dict: Dict[str, Dict[str, str]], zipcode_dict: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]) -> None:
+    """
+    Process a single CSV file to add geolocation data.
 
-def add_geodata(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], zipcode_dict: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]) -> None:
+    Args:
+        file_path (str): Path to the CSV file.
+        dicofre_dict (Dict[str, Dict[str, str]]): Dictionary containing dicofre data.
+        zipcode_dict (Dict[str, Dict[str, str]]): Dictionary containing zipcode data.
+        nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): Dictionary containing NUTS data.
+    """
+    print(f"Processing file: {file_path}")
+    
+    with open(file_path, 'r', encoding='utf-8') as csv_file:
+        reader = csv.reader(csv_file, delimiter=';')
+        headers = next(reader)
+        headers = [header.lstrip('\ufeff') for header in headers]
+        headers.extend(['distrito', 'concelho', 'freguesia', 'nuts1', 'nuts2', 'nuts3','dicofre', 'zipcode'])
+
+        zip_col_idx = next((i for i, h in enumerate(headers) if h in ['Zip Code', 'ZipCode']), None)
+        dicofre_col_idx = next((i for i, h in enumerate(headers) if h in ['DistrictMunicipalityParishCode', 'CodDistritoConcelhoFreguesia', 'DistrictMunicipalityCode', 'MinicipalityCode', 'CodConcelho', 'CODIGO_CONCELHO']), None)
+
+        if zip_col_idx is None and dicofre_col_idx is None:
+            print(f"No se encontró la columna de dicofre ni zip code en el archivo: {file_path}")
+            return
+
+        new_rows = []
+        for row in reader:
+            distrito, concelho, freguesia = 'undefined', 'undefined', 'undefined'
+            nuts1, nuts2, nuts3 = 'undefined', 'undefined', 'undefined'
+            dicofre = 'undefined'
+            zipcode = 'undefined'
+
+            if zip_col_idx is not None:
+                zipcode = re.sub(r'[^0-9]', '', row[zip_col_idx])
+                if zipcode:
+                    distrito, concelho, freguesia = get_location_data_zipcode(zipcode, zipcode_dict)
+                    if concelho != 'undefined':
+                        area = concelho
+                        nuts1, nuts2, nuts3 = get_nuts_data(area, nuts_dict)
+
+            elif dicofre_col_idx is not None:
+                dicofre = re.sub(r'[^0-9]', '', row[dicofre_col_idx])
+                if dicofre:
+                    distrito, concelho, freguesia = get_location_data_dicofre(dicofre, dicofre_dict)
+                    if concelho != 'undefined':
+                        area = concelho
+                        nuts1, nuts2, nuts3 = get_nuts_data(area, nuts_dict)
+
+            row.extend([distrito, concelho, freguesia, nuts1, nuts2, nuts3, dicofre, zipcode])
+            new_rows.append(row)
+
+    # Guardar el archivo final procesado
+    final_file_path = os.path.join(os.path.dirname(file_path), f'final_{os.path.basename(file_path)}')
+    with open(final_file_path, 'w', encoding='utf-8', newline='') as csv_file:
+        writer = csv.writer(csv_file, delimiter=';')
+        writer.writerow(headers)
+        writer.writerows(new_rows)
+
+    print(f"Archivo FINAL procesado y guardado en: {final_file_path}")
+    os.remove(file_path)  # Eliminar el archivo de origen
+    print(f"Archivo de origen eliminado: {file_path}")
+
+def add_geodata(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], zipcode_dict: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]], max_workers: int = 4) -> None:
     """
     Add geolocation data to CSV files by retrieving relevant information using dicofre and zipcode data.
 
@@ -343,84 +361,13 @@ def add_geodata(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], z
         dicofre_dict (Dict[str, Dict[str, str]]): Dictionary containing dicofre data.
         zipcode_dict (Dict[str, Dict[str, str]]): Dictionary containing zipcode data.
         nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): Dictionary containing NUTS data.
+        max_workers (int): Maximum number of threads to use for processing.
     """
-    for filename in os.listdir(final_data_path):
-        if filename.endswith(".csv"):
-            file_path = os.path.join(final_data_path, f"final_geodata_{filename}")
-            print(f"Processing file: {file_path}")
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        csv_files = [os.path.join(final_data_path, f) for f in os.listdir(final_data_path) if f.endswith(".csv")]
+        for file_path in csv_files:
+            executor.submit(process_file2, file_path, dicofre_dict, zipcode_dict, nuts_dict)
 
-            with open(file_path, 'r', encoding='utf-8') as csv_file:
-                reader = csv.reader(csv_file, delimiter=';')
-                headers = next(reader)
-                headers = [header.lstrip('\ufeff') for header in headers]
-                headers.extend(['distrito', 'concelho', 'freguesia', 'nuts1', 'nuts2', 'nuts3','dicofre', 'zipcode'])
-
-                zip_col_idx = next((i for i, h in enumerate(headers) if h in ['Zip Code', 'ZipCode']), None)
-                dicofre_col_idx = next((i for i, h in enumerate(headers) if h in ['DistrictMunicipalityParishCode', 'CodDistritoConcelhoFreguesia', 'DistrictMunicipalityCode', 'MinicipalityCode', 'CodConcelho', 'CODIGO_CONCELHO']), None)
-
-                if zip_col_idx is None and dicofre_col_idx is None:
-                    print(f"No se encontró la columna de dicofre ni zip code en el archivo: {file_path}")
-                    continue
-
-                new_rows = []
-                for row in reader:
-                    distrito, concelho, freguesia = 'undefined', 'undefined', 'undefined'
-                    nuts1, nuts2, nuts3 = 'undefined', 'undefined', 'undefined'
-                    dicofre = 'undefined'
-                    zipcode = 'undefined'
-
-                    if zip_col_idx is not None:
-                        zipcode = re.sub(r'[^0-9]', '', row[zip_col_idx])
-                        if zipcode:
-                            distrito, concelho, freguesia = get_location_data_zipcode(zipcode, zipcode_dict)
-                            if concelho != 'undefined':
-                                area = concelho
-                                nuts1, nuts2, nuts3 = get_nuts_data(area, nuts_dict)
-                                if concelho == 'undefined':
-                                    if len(zipcode) >= 2:
-                                        partial_zipcode = zipcode[:2]
-                                        zipcode = partial_zipcode
-                                        if partial_zipcode[0] in s.continental_zipcode:
-                                            nuts1 = 'Continental Portugal'
-                                        elif partial_zipcode == s.madeira_dicode:
-                                            nuts1 = 'Região Autónoma dos Madeira'
-                                        elif partial_zipcode == s.açores_dicode:
-                                            nuts1 = 'Região Autónoma dos Açores'
-                                    elif len(zipcode) == 1:
-                                        partial_zipcode = zipcode[0]
-                                        zipcode = partial_zipcode
-                                        if partial_zipcode in s.continental_zipcode:
-                                            nuts1 = 'Continental Portugal'
-                                        elif partial_zipcode == '9':
-                                            nuts1 = 'Overseas Portugal'
-
-                    elif dicofre_col_idx is not None:
-                        dicofre = re.sub(r'[^0-9]', '', row[dicofre_col_idx])
-                        if dicofre:
-                            distrito, concelho, freguesia = get_location_data_dicofre(dicofre, dicofre_dict)
-                            if concelho != 'undefined':
-                                area = concelho
-                                nuts1, nuts2, nuts3 = get_nuts_data(area, nuts_dict)
-                            elif concelho == 'undefined':
-                                if dicofre[:2] in s.continental_dicode:
-                                    nuts1 = 'Continental Portugal'
-                                    dicofre = dicofre[:2]
-                                elif dicofre[:2] in s.madeira_dicode:
-                                    nuts1 = 'Região Autónoma dos Madeira'
-                                    dicofre = dicofre[:2]
-                                elif dicofre[:2] in s.açores_dicode:
-                                    nuts1 = 'Região Autónoma dos Açores'
-                                    dicofre = dicofre[:2]
-
-                    row.extend([distrito, concelho, freguesia, nuts1, nuts2, nuts3, dicofre, zipcode])
-                    new_rows.append(row)
-
-            with open(file_path, 'w', encoding='utf-8', newline='') as csv_file:
-                writer = csv.writer(csv_file, delimiter=';')
-                writer.writerow(headers)
-                writer.writerows(new_rows)
-
-            print(f"Archivo procesado y guardado en: {final_data_path}")
 
 
 def main() -> None:

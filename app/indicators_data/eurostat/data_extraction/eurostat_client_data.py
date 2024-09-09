@@ -58,9 +58,13 @@ def download_toc(url: str, save_path: str) -> None:
         response = requests.get(url)
         # Raise an error if the request was unsuccessful
         response.raise_for_status()
+
+        os.makedirs(save_path, exist_ok=True)
+
+        filename = "table_of_contents_en.txt"
         
         # Write the content of the response to a file
-        with open(save_path, 'wb') as file:
+        with open(os.path.join(save_path, filename), 'wb') as file:
             print("Correct saving path. Download in progress...")
             file.write(response.content)
         
@@ -148,7 +152,7 @@ def main() -> None:
     Main function to download the TOC and fetch Eurostat data.
     """
     # Download the Eurostat TOC file
-    download_toc(url=s.eurostat_toc_url_txt, save_path=s.eurostat_toc_txt)
+    download_toc(url=s.eurostat_toc_url_txt, save_path=s.eurostat_toc_folder)
     
     # Fetch and save the Eurostat data
     get_eurostat_data(

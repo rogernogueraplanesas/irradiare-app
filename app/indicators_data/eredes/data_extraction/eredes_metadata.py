@@ -180,7 +180,7 @@ def main() -> None:
     try:
         driver = set_driver(s.eredes_url)
         indicators_metadata = get_metadata_items(driver=driver)
-        save_metadata_to_csv(indicators_metadata, s.eredes_metadata, 'metadata.csv')
+        save_metadata_to_csv(indicators_metadata, s.eredes_metadata_folder, 'metadata.csv')
         
     except Exception as e:
         logging.error(f"An error occurred: {e}")

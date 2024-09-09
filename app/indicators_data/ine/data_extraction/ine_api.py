@@ -1,7 +1,9 @@
 import xml.etree.ElementTree as ET
 import json
+from requests.exceptions import JSONDecodeError
 import time
 import os
+import sys
 from typing import Dict, Any
 
 import requests
@@ -85,18 +87,20 @@ def save_catalog(save_path: str, filename: str, catalog_data: Dict[str, Any]) ->
 def extract_data(host_url: str, varcd_cod: str, lang: str) -> Dict[str, Any]:
     """
     Extract data for a specific indicator.
-
-    Args:
-    - host_url (str): The host URL for the data source.
-    - varcd_cod (str): The variable code for the indicator.
-    - lang (str): The language code for the data.
-
-    Returns:
-    - Dict[str, Any]: The extracted data.
     """
-    url = f"{host_url}/ine/json_indicador/pindica.jsp?op=2&varcd={varcd_cod}&lang={lang}" # Complete custom url
+    url = f"{host_url}/ine/json_indicador/pindica.jsp?op=2&varcd={varcd_cod}&lang={lang}"
     response = requests.get(url)
-    return response.json()
+
+    if response.status_code != 200:
+        logging.error(f"Failed to fetch data for varcd {varcd_cod}. Status code: {response.status_code}")
+        return None  # Return None if the response is not successful (i.e., not 200)
+
+    try:
+        return response.json()
+    except JSONDecodeError as e:
+        logging.error(f"Failed to decode JSON for varcd {varcd_cod}: {e}")
+        logging.error(f"Response content: {response.text}")
+        return None
 
 
 def extract_metadata(host_url:str, varcd_cod: str, lang: str) -> Dict[str, Any]:
@@ -128,19 +132,22 @@ def get_save_data(save_path: str, catalog_data: Dict[str, Any], lang: str) -> No
     os.makedirs(save_path, exist_ok=True)
     for indicator in catalog_data["indicators"]:
         varcd_cod = indicator["varcd"]
-        data_path = os.path.join(save_path, f"data_{varcd_cod}.json") # Create a custom path to store data for each indicator
+        data_path = os.path.join(save_path, f"data_{varcd_cod}.json")
 
         if os.path.exists(data_path):
-            print(f"Indicator {varcd_cod} files already exists. Skipping...")
+            logging.info(f"Indicator {varcd_cod} files already exist. Skipping...")
+            continue  # Skip to the next indicator if the file already exists
+
+        data = extract_data(s.ine_url, varcd_cod, lang)
+        if not data:  # Ensure data was successfully extracted
+            logging.warning(f"No data found for indicator {varcd_cod}. Skipping...")
             continue
 
-        data = extract_data(s.ine_url, varcd_cod, lang) # Extract data for each indicator
-
         with open(data_path, "w", encoding="utf-8") as data_file:
-            json.dump(data, data_file, indent=4, ensure_ascii=False) # Store the data in the custom indicator's data path
-        print(f"Data from indicator {varcd_cod} saved in {data_path}")
+            json.dump(data, data_file, indent=4, ensure_ascii=False)
+        logging.info(f"Data from indicator {varcd_cod} saved in {data_path}")
 
-        time.sleep(1)
+        time.sleep(1)  # Adding a delay to prevent API rate limits
 
 
 def get_save_metadata(save_path: str, catalog_data: Dict[str, Any], lang: str) -> None:

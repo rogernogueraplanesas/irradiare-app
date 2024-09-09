@@ -72,16 +72,16 @@ def get_catalog(format: str) -> list:
     return catalog_data
 
 
-def save_catalog(save_path: str, filename: str, catalog_data: list) -> None:
+def save_catalog(catalog_path: str, catalog_data: list) -> None:
     """
     Save the catalog data to a JSON file.
 
     Args:
-    - catalog_path (str): The path where the catalog file will be saved.
+    - save_path (str): The path where the catalog file will be saved.
     - catalog_data (list): The catalog data to save.
     """
-    os.makedirs(save_path, exist_ok=True) 
-    with open(os.path.join(save_path, filename), "w", encoding="utf-8") as data_file:
+    os.makedirs(catalog_path, exist_ok=True) 
+    with open(catalog_path, "w", encoding="utf-8") as data_file:
         json.dump(catalog_data, data_file, indent=4, ensure_ascii=False)
     print("Indicators saved")
 
@@ -300,10 +300,10 @@ def main() -> None:
     """
     format = 'json'
     data = get_catalog(format=format)
-    save_catalog(catalog_path=s.wb_catalog_path, filename=s.wb_catalog_filename, catalog_data=data)
+    save_catalog(catalog_path=s.wb_catalog_file, catalog_data=data)
 
-    source_id = get_source_id(catalog_path=s.wb_catalog_path)
-    indicator_id = get_id(catalog_path=s.wb_catalog_path)
+    source_id = get_source_id(catalog_path=s.wb_catalog_file)
+    indicator_id = get_id(catalog_path=s.wb_catalog_file)
 
     indicator_data_dict = get_indicator_data(source_id_list=source_id, indicator_id_list=indicator_id)
     save_json_file(path=s.wb_data_path, data_dict=indicator_data_dict)
@@ -317,4 +317,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

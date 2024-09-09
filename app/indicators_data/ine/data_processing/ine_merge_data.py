@@ -129,6 +129,7 @@ def merge_data(raw_data_path: str, metadata_path: str, output_folder: str) -> No
         # Guardar los datos combinados en un archivo CSV separado
         filename = f'combined_data_{file_id}.csv'
         output_file = os.path.join(output_folder, filename)
+        os.makedirs(output_folder, exist_ok=True)
         with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             

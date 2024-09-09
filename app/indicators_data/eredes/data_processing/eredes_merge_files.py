@@ -88,6 +88,9 @@ def combine_data_and_metadata(raw_data: str, metadata_headers: List[str], metada
     - metadata_dict (Dict[str, List[str]]): Dictionary containing metadata values foe each src_code (key value).
     - merged_files_path (str): New temporary folder containing the resulting merged files.
     """
+    
+    os.makedirs(merged_files_path, exist_ok=True)
+    
     for filename in os.listdir(raw_data):
         if filename.endswith(".csv"):
             src_code = filename.replace('.csv', '') # The source code for each raw file is extracted from the filename
@@ -102,7 +105,6 @@ def combine_data_and_metadata(raw_data: str, metadata_headers: List[str], metada
                         combined_row = row + metadata_row # Combine the raw data values and the corresponding metadata based on the src_code
                         combined_rows.append(combined_row) # Append each new combined row to the already existing list of rows that included the headers
 
-                os.makedirs(merged_files_path, exist_ok=True)
                 output_file_path = os.path.join(merged_files_path, f"temp_merged_{filename}")
                 with open(output_file_path, "w", encoding='utf-8', newline='') as output_file:
                     writer = csv.writer(output_file, delimiter=';')

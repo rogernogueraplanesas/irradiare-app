@@ -1,6 +1,7 @@
 import json
 import csv
 import os
+import re
 import sys
 from typing import Dict, Any, Optional, List
 import logging
@@ -79,49 +80,52 @@ def final_data(wb_data_path: str, wb_metadata_path: str, wb_final_path: str) -> 
         for entry in dato["source"]["data"]:
             row = {}
             source_id = dato["source"]["id"]
-            series_id = None
-            country = None
-            version = None
-            timecode = None
-            name = None
+            series_id = 'Undefined'
+            country = 'Undefined'
+            timecode = 'Undefined'
+            name = 'Undefined'
+            units = 'Undefined'
 
             for variable in entry["variable"]:
                 if variable["concept"] == "Series":
                     series_id = variable["id"]
                     name = variable["value"]
+                    
+                    # Expresión regular para buscar contenido entre paréntesis
+                    match = re.search(r'\((.*?)\)', name)
+                    if match:
+                        # Extrae el contenido entre paréntesis
+                        units = match.group(1)
+                        # Elimina el contenido entre paréntesis del name
+                        name = re.sub(r'\s*\(.*?\)\s*', '', name).strip()
+                        
                 elif variable["concept"] == "Country":
                     country = variable["value"]
-                elif variable["concept"] == "Version":
-                    version = variable["value"]
                 elif variable["concept"] == "Time":
                     timecode = variable["value"].replace('YR', '')
 
             row["timecode"] = timecode
             row["source_code"] = series_id
             row["name"] = name
+            row["country"] = country
             row["value"] = entry["value"]
+            row["units"] = units
+            row["units_description"] = 'Undefined'
 
             metadato = obtener_metadatos(metadatos, source_id, series_id)
             if metadato:
                 for source in metadato["source"]:
                     for concept in source["concept"]:
                         for variable in concept["variable"]:
-                            if variable["id"] == "PRT":
-                                for metatype in variable["metatype"]:
-                                    if metatype["id"] == "CurrencyUnit":
-                                        row["units"] = metatype["value"]
-                                    elif metatype["id"] == "SpecialNotes":
-                                        row["units_description"] = metatype["value"]
-                                row["source"] = source["name"]
+                            row["source"] = source["name"]
             else:
-                row["units"] = "unknown"
-                row["units_description"] = "NA"
-                row["source"] = "unknown"
+
+                row["source"] = "'Undefined'"
 
             resultados.append(row)
 
     # Definir el nombre de las columnas para el CSV
-    columns = ["timecode", "source_code", "name", "value", "units", "units_description", "source"]
+    columns = ["timecode", "source_code", "name", "country", "value", "units", "units_description", "source"]
 
     # Escribir el CSV
     with open(wb_final_path, 'w', newline='') as csvfile:
@@ -133,12 +137,64 @@ def final_data(wb_data_path: str, wb_metadata_path: str, wb_final_path: str) -> 
         print("CSV successfully generated.")
 
 
+def dividir_csv_por_source_code(wb_final_path: str) -> None:
+    """
+    Dividir el archivo CSV final en múltiples archivos CSV según el valor de 'source_code'.
+
+    Args:
+        wb_final_path (str): La ruta del archivo CSV generado.
+
+    Returns:
+        None
+    """
+    # Crear un diccionario para almacenar las filas agrupadas por 'source_code'
+    source_code_data = {}
+
+    # Leer el archivo CSV
+    with open(wb_final_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            source_code = row['source_code']
+            if source_code not in source_code_data:
+                source_code_data[source_code] = []
+            source_code_data[source_code].append(row)
+
+    # Obtener la carpeta donde se encuentra el archivo final
+    base_path = os.path.dirname(wb_final_path)
+
+    # Crear un CSV para cada 'source_code'
+    for source_code, rows in source_code_data.items():
+        # Definir la ruta del nuevo archivo CSV
+        new_csv_path = os.path.join(base_path, f"{source_code}.csv")
+        
+        # Escribir las filas correspondientes a ese 'source_code' en el nuevo archivo
+        with open(new_csv_path, 'w', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=rows[0].keys())
+            writer.writeheader()
+            writer.writerows(rows)
+        
+        print(f"Archivo '{new_csv_path}' generado con éxito.")
+
+    try:
+        os.remove(wb_final_path)
+        print(f"Archivo '{wb_final_path}' eliminado con éxito.")
+    except FileNotFoundError:
+        print(f"El archivo '{wb_final_path}' no existe o ya ha sido eliminado.")
+    except Exception as e:
+        print(f"Error al intentar eliminar el archivo '{wb_final_path}': {e}")
+
+
 def main():
     try:
-        final_data(wb_data_path=s.wb_data_path, wb_metadata_path=s.wb_metadata_path,wb_final_path=s.wb_final_path)
+        final_data(wb_data_path=s.wb_data_path, wb_metadata_path=s.wb_metadata_path,wb_final_path=s.wb_complete_file)
+    except Exception as e:
+        print("An exception occured: {e}")
+
+    try:
+        dividir_csv_por_source_code(wb_final_path=s.wb_complete_file)
     except Exception as e:
         print("An exception occured: {e}")
 
 
 if __name__=="__main__":
-    main()
+    main()    
