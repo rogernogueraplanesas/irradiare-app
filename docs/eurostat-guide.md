@@ -62,10 +62,12 @@ Brief description of E-REDES data lifecycle:
 
 
   11.  With all the CSV data files in one folder and the XML metadata files in another, a new complementary file (***merged_codes.csv***) is created based on the information from *eurostat_datacodes.csv*, *download_metadata.csv*, and *manual_metadata.csv*. As mentioned earlier, the eurostat_datacodes file contains the source code for each data file (which matches the data filenames) along with their corresponding preeliminary HTML metadata link. Similarly, the download_metadata file lists the preeliminary HTML metadata links and the final metadata links, from which the metadata filenames can be extracted using regular expressions (re). A similar situation applies to the manual_metadata file. Obviously, **the connecting factor will be the preliminary HTML metadata link**, which is present in all the CSV files. The new file will have two columns: one for the source code (data filenames) and another for the corresponding metadata code (metadata filenames). This auxiliary file enables the association of each data file (.json) with its corresponding metadata file (.xml).
+
   <br>
   (recorte amb merged_codes.csv)
   <br>
-  12.  The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database. data_code,metadata_code,value,unit,time,description,source,calculation,units_description are the columns forming the final data files.
+  
+  12.  The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database. *data_code, metadata_code, value, unit, time, description, source, calculation, units_description* are the columns forming the final data files.
 
 The complementary files generated during the program's execution—such as *datasets_definitions.csv*, *download_metadata.csv*, *eurostat_datacodes.csv*, *manual_metadata.csv*, and *merged_codes.csv*—are saved in a folder named **eurostat_comp_files/**, located within **eurostat_data/**.
 
