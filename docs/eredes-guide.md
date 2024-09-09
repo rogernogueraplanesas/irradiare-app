@@ -98,7 +98,7 @@ eredes
     |   |    
     |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
     |
-    +- main.py ..................... --> Main script to execute the full E-REDES data process
+    +- eredes_main.py .............. --> Main script to execute the full E-REDES data process
 ```
 
 <br>
@@ -134,9 +134,9 @@ eredes
     |   |    
     |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
     |
-    +- main.py ..................... --> Main script to execute the full E-REDES data process
+    +- eredes_main.py .............. --> Main script to execute the full E-REDES data process
     |
-    +- metadata  ................... --> Contains the extracted metadata file
+    +- eredes_metadata  ................... --> Contains the extracted metadata CSV file
 ```
 
 <br>
