@@ -68,19 +68,19 @@ eurostat
     |
     +- data_extraction ............. --> Code to retrieve data and metadata
     |   |
-    |   +- eredes_client_data.py .......... --> Code to retrieve Eurostat data using EurostatAPIClient
+    |   +- eredes_client_data.py .......... --> Code to retrieve Eurostat data and datasets definitions using EurostatAPIClient
     |   |
     |   +- eredes_get_metadata.py ...... --> Code to retrieve metadata files
     |
     +- data_processing ............. --> Code to merge, clean, and complete the raw data files
     |   |
-    |   +- eurostat_datacodes.py .. --> SEGUIR D'AQUI
+    |   +- eurostat_datacodes.py .. --> Code to match each dataset source code with corresponding metadata HTML link in a separate CSV file
     |   |    
-    |   +- eredes_merge_files.py ... --> Code to merge each data file with its corresponding metadata
+    |   +- eurostat_final_data.py ... --> Code to merge data and metadata files completing the final CSV data files
     |   |
-    |   +- eredes_final_format.py .. --> Code to clean and complete data files
+    |   +- eurostat_join_codes.py .. --> Code to merge metadata HTML links and final metadata download links in a separate CSV file 
     |   |    
-    |   +- eredes_merge_files.py ... --> Code to merge each data file with its corresponding metadata
+    |   +- extract_xml_files ... --> Code to to unzip the downloaded metadata folders and extract only the .xml files
     |
     +- data_load ................... --> Code to select and load the desired data to the database(s)
     |   |
@@ -88,7 +88,7 @@ eurostat
     |   |    
     |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
     |
-    +- main.py ..................... --> Main script to execute the full E-REDES data process
+    +- eurostat_main.py ..................... --> Main script to execute the full E-REDES data process
 ```
 
 <br>
