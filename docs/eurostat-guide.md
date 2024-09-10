@@ -43,23 +43,23 @@ Brief description of E-REDES data lifecycle:
 
 
   <div align="center">
-    <img src="images/eurostat_metadata_no_pt.jpg" width="40%" height="40%" alt="Card Metadata">
+    <img src="images/eurostat_metadata_no_pt.jpg" width="70%" height="70%" alt="Eurostat Common Metadata Download Link">
     <br>
     <sub>Common metadata -no specific Portugal metadata- (Download link)</sub>
   </div>
   
   <br>
   
-    <div align="center">
-    <img src="images/eurostat_metadata_yes_pt.jpg" width="40%" height="40%" alt="Card Metadata">
+  <div align="center">
+    <img src="images/eurostat_metadata_yes_pt.jpg" width="70%" height="70%" alt="Eurostat Portugal Metadata Redirection">
     <br>
     <sub>Common metadata -with specific Portugal metadata- (Redirection link)</sub>
   </div>
   
   <br>
   
-    <div align="center">
-    <img src="images/eurostat_metadata_yes_pt2.jpg" width="40%" height="40%" alt="Card Metadata">
+  <div align="center">
+    <img src="images/eurostat_metadata_yes_pt2.jpg" width="70%" height="70%" alt="Eurostat Portugal Metadata Download Link">
     <br>
     <sub>Portugal specific metadata (Download link)</sub>
   </div>
