@@ -15,6 +15,11 @@
 
 <br>
 This document is a guide that describes how data for indicators is obtained from the INE Database, as well as the processes for completing and cleaning this data. Although the data insertion scripts may be located in the same common folder as the extraction and transformation scripts, the insertion process will be executed separately from the other steps.
+<br><br>
+
+> [!NOTE]  
+> Since there was no dedicated catalog for the indicators specific to Portugal, the entire catalog was downloaded and later filtered by country when retrieving data and metadata.
+
 
 ---
 ## Isolated execution
