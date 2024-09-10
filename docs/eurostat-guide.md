@@ -1,6 +1,6 @@
 <br>
 <div align="center">
-  <img src="images/eurostat-logo.png" width="30%" height="30% alt="E-Redes"">
+  <img src="images/eurostat-logo.png" width="30%" height="30% alt="Eurostat"">
 </div>
 
 # Eurostat Data Pathway
@@ -27,7 +27,7 @@ The steps in *eurostat_main.py* can also be executed individually through their 
 ---
 
 ## Process sequence
-Brief description of E-REDES data lifecycle:
+Brief description of INE data lifecycle:
 
   1. The *Table of Contents (TOC)* is downloaded. It provides a textual representation of Eurostat navigation tree and information on datasets and tables available on the Eurostat website and via the API. The TOC is obtained in **.txt format** via API from [API - Detailed guidelines - Catalogue API - TOC](https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/txt?lang=en).
      
@@ -146,7 +146,7 @@ eurostat
     |   |    
     |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
     |
-    +- eurostat_main.py ............ --> Main script to execute the full E-REDES data process
+    +- eurostat_main.py ............ --> Main script to execute the full INE data process
 ```
 
 <br>
@@ -180,7 +180,7 @@ eurostat
     |   |    
     |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
     |
-    +- eurostat_main.py ............ --> Main script to execute the full E-REDES data process
+    +- eurostat_main.py ............ --> Main script to execute the full INE data process
     |
     +- eurostat_data ............... --> Holds processed, unprocessed data files and complementary files
     |   |
