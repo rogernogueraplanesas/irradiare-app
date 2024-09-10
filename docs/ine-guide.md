@@ -1,6 +1,6 @@
 <br>
 <div align="center">
-  <img src="images/eurostat-logo.png" width="30%" height="30% alt="E-Redes"">
+  <img src="images/ine-logo.png" width="30%" height="30% alt="E-Redes"">
 </div>
 
 # INE Data Pathway
@@ -20,7 +20,7 @@ This document is a guide that describes how data for indicators is obtained from
 ## Isolated execution
 To execute the data **extraction and transformation scripts** in order to obtain a set of data files ready to be inserted into the database, input the following commands in the terminal:
 
-Set the current directory to the eurostat folder:
+Set the current directory to the ine folder:
 ```
 cd /path/to/irradiare_app/app/indicators_data/ine
 ```
@@ -30,14 +30,14 @@ Execute the main script:
 python ine_main.py
 ```
 
-The steps in *eurostat_main.py* can also be executed individually through their respective scripts.
+The steps in *ine_main.py* can also be executed individually through their respective scripts.
 
 ---
 
 ## Process sequence
 Brief description of E-REDES data lifecycle:
 
-  1. The catalog of indicators is downloaded. It provides a textual representation of INE datasets available on the Eurostat website and via the API. The catalog is obtained in **.json format** as indicated in [API - Catálogo de Indicadores do INE na Base de Dados](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_api&INST=322751522).
+  1. The catalog of indicators is downloaded. It provides a textual representation of INE datasets available on the INE website and via the API. The catalog is obtained in **.json format** as indicated in [API - Catálogo de Indicadores do INE na Base de Dados](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_api&INST=322751522).
      
   2. All the indicators' data listed in the catalog is processed iteratively, extracting the unique identifier code for each of them. By using the unique id and indicating 'Portuguese' as the required language, both data and metadata files are extracted and stored separately for each indicator.
 
@@ -47,7 +47,7 @@ Brief description of E-REDES data lifecycle:
 
 ---
 
-## Eurostat Folder Structure:
+## INE Folder Structure:
 The folder structure **before executing** the program is as follows:
 
 ```
