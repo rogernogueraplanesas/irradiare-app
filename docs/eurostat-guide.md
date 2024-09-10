@@ -39,8 +39,9 @@ Brief description of E-REDES data lifecycle:
 
   5. By scraping data from the XML TOC file, it becomes easier to locate the metadata site link (in HTML format) for each indicator based on the source code. **A new CSV file is generated** containing two columns: one with all the source codes and the other with their respective metadata links found along the TOC file (***eurostat_datacodes.csv***).
 
+<br>
   <div align="center">
-    <img src="images/eurostat_srccode+metadatalink.png" width="70%" height="70%" alt="Auxiliary CSV file collecting each dataset name and the corresponding general metadata link">
+    <img src="images/eurostat_srccode+metadatalink.png" width="90%" height="90%" alt="Auxiliary CSV file collecting each dataset name and the corresponding general metadata link">
     <br>
     <sub>Auxiliary CSV file collecting each dataset name and the corresponding general metadata link</sub>
   </div>
@@ -50,7 +51,7 @@ Brief description of E-REDES data lifecycle:
   6. A request is made to each metadata HTML link to scrape the site using **BeautifulSoup**. Once the content is retrieved, the goal is to extract the final metadata download link.<br> The first step is to check whether there is any link redirecting to metadata specific to Portuguese indicators. This is done because all the data files extracted with the Eurostat API Client, are set to be specific from Portugal. If such a link exists, a request is made to it. In both cases (whether or not there is a Portugal-specific link), the final step is to locate and extract the <ins>**Download**</ins> link for the metadata.
 
   <div align="center">
-    <img src="images/eurostat_metadata_no_pt.jpg" width="70%" height="70%" alt="Eurostat General Metadata Download Link">
+    <img src="images/eurostat_metadata_no_pt.jpg" width="80%" height="80%" alt="Eurostat General Metadata Download Link">
     <br>
     <sub>General metadata -no specific Portugal metadata- (Download link)</sub>
   </div>
@@ -58,7 +59,7 @@ Brief description of E-REDES data lifecycle:
   <br>
   
   <div align="center">
-    <img src="images/eurostat_metadata_yes_pt.jpg" width="70%" height="70%" alt="Eurostat Portugal Metadata Redirection">
+    <img src="images/eurostat_metadata_yes_pt.jpg" width="80%" height="80%" alt="Eurostat Portugal Metadata Redirection">
     <br>
     <sub>General metadata -with specific Portugal metadata- (Redirection)</sub>
   </div>
@@ -66,7 +67,7 @@ Brief description of E-REDES data lifecycle:
   <br>
   
   <div align="center">
-    <img src="images/eurostat_metadata_yes_pt2.jpg" width="70%" height="70%" alt="Eurostat Portugal Metadata Download Link">
+    <img src="images/eurostat_metadata_yes_pt2.jpg" width="80%" height="80%" alt="Eurostat Portugal Metadata Download Link">
     <br>
     <sub>Portugal specific metadata (Download link)</sub>
   </div>
@@ -76,9 +77,9 @@ Brief description of E-REDES data lifecycle:
   7. This link is then added to a **new CSV file** containing two columns: one for the original metadata HTML link and another for the final metadata download link (***download_metadata.csv***).
   
   <div align="center">
-    <img src="images/eurostat_download_metadata.jpg" width="70%" height="70%" alt="CSV with HTML general link + final metadata download link">
+    <img src="images/eurostat_download_metadata.jpg" width="90%" height="90%" alt="Auxiliary CSV with HTML general link + final metadata download link">
     <br>
-    <sub>CSV with each HTML metadata link and its corresponding final metadata download link</sub>
+    <sub>Auxiliary CSV with each HTML metadata link and its corresponding final metadata download link</sub>
   </div>
   
   <br>
@@ -86,9 +87,9 @@ Brief description of E-REDES data lifecycle:
   8. **In case of an error**, a separate CSV file is generated (***manual_metadata.csv***), listing the original metadata HTML links that need to be **manually processed to download** the final metadata files. Typically, **only 4 or 5** indicators encounter errors.
   
   <div align="center">
-    <img src="images/eurostat_manual_metadata.jpg" width="70%" height="70%" alt="CSV collecting the HTML general links unable to download automatically">
+    <img src="images/eurostat_manual_metadata.jpg" width="90%" height="90%" alt="Auxiliary CSV collecting the HTML general links unable to download automatically">
     <br>
-    <sub>CSV collecting the HTML general links unable to download automatically</sub>
+    <sub>Auxiliary CSV collecting the HTML general links unable to download automatically</sub>
   </div>
   
   <br>
@@ -100,7 +101,7 @@ Brief description of E-REDES data lifecycle:
   11.  With all the CSV data files in one folder and the XML metadata files in another, a new complementary file (***merged_codes.csv***) is created based on the information from *eurostat_datacodes.csv*, *download_metadata.csv*, and *manual_metadata.csv*. As mentioned earlier, the eurostat_datacodes file contains the source code for each data file (which matches the data filenames) along with their corresponding preeliminary HTML metadata link. Similarly, the download_metadata file lists the preeliminary HTML metadata links and the final metadata links, from which the metadata filenames can be extracted using regular expressions (re). A similar situation applies to the manual_metadata file. Obviously, **the connecting factor will be the preliminary HTML metadata link**, which is present in all the CSV files. The new file will have two columns: one for the source code (data filenames) and another for the corresponding metadata code (metadata filenames). This auxiliary file enables the association of each data file (.json) with its corresponding metadata file (.xml).
   
   <div align="center">
-    <img src="images/eurostat_merde_code.png" width="70%" height="70%" alt="Auxiliary CSV registering the related metadata filename for each data file">
+    <img src="images/eurostat_merde_code.png" width="90%" height="90%" alt="Auxiliary CSV registering the related metadata filename for each data file">
     <br>
     <sub>Auxiliary CSV registering the related metadata filename for each data file</sub>
   </div>
