@@ -5,4 +5,5 @@
 <br>
 
 # DevTrack app - IrRadiare
+![Static Badge](https://img.shields.io/badge/language-python-blue) ![GitHub repo size](https://img.shields.io/github/repo-size/:rogernogueraplanesas/:portugal-weather-analysis) ![GitHub last commit](https://img.shields.io/github/last-commit/:rogernogueraplanesas/:portugal-weather-analysis) <br>
 Irradiare's Project Efficiency and Forecasting App: track the impact of the company's projects across affected regions over time.
