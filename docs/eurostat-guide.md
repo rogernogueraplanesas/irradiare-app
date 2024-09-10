@@ -101,7 +101,7 @@ Brief description of E-REDES data lifecycle:
   11.  With all the CSV data files in one folder and the XML metadata files in another, a new complementary file (***merged_codes.csv***) is created based on the information from *eurostat_datacodes.csv*, *download_metadata.csv*, and *manual_metadata.csv*. As mentioned earlier, the eurostat_datacodes file contains the source code for each data file (which matches the data filenames) along with their corresponding preeliminary HTML metadata link. Similarly, the download_metadata file lists the preeliminary HTML metadata links and the final metadata links, from which the metadata filenames can be extracted using regular expressions (re). A similar situation applies to the manual_metadata file. Obviously, **the connecting factor will be the preliminary HTML metadata link**, which is present in all the CSV files. The new file will have two columns: one for the **source code** (data filenames) and another for the corresponding **metadata code** (metadata filenames). This auxiliary file enables the association of each data file (.json) with its corresponding metadata file (.xml).
   
   <div align="center">
-    <img src="images/eurostat_merde_code.png" width="75%" height="75%" alt="Auxiliary CSV registering the related metadata filename for each data file">
+    <img src="images/eurostat_merde_code.png" width="70%" height="70%" alt="Auxiliary CSV registering the related metadata filename for each data file">
     <br>
     <sub>Auxiliary CSV registering the related metadata filename for each data file</sub>
   </div>
