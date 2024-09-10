@@ -46,7 +46,7 @@ Brief description of E-REDES data lifecycle:
     <sub>Auxiliary CSV file collecting each dataset name and the corresponding general metadata link</sub>
   </div>
   
-  <br>
+  <br><br>
   
   6. A request is made to each metadata HTML link to scrape the site using **BeautifulSoup**. Once the content is retrieved, the goal is to extract the final metadata download link.<br> The first step is to check whether there is any link redirecting to metadata specific to Portuguese indicators. This is done because all the data files extracted with the Eurostat API Client, are set to be specific from Portugal. If such a link exists, a request is made to it. In both cases (whether or not there is a Portugal-specific link), the final step is to locate and extract the <ins>**Download**</ins> link for the metadata.
 
@@ -56,7 +56,7 @@ Brief description of E-REDES data lifecycle:
     <sub>General metadata -no specific Portugal metadata- (Download link)</sub>
   </div>
   
-  <br>
+  <br><br>
   
   <div align="center">
     <img src="images/eurostat_metadata_yes_pt.jpg" width="80%" height="80%" alt="Eurostat Portugal Metadata Redirection">
@@ -64,7 +64,7 @@ Brief description of E-REDES data lifecycle:
     <sub>General metadata -with specific Portugal metadata- (Redirection)</sub>
   </div>
   
-  <br>
+  <br><br>
   
   <div align="center">
     <img src="images/eurostat_metadata_yes_pt2.jpg" width="80%" height="80%" alt="Eurostat Portugal Metadata Download Link">
@@ -72,7 +72,7 @@ Brief description of E-REDES data lifecycle:
     <sub>Portugal specific metadata (Download link)</sub>
   </div>
   
-  <br>
+  <br><br>
 
   7. This link is then added to a **new CSV file** containing two columns: one for the original metadata HTML link and another for the final metadata download link (***download_metadata.csv***).
   
@@ -82,7 +82,7 @@ Brief description of E-REDES data lifecycle:
     <sub>Auxiliary CSV with each HTML metadata link and its corresponding final metadata download link</sub>
   </div>
   
-  <br>
+  <br><br>
 
   8. **In case of an error**, a separate CSV file is generated (***manual_metadata.csv***), listing the original metadata HTML links that need to be **manually processed to download** the final metadata files. Typically, **only 4 or 5** indicators encounter errors.
   
@@ -92,7 +92,7 @@ Brief description of E-REDES data lifecycle:
     <sub>Auxiliary CSV collecting the HTML general links unable to download automatically</sub>
   </div>
   
-  <br>
+  <br><br>
   
   9. The metadata links listed in *download_metadata.csv* are automatically executed, and the metadata is downloaded and stored in a specified folder. Meanwhile, the user can manually download the links from manual_metadata.csv and **save them in the same folder**.
 
@@ -106,7 +106,7 @@ Brief description of E-REDES data lifecycle:
     <sub>Auxiliary CSV registering the related metadata filename for each data file</sub>
   </div>
   
-  <br>
+  <br><br>
   
   12.  The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database. *data_code, metadata_code, value, unit, time, description, source, calculation, units_description* are the columns forming the final data files.<br><br>
 
