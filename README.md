@@ -5,4 +5,4 @@
 <br>
 
 # DevTrack app - IrRadiare
-Irradiare's project efficiency and forecasting app: track investments, ROI, and energy consumption for insightful analysis.
+Irradiare's Project Efficiency and Forecasting App: track the impact of the company's projects across affected regions over time.
