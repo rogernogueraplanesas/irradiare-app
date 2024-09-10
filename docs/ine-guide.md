@@ -1,6 +1,6 @@
 <br>
 <div align="center">
-  <img src="images/ine-logo.png" width="30%" height="30% alt="E-Redes"">
+  <img src="images/ine-logo.png" width="30%" height="30% alt="INE"">
 </div>
 
 # INE Data Pathway
@@ -35,15 +35,15 @@ The steps in *ine_main.py* can also be executed individually through their respe
 ---
 
 ## Process sequence
-Brief description of E-REDES data lifecycle:
+Brief description of INE data lifecycle:
 
   1. The catalog of indicators is downloaded. It provides a textual representation of INE datasets available on the INE website and via the API. The catalog is obtained in **.json format** as indicated in [API - Catálogo de Indicadores do INE na Base de Dados](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_api&INST=322751522).
      
-  2. All the indicators' data listed in the catalog is processed iteratively, extracting the unique identifier code for each of them. By using the unique id and indicating 'Portuguese' as the required language, both data and metadata files are extracted and stored separately for each indicator.
+  2. All the indicators' data listed in the catalog is processed iteratively, extracting the **unique identifier code** for each of them. By using the unique id and indicating 'Portuguese' as the required language, both data and metadata files are extracted and stored separately for each indicator.
 
-  3. New merged data files are created by combining each data file with its corresponding metadata file. This connection is made by matching and processing data and metadata filenames that intersect.
+  3. New merged data files are created by combining each data file with its corresponding metadata file. This connection is made by matching and processing data and metadata filenames that **intersect**.
 
-  4. Similar to other data sources, a final cleaning and completion step is performed. In addition to key time data, location data is included in the final files. However, some indicators may lack complete zipcode/dicofre information, meaning that geolocation data, such as distrito, concelho, freguesia, or NUTS levels, may be partially incomplete. Once this processing step is completed, the data files are ready for insertion into the database.
+  4. Similar to other data sources, a final cleaning and completion step is performed. In addition to key time data, location data is included in the final files. However, some indicators may lack complete zipcode/dicofre information, meaning that geolocation data, such as distrito, concelho, freguesia, or NUTS levels, may be **partially incomplete**. Once this processing step is completed, the data files are ready for insertion into the database.
 
 ---
 
