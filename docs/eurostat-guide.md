@@ -108,7 +108,7 @@ Brief description of INE data lifecycle:
   
   <br><br>
   
-  12.  The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database. *data_code, metadata_code, value, unit, time, description, source, calculation, units_description* are the columns forming the final data files.<br><br>
+  12.  The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database. *data_code, metadata_code, value, unit, time, description, source, calculation, units_description* are the columns forming the final data files. Although there is sufficient information to determine a '*timecode*', no geolocation data is available beyond the **country level**. As a result, the only geodata extracted for this set of indicators will be **NUTS I = Portugal (all)**, with no distinction between continental and overseas regions.<br><br>
 
 >The complementary files generated during the program's execution—such as *datasets_definitions.csv*, *download_metadata.csv*, *eurostat_datacodes.csv*, *manual_metadata.csv*, and *merged_codes.csv*—are saved in a folder named **eurostat_comp_files/**, located within **eurostat_data/**.
 >
