@@ -41,9 +41,30 @@ Brief description of E-REDES data lifecycle:
 
   6. A request is made to each metadata HTML link to scrape the site using **BeautifulSoup**. Once the content is retrieved, the goal is to extract the final metadata download link.<br> The first step is to check whether there is any link redirecting to metadata specific to Portuguese indicators. If such a link exists, a request is made to it. In both cases (whether or not there is a Portugal-specific link), the final step is to locate and extract the <ins>**Download**</ins> link for the metadata.
 
-<br>
-(Imatges on es troba el download link)
-<br>
+
+  <div align="center">
+    <img src="images/eurostat_metadata_no_pt.jpg" width="40%" height="40%" alt="Card Metadata">
+    <br>
+    <sub>Common metadata -no specific Portugal metadata- (Download link)</sub>
+  </div>
+  
+  <br>
+  
+    <div align="center">
+    <img src="images/eurostat_metadata_yes_pt.jpg" width="40%" height="40%" alt="Card Metadata">
+    <br>
+    <sub>Common metadata -with specific Portugal metadata- (Redirection link)</sub>
+  </div>
+  
+  <br>
+  
+    <div align="center">
+    <img src="images/eurostat_metadata_yes_pt2.jpg" width="40%" height="40%" alt="Card Metadata">
+    <br>
+    <sub>Portugal specific metadata (Download link)</sub>
+  </div>
+  
+  <br>
 
   7. This link is then added to a **new CSV file** containing two columns: one for the original metadata HTML link and another for the final metadata download link (***download_metadata.csv***).
 
