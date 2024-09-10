@@ -41,7 +41,7 @@ Brief description of E-REDES data lifecycle:
      
   2. All the indicators' data listed in the catalog is processed iteratively, extracting the unique identifier code for each of them. By using the unique id and indicating 'Portuguese' as the required language, both data and metadata files are extracted and stored separately for each indicator.
 
-  3.New merged data files are created by combining each data file with its corresponding metadata file. This connection is made by matching and processing data and metadata filenames that intersect.
+  3. New merged data files are created by combining each data file with its corresponding metadata file. This connection is made by matching and processing data and metadata filenames that intersect.
 
   4. Similar to other data sources, a final cleaning and completion step is performed. In addition to key time data, location data is included in the final files. However, some indicators may lack complete zipcode/dicofre information, meaning that geolocation data, such as distrito, concelho, freguesia, or NUTS levels, may be partially incomplete. Once this processing step is completed, the data files are ready for insertion into the database.
 
