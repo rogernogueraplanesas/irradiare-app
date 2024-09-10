@@ -16,6 +16,9 @@
 <br>
 This document is a guide that describes how data for indicators is obtained from the E-REDES Open Data Portal, as well as the processes for completing and cleaning this data. Although the data insertion scripts may be located in the same common folder as the extraction and transformation scripts, the insertion process will be executed separately from the other steps.
 
+> [!NOTE]  
+> Due to page limitations in the E-REDES API when extracting data, web scraping was chosen as the best alternative.
+
 ---
 ## Isolated execution
 To execute the data **extraction and transformation scripts** in order to obtain a set of data files ready to be inserted into the database, input the following commands in the terminal:
