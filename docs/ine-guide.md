@@ -53,22 +53,21 @@ The folder structure **before executing** the program is as follows:
 ```
 ine
     |
-    +- data_extraction ............. --> Code to retrieve data and metadata
+    +- data_extraction ........ --> Code to retrieve data and metadata
     |   |
-    |   +- ine_api.py ... --> Code to retrieve INE data and metadata files via API
+    |   +- ine_api.py ......... --> Code to retrieve INE data and metadata files via API
     |
-    +- data_processing ............. --> Code to merge, clean, and complete the raw data files
+    +- data_processing ........ --> Code to merge, clean, and complete the raw data files
     |   | 
-    |   +- ine_merge_data.py ....... --> Code to merge data and metadata files according to the unique id code
+    |   +- ine_merge_data.py .. --> Code to merge data and metadata files according to the unique id code
     |   |
     |   +- ine_final_data.py .. --> Code to complete the data files previous to the data insertion
     |
-    |
-    +- data_load ................... --> Code to select and load the desired data to the database(s)
+    +- data_load .............. --> Code to select and load the desired data to the database(s)
     |   |
-    |   +- sqlite_load.py .......... --> Code to insert eredes indicators' data to the SQLite database
+    |   +- sqlite_load.py ..... --> Code to insert eredes indicators' data to the SQLite database
     |   |    
-    |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
+    |   +- sqlite_queries.py .. --> Reusable SQL queries for the SQLite data insertion
     |
     +- ine_main.py ............ --> Main script to execute the full INE data extraction and preparation process
 ```
@@ -82,22 +81,21 @@ ine
 ```
 ine
     |
-    +- data_extraction ............. --> Code to retrieve data and metadata
+    +- data_extraction ........ --> Code to retrieve data and metadata
     |   |
-    |   +- ine_api.py ... --> Code to retrieve INE data and metadata files via API
+    |   +- ine_api.py ......... --> Code to retrieve INE data and metadata files via API
     |
-    +- data_processing ............. --> Code to merge, clean, and complete the raw data files
+    +- data_processing ........ --> Code to merge, clean, and complete the raw data files
     |   | 
-    |   +- ine_merge_data.py ....... --> Code to merge data and metadata files according to the unique id code
+    |   +- ine_merge_data.py .. --> Code to merge data and metadata files according to the unique id code
     |   |
     |   +- ine_final_data.py .. --> Code to complete the data files previous to the data insertion
     |
-    |
-    +- data_load ................... --> Code to select and load the desired data to the database(s)
+    +- data_load .............. --> Code to select and load the desired data to the database(s)
     |   |
-    |   +- sqlite_load.py .......... --> Code to insert eredes indicators' data to the SQLite database
+    |   +- sqlite_load.py ..... --> Code to insert eredes indicators' data to the SQLite database
     |   |    
-    |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
+    |   +- sqlite_queries.py .. --> Reusable SQL queries for the SQLite data insertion
     |
     +- ine_main.py ............ --> Main script to execute the full INE data extraction and preparation process
     |
@@ -105,9 +103,9 @@ ine
     |   |
     |   +- ine_comp_files  .... --> Contains complementary files generated along the execution
     |   |
-    |   +- processed  .............. --> Contains the final processed data files.
+    |   +- processed  ......... --> Contains the final processed data files.
     |   |
-    |   +- raw  .................... --> Contains the downloaded/unprocessed data files.
+    |   +- raw  ............... --> Contains the downloaded/unprocessed data files.
     |
     +- ine_metadata  .......... --> Contains the extracted metadata JSON files
 ```
