@@ -1,6 +1,6 @@
 <br>
 <div align="center">
-  <img src="images/ine-logo.png" width="30%" height="30% alt="INE"">
+  <img src="images/ine-logo.jpg" width="30%" height="30% alt="INE"">
 </div>
 
 # INE Data Pathway
