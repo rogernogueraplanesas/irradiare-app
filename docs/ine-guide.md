@@ -86,7 +86,7 @@ ine
     |
     +- data_processing ........ --> Code to merge, clean, and complete the raw data files
     |   | 
-    |   +- ine_merge_data.py .. --> Code to merge data and metadata files according to the unique id code
+    |   +- ine_merge_data.py .. --> Code to merge and clean data and metadata files based on the indicator id code
     |   |
     |   +- ine_final_data.py .. --> Code to complete the data files previous to the data insertion
     |
@@ -114,7 +114,7 @@ ine
     |
     +- data_processing ........ --> Code to merge, clean, and complete the raw data files
     |   | 
-    |   +- ine_merge_data.py .. --> Code to merge data and metadata files according to the unique id code
+    |   +- ine_merge_data.py .. --> Code to merge and clean data and metadata files based on the indicator id code
     |   |
     |   +- ine_final_data.py .. --> Code to complete the data files previous to the data insertion
     |
