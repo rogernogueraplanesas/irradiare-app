@@ -66,7 +66,7 @@ Brief description of INE data lifecycle:
   Some indicators present multiple values based on filters such as Age, Civil Status, Sex, etc. In these cases, they are treated as attributes with their own data values, since multivalued fields are not allowed in the database. An example of a final CSV file with attributes can be seen in the second image below this text. Detailed explanations regarding the insertion of these characteristic data rows can be found in the [database guide](irradiare-app/app/db).
   
   <div align="center">
-    <img src="images/ine-combination.png" width="80%" height="80%" alt="INE combined datafiles">
+    <img src="images/ine-attributes.png" width="80%" height="80%" alt="INE attributes">
     <br>
     <sub>INE combined datafiles</sub>
   </div>
