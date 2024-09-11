@@ -1,6 +1,6 @@
 <br>
 <div align="center">
-  <img src="images/wb-logo.jpg" width="30%" height="30% alt="WB"">
+  <img src="images/wb-logo.png" width="30%" height="30% alt="WB"">
 </div>
 
 # The World Bank Data Pathway
