@@ -68,8 +68,9 @@ Brief description of INE data lifecycle:
   <div align="center">
     <img src="images/ine-attributes.png" width="80%" height="80%" alt="INE attributes">
     <br>
-    <sub>INE combined datafiles</sub>
+    <sub>INE datafile with two attribues (Sex and Age)</sub>
   </div>
+<br>
 
 ---
 
