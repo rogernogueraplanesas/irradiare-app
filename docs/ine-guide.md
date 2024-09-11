@@ -44,7 +44,7 @@ Brief description of INE data lifecycle:
 
   1. The catalog of indicators is downloaded. It provides a textual representation of INE datasets available on the INE website and via the API. The catalog is obtained in **.json format** as indicated in [API - Catálogo de Indicadores do INE na Base de Dados](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_api&INST=322751522).
      
-  2. All the indicators' data listed in the catalog is processed iteratively, extracting the **unique identifier code** for each of them. By using the unique id and indicating 'Portuguese' as the required language, both data and metadata files are extracted and stored separately for each indicator.
+  2. All the indicators' data listed in the catalog is processed iteratively, extracting the **unique identifier code** for each of them. By using the unique id and indicating 'Portuguese' as the required language, both data and metadata files for each indicator are extracted via API requests and stored separately.
 
   <div align="center">
     <img src="images/ine-varcd.jpg" width="80%" height="80%" alt="Unique codes for INE indicators">
@@ -62,7 +62,14 @@ Brief description of INE data lifecycle:
   </div>
   
   <br><br>
-  4. Similar to other data sources, a final cleaning and completion step is performed. In addition to key time data, location data is included in the final files. However, some indicators may lack complete zipcode/dicofre information, meaning that geolocation data, such as distrito, concelho, freguesia, or NUTS levels, may be **partially incomplete**. Once this processing step is completed, the data files are ready for insertion into the database.
+  4. Similar to other data sources, a final cleaning and completion step is performed. In addition to key time data, location data is included in the final files. However, some indicators may lack complete zipcode/dicofre information, meaning that geolocation data, such as distrito, concelho, freguesia, or NUTS levels, may be **partially incomplete**. Once this processing step is completed, the data files are ready for insertion into the database.<br>
+  Some indicators present multiple values based on filters such as Age, Civil Status, Sex, etc. In these cases, they are treated as attributes with their own data values, since multivalued fields are not allowed in the database. An example of a final CSV file with attributes can be seen in the second image below this text. Detailed explanations regarding the insertion of these characteristic data rows can be found in the [database guide](irradiare-app/app/db).
+  
+  <div align="center">
+    <img src="images/ine-combination.png" width="80%" height="80%" alt="INE combined datafiles">
+    <br>
+    <sub>INE combined datafiles</sub>
+  </div>
 
 ---
 
