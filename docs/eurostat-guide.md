@@ -1,6 +1,6 @@
 <br>
 <div align="center">
-  <img src="images/eurostat-logo.png" width="30%" height="30% alt="E-Redes"">
+  <img src="images/eurostat-logo.png" width="30%" height="30% alt="Eurostat"">
 </div>
 
 # Eurostat Data Pathway
@@ -27,7 +27,7 @@ The steps in *eurostat_main.py* can also be executed individually through their 
 ---
 
 ## Process sequence
-Brief description of E-REDES data lifecycle:
+Brief description of INE data lifecycle:
 
   1. The *Table of Contents (TOC)* is downloaded. It provides a textual representation of Eurostat navigation tree and information on datasets and tables available on the Eurostat website and via the API. The TOC is obtained in **.txt format** via API from [API - Detailed guidelines - Catalogue API - TOC](https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/txt?lang=en).
      
@@ -39,35 +39,76 @@ Brief description of E-REDES data lifecycle:
 
   5. By scraping data from the XML TOC file, it becomes easier to locate the metadata site link (in HTML format) for each indicator based on the source code. **A new CSV file is generated** containing two columns: one with all the source codes and the other with their respective metadata links found along the TOC file (***eurostat_datacodes.csv***).
 
-  6. A request is made to each metadata HTML link to scrape the site using **BeautifulSoup**. Once the content is retrieved, the goal is to extract the final metadata download link.<br> The first step is to check whether there is any link redirecting to metadata specific to Portuguese indicators. If such a link exists, a request is made to it. In both cases (whether or not there is a Portugal-specific link), the final step is to locate and extract the <ins>**Download**</ins> link for the metadata.
+<br>
+  <div align="center">
+    <img src="images/eurostat_srccode+metadatalink.png" width="90%" height="90%" alt="Auxiliary CSV file collecting each dataset name and the corresponding general metadata link">
+    <br>
+    <sub>Auxiliary CSV file collecting each dataset name and the corresponding general metadata link</sub>
+  </div>
+  
+  <br><br>
+  
+  6. A request is made to each metadata HTML link to scrape the site using **BeautifulSoup**. Once the content is retrieved, the goal is to extract the final metadata download link.<br> The first step is to check whether there is any link redirecting to metadata specific to Portuguese indicators. This is done because all the data files extracted with the Eurostat API Client, are set to be specific from Portugal. If such a link exists, a request is made to it. In both cases (whether or not there is a Portugal-specific link), the final step is to locate and extract the <ins>**Download**</ins> link for the metadata.
 
-<br>
-(Imatges on es troba el download link)
-<br>
+  <div align="center">
+    <img src="images/eurostat_metadata_no_pt.jpg" width="80%" height="80%" alt="Eurostat General Metadata Download Link">
+    <br>
+    <sub>General metadata -no specific Portugal metadata- (Download link)</sub>
+  </div>
+  
+  <br><br>
+  
+  <div align="center">
+    <img src="images/eurostat_metadata_yes_pt.jpg" width="80%" height="80%" alt="Eurostat Portugal Metadata Redirection">
+    <br>
+    <sub>General metadata -with specific Portugal metadata- (Redirection)</sub>
+  </div>
+  
+  <br><br>
+  
+  <div align="center">
+    <img src="images/eurostat_metadata_yes_pt2.jpg" width="80%" height="80%" alt="Eurostat Portugal Metadata Download Link">
+    <br>
+    <sub>Portugal specific metadata (Download link)</sub>
+  </div>
+  
+  <br><br>
 
   7. This link is then added to a **new CSV file** containing two columns: one for the original metadata HTML link and another for the final metadata download link (***download_metadata.csv***).
-
-<br>
-(recorte amb el download_metadata.csv)
-<br>
-
-  8. **In case of an error**, a separate CSV file is generated (***manual_metadata.csv***), listing the original metadata HTML links that need to be manually processed to download the final metadata files. Typically, **only 4 or 5** indicators encounter errors.
-  <br>
-  (recorte amb manual_metadata.csv)
-  <br>
   
-  9. The metadata links listed in *download_metadata.csv* are automatically executed, and the metadata is downloaded and stored in a specified folder. Meanwhile, the user can manually download the links from manual_metadata.csv and **save them in the same folder**.
-
-  10. All metadata files are in .zip format. The next step is to unzip them and extract only the **.xml metadata files**.
-
-
-  11.  With all the CSV data files in one folder and the XML metadata files in another, a new complementary file (***merged_codes.csv***) is created based on the information from *eurostat_datacodes.csv*, *download_metadata.csv*, and *manual_metadata.csv*. As mentioned earlier, the eurostat_datacodes file contains the source code for each data file (which matches the data filenames) along with their corresponding preeliminary HTML metadata link. Similarly, the download_metadata file lists the preeliminary HTML metadata links and the final metadata links, from which the metadata filenames can be extracted using regular expressions (re). A similar situation applies to the manual_metadata file. Obviously, **the connecting factor will be the preliminary HTML metadata link**, which is present in all the CSV files. The new file will have two columns: one for the source code (data filenames) and another for the corresponding metadata code (metadata filenames). This auxiliary file enables the association of each data file (.json) with its corresponding metadata file (.xml).
-
-  <br>
-  (recorte amb merged_codes.csv)
-  <br>
+  <div align="center">
+    <img src="images/eurostat_download_metadata.jpg" width="75%" height="75%" alt="Auxiliary CSV with HTML general link + final metadata download link">
+    <br>
+    <sub>Auxiliary CSV with each HTML metadata link and its corresponding final metadata download link</sub>
+  </div>
   
-  12.  The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database. *data_code, metadata_code, value, unit, time, description, source, calculation, units_description* are the columns forming the final data files.<br><br>
+  <br><br>
+
+  8. **In case of an error**, a separate CSV file is generated (***manual_metadata.csv***), listing the original metadata HTML links that need to be **manually processed to download** the final metadata files. Typically, **only 4 or 5** indicators encounter errors.
+  
+  <div align="center">
+    <img src="images/eurostat_manual_metadata.jpg" width="75%" height="75%" alt="Auxiliary CSV collecting the HTML general links unable to download automatically">
+    <br>
+    <sub>Auxiliary CSV collecting the HTML general links unable to download automatically</sub>
+  </div>
+  
+  <br><br>
+  
+  9. The metadata links listed in *download_metadata.csv* are automatically executed, and the metadata is downloaded and stored in a specified folder. Meanwhile, the user can **manually execute the download links** from manual_metadata.csv and **save them in the same folder**.
+
+  10. All metadata files are in .zip format. The next step is to **unzip** them and extract only the **.xml metadata files**.
+
+  11.  With all the CSV data files in one folder and the XML metadata files in another, a new complementary file (***merged_codes.csv***) is created based on the information from *eurostat_datacodes.csv*, *download_metadata.csv*, and *manual_metadata.csv*. As mentioned earlier, the eurostat_datacodes file contains the source code for each data file (which matches the data filenames) along with their corresponding preeliminary HTML metadata link.<br> Similarly, the download_metadata file lists the preeliminary HTML metadata links and the final metadata links, from which the metadata filenames can be extracted using regular expressions (re). A similar situation applies to the manual_metadata file. Obviously, **the connecting factor will be the preliminary HTML metadata link**, which is present in all the CSV files. The new file will have two columns: one for the **source code** (data filenames) and another for the corresponding **metadata code** (metadata filenames). This auxiliary file enables the association of each data file (.json) with its corresponding metadata file (.xml).
+  
+  <div align="center">
+    <img src="images/eurostat_merde_code.png" width="70%" height="70%" alt="Auxiliary CSV registering the related metadata filename for each data file">
+    <br>
+    <sub>Auxiliary CSV registering the related metadata filename for each data file</sub>
+  </div>
+  
+  <br><br>
+  
+  12.  The final step involves **iterating** over the rows present in *merged_codes.csv*, opening the corresponding files for each of them as well as the *datasets_definitions.csv* file, and **extracting the relevant data and metadata** needed to create a set of 'processed' data files, which will be ready for insertion into the database. *data_code, metadata_code, value, unit, time, description, source, calculation, units_description* are the columns forming the final data files. Although there is sufficient information to determine a '*timecode*', no geolocation data is available beyond the **country level**. As a result, the only geodata extracted for this set of indicators will be **NUTS I = Portugal (all)**, with no distinction between continental and overseas regions.<br><br>
 
 >The complementary files generated during the program's execution—such as *datasets_definitions.csv*, *download_metadata.csv*, *eurostat_datacodes.csv*, *manual_metadata.csv*, and *merged_codes.csv*—are saved in a folder named **eurostat_comp_files/**, located within **eurostat_data/**.
 >
@@ -75,15 +116,6 @@ Brief description of E-REDES data lifecycle:
 >
 >The raw data files are **never deleted but are replaced** each time the data extraction script is executed.
 
-
-  <div align="center">
-    <img src="images/card_metadata.jpg" width="40%" height="40%" alt="Card Metadata">
-    <br>
-    <sub>Indicator's card metadata (example)</sub>
-  </div>
-  
-  <br>
-  
 ---
 
 ## Eurostat Folder Structure:
@@ -92,29 +124,29 @@ The folder structure **before executing** the program is as follows:
 ```
 eurostat
     |
-    +- data_extraction ............. --> Code to retrieve data and metadata
+    +- data_extraction ............... --> Code to retrieve data and metadata
     |   |
     |   +- eurostat_client_data.py ... --> Code to retrieve Eurostat datasets and definitions
     |   |
     |   +- eurostat_get_metadata.py .. --> Code to retrieve complete metadata folders
     |
-    +- data_processing ............. --> Code to merge, clean, and complete the raw data files
+    +- data_processing ............... --> Code to merge, clean, and complete the raw data files
     |   |
-    |   +- eurostat_datacodes.py ... --> Code to match each dataset source code with a metadata HTML link
+    |   +- eurostat_datacodes.py ..... --> Code to match each dataset source code with a metadata HTML link
     |   |    
-    |   +- eurostat_final_data.py .. --> Code to merge data and metadata files completing the final CSV files
+    |   +- eurostat_final_data.py .... --> Code to merge data and metadata files completing the final CSV files
     |   |
-    |   +- eurostat_join_codes.py .. --> Code to merge metadata HTML links and final metadata download links
+    |   +- eurostat_join_codes.py .... --> Code to merge metadata HTML links and final metadata download links
     |   |    
-    |   +- extract_xml_files ....... --> Code to to unzip the downloaded metadata folders and extract the .xml files
+    |   +- extract_xml_files ......... --> Code to to unzip the downloaded metadata folders and extract the .xml files
     |
-    +- data_load ................... --> Code to select and load the desired data to the database(s)
+    +- data_load ..................... --> Code to select and load the desired data to the database(s)
     |   |
-    |   +- sqlite_load.py .......... --> Code to insert eredes indicators' data to the SQLite database
+    |   +- sqlite_load.py ............ --> Code to insert eredes indicators' data to the SQLite database
     |   |    
-    |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
+    |   +- sqlite_queries.py ......... --> Reusable SQL queries for the SQLite data insertion
     |
-    +- eurostat_main.py ............ --> Main script to execute the full E-REDES data process
+    +- eurostat_main.py .............. --> Main script to execute the full INE data process
 ```
 
 <br>
@@ -126,39 +158,39 @@ eurostat
 ```
 eurostat
     |
-    +- data_extraction ............. --> Code to retrieve data and metadata
+    +- data_extraction ............... --> Code to retrieve data and metadata
     |   |
     |   +- eurostat_client_data.py ... --> Code to retrieve Eurostat datasets and definitions
     |   |
     |   +- eurostat_get_metadata.py .. --> Code to retrieve complete metadata folders
     |
-    +- data_processing ............. --> Code to merge, clean, and complete the raw data files
+    +- data_processing ............... --> Code to merge, clean, and complete the raw data files
     |   |
-    |   +- eurostat_datacodes.py ... --> Code to match each dataset source code with a metadata HTML link
+    |   +- eurostat_datacodes.py ..... --> Code to match each dataset source code with a metadata HTML link
     |   |    
-    |   +- eurostat_final_data.py .. --> Code to merge data and metadata files completing the final CSV files
+    |   +- eurostat_final_data.py .... --> Code to merge data and metadata files completing the final CSV files
     |   |
-    |   +- eurostat_join_codes.py .. --> Code to merge metadata HTML links and final metadata download links
+    |   +- eurostat_join_codes.py .... --> Code to merge metadata HTML links and final metadata download links
     |   |    
-    |   +- extract_xml_files ....... --> Code to to unzip the downloaded metadata folders and extract the .xml files
+    |   +- extract_xml_files ......... --> Code to to unzip the downloaded metadata folders and extract the .xml files
     |
-    +- data_load ................... --> Code to select and load the desired data to the database(s)
+    +- data_load ..................... --> Code to select and load the desired data to the database(s)
     |   |
-    |   +- sqlite_load.py .......... --> Code to insert eredes indicators' data to the SQLite database
+    |   +- sqlite_load.py ............ --> Code to insert eredes indicators' data to the SQLite database
     |   |    
-    |   +- sqlite_queries.py ....... --> Reusable SQL queries for the SQLite data insertion
+    |   +- sqlite_queries.py ......... --> Reusable SQL queries for the SQLite data insertion
     |
-    +- eurostat_main.py ............ --> Main script to execute the full E-REDES data process
+    +- eurostat_main.py .............. --> Main script to execute the full INE data process
     |
-    +- eurostat_data ............... --> Holds processed, unprocessed data files and complementary files
+    +- eurostat_data ................. --> Holds processed, unprocessed data files and complementary files
     |   |
-    |   +- eurostat_comp_files  .... --> Contains complementary files generated along the execution
+    |   +- eurostat_comp_files  ...... --> Contains complementary files generated along the execution
     |   |
-    |   +- processed  .............. --> Contains the final processed data files.
+    |   +- processed  ................ --> Contains the final processed data files.
     |   |
-    |   +- raw  .................... --> Contains the downloaded/unprocessed data files.
+    |   +- raw  ...................... --> Contains the downloaded/unprocessed data files.
     |
-    +- eurostat_metadata  .......... --> Contains the extracted metadata XML files
+    +- eurostat_metadata  ............ --> Contains the extracted metadata XML files
 ```
 
 <br>
