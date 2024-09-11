@@ -155,20 +155,18 @@ cython_debug/
 
 # Data folders for eredes
 app/indicators_data/eredes/data/
-app\indicators_data\eredes\eredes_metadata
+app/indicators_data/eredes/eredes_metadata/
 app/indicators_data/eredes/temp_eredes_merged/
 
 # Data folders for eurostat
 app/indicators_data/eurostat/eurostat_data/
 app/indicators_data/eurostat/eurostat_metadata/
-app/indicators_data/eurostat/info.txt
 
 # Data folders for ine
 app/indicators_data/ine/ine_data/
 app/indicators_data/ine/ine_metadata/
 
 # Data folders for wb
-app/indicators_data/worldbank/other_data/
 app/indicators_data/worldbank/wb_data/
 app/indicators_data/worldbank/wb_metadata/
 

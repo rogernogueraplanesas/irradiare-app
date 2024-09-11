@@ -91,8 +91,8 @@ def insert_into_stagging(database, csv_folder):
                     timecode_idx = headers.index('timecode')
                     data_value_idx = headers.index('value')
                     name_indicator_idx = headers.index('name')
-                    units_idx = headers.index('units')
-                    units_desc_idx = headers.index('units_description')
+                    description_idx = headers.index('description')
+                    units_idx = headers.index('name')
                     source_idx = headers.index('source')
                     source_code_idx = headers.index('source_code')
 
@@ -112,11 +112,11 @@ def insert_into_stagging(database, csv_folder):
                         timecode = row[timecode_idx] if timecode_idx is not None else 'Undefined'
                         data_value = row[data_value_idx] if data_value_idx is not None else 'Undefined'
                         name_indicator = row[name_indicator_idx] if name_indicator_idx is not None else 'Undefined'
-                        description = 'Undefined'
+                        description = row[description_idx] if description_idx is not None else 'Undefined'
                         units = row[units_idx]  if units_idx is not None else 'Undefined'
-                        units_desc = row[units_desc_idx]  if units_desc_idx is not None else 'Undefined'
+                        units_desc = 'Undefined'
                         calculation = 'Undefined'
-                        source = row[source_idx] if source_idx is not None else 'Undefined'
+                        source = row[source_idx] + '-The World Bank' if source_idx is not None else 'Undefined'
                         source_code = row[source_code_idx] if source_code_idx is not None else 'Undefined'
                         attributes = 'Undefined'
                         name_attribute = 'Undefined'

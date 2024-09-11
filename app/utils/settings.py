@@ -103,6 +103,8 @@ ine_processed_data = "app/indicators_data/ine/ine_data/processed/"
 
 
 # _____________________________________THE WORLD BANK______________________________________
+wb_catalog_folder = "app/indicators_data/worldbank/wb_data/wb_comp_files/"
+wb_catalog_filename = "wbindicators.json"
 wb_catalog_file = "app/indicators_data/worldbank/wb_data/wb_comp_files/wbindicators.json"
 wb_data_path = "app/indicators_data/worldbank/wb_data/raw/wb_data.json"
 wb_metadata_path = "app/indicators_data/worldbank/wb_metadata/wb_metadata.json"
