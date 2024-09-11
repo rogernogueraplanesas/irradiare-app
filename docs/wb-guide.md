@@ -46,7 +46,7 @@ Brief description of 'The World Bank' data lifecycle:
   In the final format, the data is reorganized so that each row represents a specific year (timecode). This transformation results in separate files for each dataset (i.e., each distinct indicator code), with the format as follows:
 
   <div align="center">
-    <img src="images/wb-original-format.png" width="80%" height="80%" alt="WB final data format">
+    <img src="images/wb-final-format.jpg" width="80%" height="80%" alt="WB final data format">
     <br>
     <sub>WB final data format</sub>
   </div>
