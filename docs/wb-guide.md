@@ -1,66 +1,58 @@
 <br>
 <div align="center">
-  <img src="images/ine-logo.jpg" width="30%" height="30% alt="INE"">
+  <img src="images/wb-logo.jpg" width="30%" height="30% alt="WB"">
 </div>
 
 # The World Bank Data Pathway
-<br>
-This document is a guide that describes how data for indicators is obtained from the INE Database, as well as the processes for completing and cleaning this data. Although the data insertion scripts may be located in the same common folder as the extraction and transformation scripts, the insertion process will be executed separately from the other steps.
+
+This document is a guide that describes how data for indicators is obtained from the The World Bank Database, as well as the processes for completing and cleaning this data. Although the data insertion scripts may be located in the same common folder as the extraction and transformation scripts, the insertion process will be executed separately from the other steps.
 <br><br>
-
-> [!NOTE]  
-> Since there was no dedicated catalog for the indicators specific to Portugal, the entire catalog was downloaded and later filtered by country when retrieving data and metadata.
-
 
 ---
 ## Isolated execution
 To execute the data **extraction and transformation scripts** in order to obtain a set of data files ready to be inserted into the database, input the following commands in the terminal:
 
-Set the current directory to the ine folder:
+Set the current directory to the The World Bank folder:
 ```
-cd /path/to/irradiare_app/app/indicators_data/ine
+cd /path/to/irradiare_app/app/indicators_data/worldbank
 ```
 
 Execute the main script:
 ```
-python ine_main.py
+python wb_main.py
 ```
 
-The steps in *ine_main.py* can also be executed individually through their respective scripts.
+The steps in *wb_main.py* can also be executed individually through their respective scripts.
 
 ---
 
 ## Process sequence
-Brief description of INE data lifecycle:
+Brief description of 'The World Bank' data lifecycle:
 
-  1. The catalog of indicators is downloaded. It provides a textual representation of INE datasets available on the INE website and via the API. The catalog is obtained in **.json format** as indicated in [API - Catálogo de Indicadores do INE na Base de Dados](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_api&INST=322751522).
+  1. Both the data file and the metadata file are automatically downloaded within a **single ZIP folder**. Once the ZIP folder is downloaded to its designated path, it is unzipped, and the data and metadata CSV files are extracted and stored **in their respective folders**.
      
-  2. All the indicators' data listed in the catalog is processed iteratively, extracting the **unique identifier code** for each of them. By using the unique id and indicating 'Portuguese' as the required language, both data and metadata files for each indicator are extracted via API requests and stored separately.
+  2. The final data files are created by merging the data and metadata for each indicator using the common attribute: **the indicator code**. There is **one final data file per indicator**. Initially, all data and metadata for the indicators were contained in two separate files.
+
+  3. To highlight, the original data file provided **one row per indicator**, with all values for different years in the same row. For example:
 
   <div align="center">
-    <img src="images/ine-varcd.jpg" width="80%" height="80%" alt="Unique codes for INE indicators">
+    <img src="images/wb-original-data.jpg" width="80%" height="80%" alt="WB initial data format">
     <br>
-    <sub>Unique codes for INE indicators</sub>
+    <sub>WB initial data format</sub>
   </div>
   
-  <br><br>
-  3. New merged data files are created by combining each data file with its corresponding metadata file. This connection is made by matching and processing data and metadata filenames that **intersect**.
+  <br>
+  
+  In the final format, the data is reorganized so that each row represents a specific year (timecode). This transformation results in separate files for each dataset (i.e., each distinct indicator code), with the format as follows:
 
   <div align="center">
-    <img src="images/ine-combination.png" width="80%" height="80%" alt="INE combined datafiles">
+    <img src="images/wb-original-format.png" width="80%" height="80%" alt="WB final data format">
     <br>
-    <sub>INE combined datafiles</sub>
+    <sub>WB final data format</sub>
   </div>
   
-  <br><br>
-  4. Similar to other data sources, a final cleaning and completion step is performed. In addition to key time data, location data is included in the final files. However, some indicators may lack complete zipcode/dicofre information, meaning that geolocation data, such as distrito, concelho, freguesia, or NUTS levels, may be **partially incomplete**. Once this processing step is completed, the data files are ready for insertion into the database.<br>
-  Some indicators present multiple values based on filters such as Age, Civil Status, Sex, etc. In these cases, they are treated as attributes with their own data values, since multivalued fields are not allowed in the database. An example of a final CSV file with attributes can be seen in the second image below this text. Detailed explanations regarding the insertion of these characteristic data rows can be found in the [database guide](irradiare-app/app/db).
-  
-  <div align="center">
-    <img src="images/ine-attributes.png" width="80%" height="80%" alt="INE attributes">
-    <br>
-    <sub>INE datafile with two attribues (Sex and Age)</sub>
-  </div>
+  <br>
+  This restructuring ensures that each row in the final files corresponds to a specific year and indicator, making the data more manageable and easier to analyze.
 <br>
 
 ---
