@@ -57,21 +57,19 @@ Brief description of 'The World Bank' data lifecycle:
 
 ---
 
-## INE Folder Structure:
+## WB Folder Structure:
 The folder structure **before executing** the program is as follows:
 
 ```
-ine
+worldbank
     |
     +- data_extraction ........ --> Code to retrieve data and metadata
     |   |
-    |   +- ine_api.py ......... --> Code to retrieve INE data and metadata files via API
+    |   +- wb_extraction.py ......... --> Code to download and unzip data and metadata files
     |
     +- data_processing ........ --> Code to merge, clean, and complete the raw data files
     |   | 
-    |   +- ine_merge_data.py .. --> Code to merge data and metadata files according to the unique id code
-    |   |
-    |   +- ine_final_data.py .. --> Code to complete the data files previous to the data insertion
+    |   +- wb_final_data.py .. --> Code to merge and clean data and metadata files based on the indicator id code
     |
     +- data_load .............. --> Code to select and load the desired data to the database(s)
     |   |
@@ -79,7 +77,7 @@ ine
     |   |    
     |   +- sqlite_queries.py .. --> Reusable SQL queries for the SQLite data insertion
     |
-    +- ine_main.py ............ --> Main script to execute the full INE data extraction and preparation process
+    +- wb_main.py ............ --> Main script to execute the full WB data extraction and preparation process
 ```
 
 <br>
@@ -89,17 +87,15 @@ ine
 <br>
 
 ```
-ine
+worldbank
     |
     +- data_extraction ........ --> Code to retrieve data and metadata
     |   |
-    |   +- ine_api.py ......... --> Code to retrieve INE data and metadata files via API
+    |   +- wb_extraction.py ......... --> Code to download and unzip data and metadata files
     |
     +- data_processing ........ --> Code to merge, clean, and complete the raw data files
     |   | 
-    |   +- ine_merge_data.py .. --> Code to merge data and metadata files according to the unique id code
-    |   |
-    |   +- ine_final_data.py .. --> Code to complete the data files previous to the data insertion
+    |   +- wb_final_data.py .. --> Code to merge and clean data and metadata files based on the indicator id code
     |
     +- data_load .............. --> Code to select and load the desired data to the database(s)
     |   |
@@ -107,17 +103,17 @@ ine
     |   |    
     |   +- sqlite_queries.py .. --> Reusable SQL queries for the SQLite data insertion
     |
-    +- ine_main.py ............ --> Main script to execute the full INE data extraction and preparation process
+    +- wb_main.py ............ --> Main script to execute the full WB data extraction and preparation process
     |
-    +- ine_data ............... --> Holds processed, unprocessed data files and complementary files
+    +- wb_data ............... --> Holds processed, unprocessed data files and complementary files
     |   |
-    |   +- ine_comp_files  .... --> Contains complementary files generated along the execution
+    |   +- wb_comp_files  .... --> Contains complementary files generated along the execution
     |   |
     |   +- processed  ......... --> Contains the final processed data files.
     |   |
-    |   +- raw  ............... --> Contains the downloaded/unprocessed data files.
+    |   +- raw  ............... --> Contains the downloaded/unprocessed data file.
     |
-    +- ine_metadata  .......... --> Contains the extracted metadata JSON files
+    +- wb_metadata  .......... --> Contains the extracted metadata CSV file
 ```
 
 <br>
