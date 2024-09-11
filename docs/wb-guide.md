@@ -65,11 +65,11 @@ worldbank
     |
     +- data_extraction ........ --> Code to retrieve data and metadata
     |   |
-    |   +- wb_extraction.py ......... --> Code to download and unzip data and metadata files
+    |   +- wb_extraction.py ... --> Code to download and unzip data and metadata files
     |
     +- data_processing ........ --> Code to merge, clean, and complete the raw data files
     |   | 
-    |   +- wb_final_data.py .. --> Code to merge and clean data and metadata files based on the indicator id code
+    |   +- wb_final_data.py ... --> Code to merge and clean data and metadata files based on the indicator id code
     |
     +- data_load .............. --> Code to select and load the desired data to the database(s)
     |   |
@@ -77,7 +77,7 @@ worldbank
     |   |    
     |   +- sqlite_queries.py .. --> Reusable SQL queries for the SQLite data insertion
     |
-    +- wb_main.py ............ --> Main script to execute the full WB data extraction and preparation process
+    +- wb_main.py ............. --> Main script to execute the full WB data extraction and preparation process
 ```
 
 <br>
@@ -91,11 +91,11 @@ worldbank
     |
     +- data_extraction ........ --> Code to retrieve data and metadata
     |   |
-    |   +- wb_extraction.py ......... --> Code to download and unzip data and metadata files
+    |   +- wb_extraction.py ... --> Code to download and unzip data and metadata files
     |
     +- data_processing ........ --> Code to merge, clean, and complete the raw data files
     |   | 
-    |   +- wb_final_data.py .. --> Code to merge and clean data and metadata files based on the indicator id code
+    |   +- wb_final_data.py ... --> Code to merge and clean data and metadata files based on the indicator id code
     |
     +- data_load .............. --> Code to select and load the desired data to the database(s)
     |   |
@@ -103,17 +103,17 @@ worldbank
     |   |    
     |   +- sqlite_queries.py .. --> Reusable SQL queries for the SQLite data insertion
     |
-    +- wb_main.py ............ --> Main script to execute the full WB data extraction and preparation process
+    +- wb_main.py ............. --> Main script to execute the full WB data extraction and preparation process
     |
-    +- wb_data ............... --> Holds processed, unprocessed data files and complementary files
+    +- wb_data ................ --> Holds processed, unprocessed data files and complementary files
     |   |
-    |   +- wb_comp_files  .... --> Contains complementary files generated along the execution
+    |   +- wb_comp_files  ..... --> Contains complementary files generated along the execution
     |   |
     |   +- processed  ......... --> Contains the final processed data files.
     |   |
     |   +- raw  ............... --> Contains the downloaded/unprocessed data file.
     |
-    +- wb_metadata  .......... --> Contains the extracted metadata CSV file
+    +- wb_metadata  ........... --> Contains the extracted metadata CSV file
 ```
 
 <br>
