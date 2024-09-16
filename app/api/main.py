@@ -5,6 +5,8 @@ from typing import Generator, Optional, List
 from fastapi import Depends, FastAPI, HTTPException, Response, status
 from pydantic import BaseModel
 
+import schemas as s
+
 #uvicorn main:app --reload
 
 class Post_class(BaseModel):
@@ -28,21 +30,8 @@ def get_db() -> Generator:
     finally:
         conn.close()
 
-class IndicatorMetadataResponse(BaseModel):
-    id_indicator: int
-    name: str
-    description: str
-    units: str
-    units_descr: str
-    calculation: str
-    source: str
-    source_code: str
-    attributes: Optional[str] = None
-    class Config:
-        from_attributes = True
-
 # Endpoint para obtener los valores de un indicador específico
-@app.get("/indicator/{id}", response_model=List[IndicatorMetadataResponse])
+@app.get("/indicator/{id}", response_model=List[s.IndicatorMetadataResponse])
 def get_indicator(id: int, db: sqlite3.Connection = Depends(get_db)):
     cursor = db.cursor()
     cursor.execute("""
@@ -59,3 +48,34 @@ def get_indicator(id: int, db: sqlite3.Connection = Depends(get_db)):
     
     # Convertir cada fila en un diccionario que coincida con el modelo
     return [dict(row) for row in rows]  # Devolver todos los resultados como una lista de diccionarios
+
+
+@app.post("/users", status_code=status.HTTP_201_CREATED, response_model=s.User_Response)
+def create_user(user: s.User_Class, db: sqlite3.Connection = Depends(get_db)):
+    cursor = db.cursor()
+    
+    # Ejecutar la consulta para insertar un nuevo usuario
+    cursor.execute("""
+        INSERT INTO users (email, password)
+        VALUES (?, ?)
+    """, (user.email, user.password))
+    
+    # Confirmar los cambios en la base de datos
+    db.commit()
+    
+    # Obtener el ID del último registro insertado
+    id_user = cursor.lastrowid
+    
+    # Recuperar el nuevo usuario de la base de datos
+    cursor.execute("""
+        SELECT email FROM users WHERE id_user = ?
+    """, (id_user,))
+    
+    row = cursor.fetchone()
+    
+    if row is None:
+        raise HTTPException(status_code=404, detail="User not found after insertion")
+    
+    # Devolver la información del nuevo usuario
+    new_user = s.User_Response(email=row["email"])
+    return new_user
