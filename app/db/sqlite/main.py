@@ -23,6 +23,7 @@ def create_tables(database: sqlite3.Connection) -> None:
         cursor.execute(ct.CREATE_DATA_VALUES_TABLE)
         cursor.execute(ct.CREATE_VAL_ATTR_TABLE)
         cursor.execute(ct.CREATE_TYPE_TABLE)
+        cursor.execute(ct.CREATE_USERS_TABLE)
         cursor.execute(i.GEOCODE_IDX)
         cursor.execute(i.TIMECODE_IDX)
         cursor.execute(i.INDICATOR_NAME_IDX)
