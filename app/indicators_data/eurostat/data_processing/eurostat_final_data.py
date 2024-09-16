@@ -270,13 +270,18 @@ def main() -> None:
     metadata_folder = s.eurostat_metadata_folder
     output_folder = s.eurostat_processed_data
 
-    try:
-        process_data_and_metadata(data_csv, data_folder, metadata_folder, output_folder)
-    except KeyboardInterrupt:
-        logging.info("Main process interrupted by user.")
-        sys.exit(1)
+    
+    #try:
+        #logging.info("Starting merge")
+        #process_data_and_metadata(data_csv, data_folder, metadata_folder, output_folder)
+    #except KeyboardInterrupt:
+        #logging.info("Main process interrupted by user.")
+        #sys.exit(1)
 
+    #logging.info("Merge completed.")
+    logging.info("Starting data completion.")
     add_definition_to_csv_files(s.eurostat_processed_data, s.eurostat_dataset_def, s.eurostat_processed_data)
+    logging.info("Data completion completed.")
 
 if __name__ == "__main__":
     main()

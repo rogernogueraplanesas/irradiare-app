@@ -266,6 +266,25 @@ def truncate_all_tables(database):
     finally:
         cursor.close()
 
+    
+def truncate_stagging(database):
+    cursor = database.cursor()
+
+    try:
+        tables = ['stg_table']
+        
+        for table in tables:
+            cursor.execute(f'DELETE FROM {table}')
+            cursor.execute(f'DELETE FROM sqlite_sequence WHERE name="{table}";')
+
+        database.commit()
+        print("Todas las tablas han sido vaciadas.")
+    except sqlite3.Error as e:
+        database.rollback()
+        print(f"Error al vaciar las tablas: {e}")
+    finally:
+        cursor.close()
+
 if __name__ == "__main__":
     try:
         database = sqlite3.connect('sqlite_db.db')
@@ -273,6 +292,7 @@ if __name__ == "__main__":
         
         insert_into_stagging(database=database, csv_folder="app/indicators_data/eurostat/eurostat_data/processed/")
         stg_to_datawarehouse(database)
+        truncate_stagging(database=database)
 
         #truncate_all_tables(database=database)
     
