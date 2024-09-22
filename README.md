@@ -11,6 +11,7 @@ Irradiare's Project Efficiency and Forecasting App: track the impact of the comp
 <br><br>
 
 <div align="center">
-  <img src="docs/images/irradiare-app-gif.gif" width="65%" height="65%" alt="app-overlay">
+  <img src="docs/images/irradiare-app-gif.gif" width="85%" height="85%" alt="app-data-pathway">
   <br style="margin-bottom: 0.25em;">
+  <sub>DevTrack App's data pathway</sub>
 </div>
