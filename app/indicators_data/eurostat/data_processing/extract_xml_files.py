@@ -35,11 +35,10 @@ As the root of the project is now in the 'sys.path', it is possible to import th
 
 import app.utils.settings as s
 
-# Ruta de la carpeta principal
+
 root_dir = "app/indicators_data/eurostat/eurostat_metadata"
 
 def move_smdx_files_and_cleanup(root_dir):
-    # Recorre los subdirectorios de primer nivel en root_dir
     for entry in os.scandir(root_dir):
         if entry.is_dir():
             for subentry in os.scandir(entry.path):

@@ -341,16 +341,16 @@ def process_file2(file_path: str, dicofre_dict: Dict[str, Dict[str, str]], zipco
             row.extend([distrito, concelho, freguesia, nuts1, nuts2, nuts3, dicofre, zipcode])
             new_rows.append(row)
 
-    # Guardar el archivo final procesado
+    # Save final processed file
     final_file_path = os.path.join(os.path.dirname(file_path), f'final_{os.path.basename(file_path)}')
     with open(final_file_path, 'w', encoding='utf-8', newline='') as csv_file:
         writer = csv.writer(csv_file, delimiter=';')
         writer.writerow(headers)
         writer.writerows(new_rows)
 
-    print(f"Archivo FINAL procesado y guardado en: {final_file_path}")
-    os.remove(file_path)  # Eliminar el archivo de origen
-    print(f"Archivo de origen eliminado: {file_path}")
+    print(f"Final file processed and saved in: {final_file_path}")
+    os.remove(file_path)  # Delete original file
+    print(f"Original file deleted: {file_path}")
 
 def add_geodata(final_data_path: str, dicofre_dict: Dict[str, Dict[str, str]], zipcode_dict: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]], max_workers: int = 4) -> None:
     """

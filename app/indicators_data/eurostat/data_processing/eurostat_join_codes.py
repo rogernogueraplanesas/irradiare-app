@@ -37,7 +37,6 @@ As the root of the project is now in the 'sys.path', it is possible to import th
 
 import app.utils.settings as s
 
-# Función para leer un archivo CSV y devolver los datos como una lista de listas
 def read_csv(file_path: str) -> List[List[str]]:
     """
     Read a CSV file and return its contents as a list of lists.
@@ -52,7 +51,6 @@ def read_csv(file_path: str) -> List[List[str]]:
         reader = csv.reader(file)
         return list(reader)
 
-# Función para guardar los datos en un archivo CSV
 def write_csv(file_path: str, fieldnames: List[str], rows: List[Dict[str, str]]) -> None:
     """
     Save data to a CSV file.
@@ -82,35 +80,33 @@ def main() -> None:
     Returns:
         None
     """
-    # Leer los archivos CSV
+    # Read the csv files
     csv1 = read_csv(s.eurostat_datacodes)
     csv2 = read_csv(s.eurostat_download_metadata)
     csv3 = read_csv(s.eurostat_manual_metadata)
 
-    # Convertir los CSV 2 y 3 en diccionarios de búsqueda
+    # Convert csv 2 and 3 into search dicts
     link_to_download_link: Dict[str, str] = {row[0]: row[1] for row in csv2}
     link_to_manual_link: Dict[str, str] = {row[0]: row[1] for row in csv3}
 
-    # Procesar los enlaces del primer CSV y generar el CSV final
+    # Process links from the first csv and generate the final csv
     final_rows: List[Dict[str, str]] = []
     for row in csv1:
         indicator_name = row[0]
         htm_link = row[1]
 
         if htm_link in link_to_download_link:
-            # Extraer el nombre del archivo del enlace de descarga
+            # Extract the filename from the download link
             download_link = link_to_download_link[htm_link]
             metadata_name = download_link.split('/')[-1].split('.')[0]
         elif htm_link in link_to_manual_link:
-            # Extraer el nombre del archivo del enlace manual
+            # Extract the filename from the manual download link
             metadata_name = htm_link.split('/')[-1].split('.')[0]
         else:
-            # Si no hay enlace, dejar en blanco
             metadata_name = ''
 
         final_rows.append({'indicator_name': indicator_name, 'metadata_name': metadata_name})
 
-    # Guardar el archivo CSV final
     write_csv(file_path=s.merged_codes_file, fieldnames=['indicator_name', 'metadata_name'], rows=final_rows)
 
 if __name__ == "__main__":

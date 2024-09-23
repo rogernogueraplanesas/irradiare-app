@@ -82,7 +82,7 @@ def process_file(
     Returns:
         None
     """
-    # Define los namespaces utilizados en el XML
+    # Define the namespaces used in the XML
     namespaces = {
         'genericmetadata': 'http://www.SDMX.org/resources/SDMXML/schemas/v2_0/genericmetadata',
         'common': 'http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common'
@@ -212,40 +212,34 @@ def add_definition_to_csv_files(
     Returns:
         None
     """
-    # Leer el archivo de referencia
+    # Read the reference file
     reference_dict = {}
     with open(reference_csv_path, mode='r', encoding='utf-8') as reference_file:
         reference_reader = csv.reader(reference_file)
         for row in reference_reader:
-            if row:  # Asegurarse de que la fila no esté vacía
+            if row: 
                 reference_dict[row[0]] = row[1]
 
-    # Crear el output_folder si no existe
+
     os.makedirs(output_folder, exist_ok=True)
 
-    # Recorrer recursivamente la carpeta de entrada
     for root, _, files in os.walk(input_folder):
         for file in files:
             if file.endswith('.csv'):
                 file_path = os.path.join(root, file)
                 file_name = os.path.splitext(file)[0]
 
-                # Leer el archivo CSV
                 with open(file_path, mode='r', encoding='utf-8') as input_file:
                     reader = csv.reader(input_file)
                     rows = list(reader)
 
-                # Agregar la nueva columna 'dataset_definition' al encabezado si hay coincidencia
                 if file_name in reference_dict:
                     definition = reference_dict[file_name]
-                    # Añadir 'dataset_definition' al encabezado
                     if rows:
                         rows[0].append('dataset_name')
-                        # Añadir la definición en cada fila
                         for row in rows[1:]:
                             row.append(definition)
 
-                    # Guardar el archivo modificado en la carpeta de salida
                     output_path = os.path.join(output_folder, file)
                     with open(output_path, mode='w', newline='', encoding='utf-8') as output_file:
                         writer = csv.writer(output_file)
@@ -271,14 +265,14 @@ def main() -> None:
     output_folder = s.eurostat_processed_data
 
     
-    #try:
-        #logging.info("Starting merge")
-        #process_data_and_metadata(data_csv, data_folder, metadata_folder, output_folder)
-    #except KeyboardInterrupt:
-        #logging.info("Main process interrupted by user.")
-        #sys.exit(1)
-
-    #logging.info("Merge completed.")
+    try:
+        logging.info("Starting merge")
+        process_data_and_metadata(data_csv, data_folder, metadata_folder, output_folder)
+    except KeyboardInterrupt:
+        logging.info("Main process interrupted by user.")
+        sys.exit(1)
+    logging.info("Merge completed.")
+    
     logging.info("Starting data completion.")
     add_definition_to_csv_files(s.eurostat_processed_data, s.eurostat_dataset_def, s.eurostat_processed_data)
     logging.info("Data completion completed.")

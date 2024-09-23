@@ -78,15 +78,12 @@ def get_data_names(path: str, output_file: str) -> None:
         None
     """
     with open(output_file, 'w') as f:
-        # Recorrer todos los archivos en el directorio
         for archivo in os.listdir(path):
-            # Verificar si el archivo tiene la extensión .json
             if archivo.endswith('.json'):
-                # Escribir el nombre del archivo sin la extensión en el archivo de salida
                 f.write(os.path.splitext(archivo)[0] + '\n')
     print(f"Filenames CSV saved in: {output_file}")
 
-def encontrar_link(codigo: str, archivo_xml: str) -> Optional[str]:
+def find_link(code: str, file_xml: str) -> Optional[str]:
     """
     Find the metadata link for a given code in an XML file.
 
@@ -97,68 +94,64 @@ def encontrar_link(codigo: str, archivo_xml: str) -> Optional[str]:
     Returns:
         Optional[str]: The metadata link if found, otherwise None.
     """
-    # Parsear el archivo XML
-    tree = ET.parse(archivo_xml)
+    tree = ET.parse(file_xml)
     root = tree.getroot()
-    # Namespace del archivo XML
+    # Namespace of the XML file
     ns = {'nt': 'urn:eu.europa.ec.eurostat.navtree'}
 
     for leaf in root.findall(".//nt:leaf", ns):
         code_element = leaf.find("nt:code", ns)
-        if code_element is not None and code_element.text == codigo:
+        if code_element is not None and code_element.text == code:
             metadata_element = leaf.find("nt:metadata[@format='html']", ns)
             if metadata_element is not None:
-                print(f"Found {metadata_element.text} for {codigo}")
+                print(f"Found {metadata_element.text} for {code}")
                 return metadata_element.text
     return None
 
-def fill_metadata_list(nombres_json: List[str], archivo_xml: str, metadata_dict: Dict[str, str]) -> Dict[str, str]:
+def fill_metadata_list(names_json: List[str], file_xml: str, metadata_dict: Dict[str, str]) -> Dict[str, str]:
     """
     Fill the metadata dictionary with links found in an XML file.
 
     Args:
-        nombres_json (List[str]): The list of JSON file names to search for.
-        archivo_xml (str): The XML file to search in.
+        names_json (List[str]): The list of JSON file names to search for.
+        file_xml (str): The XML file to search in.
         metadata_dict (Dict[str, str]): The dictionary to fill with metadata links.
 
     Returns:
         Dict[str, str]: The updated metadata dictionary.
     """
-    # Llenar el diccionario con los enlaces de metadatos
-    for nombre in nombres_json:
-        link = encontrar_link(nombre, archivo_xml)
+    # Fill the dictionary with the metadata links
+    for name in names_json:
+        link = find_link(name, file_xml)
         if link:
-            metadata_dict[nombre] = link
+            metadata_dict[name] = link
     return metadata_dict
 
-def merge_datacode_metadata_link(archivo_csv: str, metadata_dict: Dict[str, str], archivo_csv_actualizado: str) -> None:
+def merge_datacode_metadata_link(csv_file: str, metadata_dict: Dict[str, str], updated_csv_file: str) -> None:
     """
     Merge metadata links into an existing CSV file based on a metadata dictionary.
 
     Args:
-        archivo_csv (str): The CSV file to read and update.
+        csv_file (str): The CSV file to read and update.
         metadata_dict (Dict[str, str]): The dictionary of metadata links.
-        archivo_csv_actualizado (str): The path to the updated CSV file.
+        updated_csv_file (str): The path to the updated CSV file.
 
     Returns:
         None
     """
-    # Leer el archivo CSV y agregar enlaces de metadatos
-    with open(archivo_csv, 'r', newline='') as csvfile:
+    with open(csv_file, 'r', newline='') as csvfile:
         reader = csv.reader(csvfile)
         rows = list(reader)
 
-    # Agregar enlaces de metadatos
     for row in rows:
         codigo = row[0]
         row.append(metadata_dict.get(codigo, ''))
 
-    # Escribir el archivo CSV actualizado
-    with open(archivo_csv_actualizado, 'w', newline='') as csvfile:
+    with open(updated_csv_file, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(rows)
 
-    print("Archivo CSV actualizado con enlaces de metadatos.")
+    print("CSV updated with metadata links.")
 
 def main() -> None:
     """
@@ -180,16 +173,16 @@ def main() -> None:
     download_toc(url=s.eurostat_toc_url_xml, save_path=s.eurostat_toc_xml)
     get_data_names(path=s.eurostat_raw_data, output_file=s.eurostat_datacodes)
     
-    # Obtener nombres de archivos JSON sin la extensión
+    # Get JSON filenames without extension
     nombres_json = [f.split('.')[0] for f in os.listdir(s.eurostat_raw_data) if f.endswith('.json')]
     
-    # Crear un diccionario para almacenar los enlaces de metadatos
+    # Create a dict to save metadata links
     metadata_links: Dict[str, str] = {}
     
-    # Llenar el diccionario con los enlaces de metadatos
+    # Fill the dict
     metadata_dict = fill_metadata_list(nombres_json=nombres_json, archivo_xml=s.eurostat_toc_xml, metadata_dict=metadata_links)
     
-    # Actualizar el archivo CSV con los enlaces de metadatos
+    # Update the CSV with the metadata dict info
     merge_datacode_metadata_link(archivo_csv=s.eurostat_datacodes, metadata_dict=metadata_dict, archivo_csv_actualizado=s.eurostat_datacodes)
 
 if __name__ == "__main__":

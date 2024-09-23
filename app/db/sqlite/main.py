@@ -4,15 +4,14 @@ import indexes as i
 
 def create_tables(database: sqlite3.Connection) -> None:
     """
-    Crea las tablas en la base de datos SQLite especificada.
+    Create SQLite DB tables
 
     Args:
-        database (sqlite3.Connection): Conexión a la base de datos SQLite.
+        database (sqlite3.Connection): Connection to the SQLite DB.
     """
     try:
         cursor = database.cursor()
         
-        # Crear las tablas en la base de datos
         cursor.execute(ct.CREATE_STAGGING_TABLE)
         cursor.execute(ct.CREATE_NUTS_TABLE)
         cursor.execute(ct.CREATE_GEOLEVEL_TABLE)
@@ -30,27 +29,32 @@ def create_tables(database: sqlite3.Connection) -> None:
         cursor.execute(i.ID_GEODATA_IDX)
         cursor.execute(i.ID_INDICATOR_IDX)
         
-        # Confirmar los cambios
         database.commit()
         
-        print("Todas las tablas se han creado correctamente.")
+        print("All tables created.")
     
     except sqlite3.Error as e:
-        print(f"Error al crear las tablas: {e}")
-        # Hacer rollback para revertir cambios en caso de error
+        print(f"Error creating the tables: {e}")
+        # Rollback to revert in case of error
         database.rollback()
-        # Aquí podrías implementar estrategias adicionales para manejar el error.
 
-if __name__ == "__main__":
-    database = None
+
+def main() -> None:
+    """
+    Main function to create tables in the DB
+    """
+    DB_PATH = 'sqlite_db.db'  # Relativa path to the db
     try:
-        # Conectar a la base de datos SQLite
-        database = sqlite3.connect('sqlite_db.db')
-        # Crear las tablas
+        database = sqlite3.connect(DB_PATH)
         create_tables(database=database)
-    except sqlite3.Error as e:
-        print(f"Error al conectar a la base de datos: {e}")
+
+    except sqlite3.Error as error:
+        print(f"Error connecting with the database: {error}")
+
     finally:
-        # Asegurarse de cerrar la conexión, incluso si ocurre un error
         if database:
             database.close()
+
+
+if __name__ == "__main__":
+    main()
