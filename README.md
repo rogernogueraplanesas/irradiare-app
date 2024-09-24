@@ -6,9 +6,7 @@
 
 # DevTrack app - IrRadiare
 ![Static Badge](https://img.shields.io/badge/language-python-blue) ![GitHub repo size](https://img.shields.io/github/repo-size/:rogernogueraplanesas/:portugal-weather-analysis) ![GitHub last commit](https://img.shields.io/github/last-commit/:rogernogueraplanesas/:portugal-weather-analysis) <br>
-Irradiare's DevTrack App is an internal tool designed to **monitor the performance and efficiency** of the company’s implemented projects over time **based on key indicators' data**.<br>
-In addition to tracking, the app allows for **forecasting project outcomes**, enabling the company to optimize the timing of new initiatives based on predicted values for key indicators.<br>
-The project impact can be analyzed across multiple geographical levels, such as individual parishes, municipalities, districts, or at the national level. Additionally, it supports tracking indicators based on NUTS (Nomenclature of Territorial Units for Statistics) levels.
+
 Irradiare's DevTrack App is an internal tool designed to **monitor the performance and efficiency** of the company’s implemented projects over time, utilizing **key indicator data**.<br>
 In addition to tracking, the app facilitates **forecasting project outcomes**, enabling the company to optimize the timing of new initiatives based on predicted values for these indicators.<br>
 Project impact can be analyzed across **multiple geographical levels**, including parishes, municipalities, districts, and the national level. Additionally, the app supports tracking indicators based on **NUTS** (Nomenclature of Territorial Units for Statistics) levels.<br>
