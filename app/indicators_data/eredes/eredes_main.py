@@ -14,22 +14,22 @@ def eredes_main() -> None:
     try:
         eredes_data.main()
     except Exception as e:
-        print(f"Error en eredes_data.main(): {e}")
+        print(f"Error in eredes_data.main(): {e}")
 
     try:
         eredes_metadata.main()
     except Exception as e:
-        print(f"Error en eredes_metadata.main(): {e}")
+        print(f"Error in eredes_metadata.main(): {e}")
 
     try:
         eredes_merge_files.main()
     except Exception as e:
-        print(f"Error en eredes_merge_files.main(): {e}")
+        print(f"Error in eredes_merge_files.main(): {e}")
 
     try:
         eredes_final_format.main()
     except Exception as e:
-        print(f"Error en eredes_final_format.main(): {e}")
+        print(f"Error in eredes_final_format.main(): {e}")
 
         
 

@@ -31,7 +31,6 @@ def extract_and_save_row(input_csv: str, output_csv: str, row_number: int) -> Op
             row = lines[row_number].strip()  # Remove spaces and break lines
             # Divide the row elements by ;
             row_data = row.split(';')
-
             # Remove double quotes from any element
             row_data = [field.strip('"') for field in row_data]
         else:
@@ -199,7 +198,6 @@ def insert_into_stagging(database: sqlite3.Connection, csv_folder: str) -> None:
                             print(f"Reached last row: {last_row}. Stopping the row insertion process..")
                             break  # If the last row is found in the input file, the insertion process ends
 
-                        # Proceso de extracción de valores para la base de datos
                         nuts1 = row[nuts1_idx] if nuts1_idx is not None else 'Undefined'
                         nuts2 = row[nuts2_idx] if nuts2_idx is not None else 'Undefined'
                         nuts3 = row[nuts3_idx] if nuts3_idx is not None else 'Undefined'
@@ -238,14 +236,16 @@ def insert_into_stagging(database: sqlite3.Connection, csv_folder: str) -> None:
                             attributes, name_attribute, value_attribute, value_tag
                         ))
 
-                # Changes commited to the db
-                database.commit()
+        # Changes commited to the db
+        database.commit()
+        print("Stagging completed.")
 
     except Exception as e:
         database.rollback()
-        print(f"Error al procesar el archivo {filename}: {e}")
+        print(f"Error processing the file {filename}: {e}")
 
-    
+    finally:
+        cursor.close()
 
 
 def stg_to_datawarehouse(database: sqlite3.Connection) -> None:
@@ -322,7 +322,7 @@ def stg_to_datawarehouse(database: sqlite3.Connection) -> None:
                 if value is None:
                     raise ValueError(f"Valor de data_value inválido: {row_dict['data_value']}")
             except ValueError:
-                print(f"Valor de data_value no válido y saltado: {row_dict['data_value']}")
+                print(f"data_value value not valid, skipping: {row_dict['data_value']}")
                 continue
 
             # Insert data into `data_values` table
@@ -331,7 +331,7 @@ def stg_to_datawarehouse(database: sqlite3.Connection) -> None:
                                (id_geodata, id_indicator, row_dict['timecode'], value, row_dict['attributes']))
                 id_value = cursor.lastrowid
             except sqlite3.IntegrityError:
-                print(f"Duplicado encontrado y saltado: {row_dict}")
+                print(f"Duplicated found and skipped: {row_dict}")
                 continue
 
             # Insert data into `attributes` table
@@ -359,7 +359,7 @@ def stg_to_datawarehouse(database: sqlite3.Connection) -> None:
         database.commit()
 
     except sqlite3.Error as e:
-        print(f"Error al procesar los datos de staging: {e}")
+        print(f"Error processing stagging data: {e}")
         database.rollback()
 
     finally:
@@ -424,29 +424,36 @@ def truncate_stagging(database: sqlite3.Connection) -> None:
 
 
 
-def main():
+def main() -> None:
+    """
+    Main function that manages the database connection, inserts data from CSV into staging,
+    moves data from staging to the data warehouse, truncates the staging table, and closes the connection.
+    """
     try:
-        # Establecemos la conexión a la base de datos
+        # Connect to the SQLite database
         database = sqlite3.connect('sqlite_db.db')
         print("Connected to the database (SQLITE).")
         
-        # Llamamos a la función para insertar datos desde CSV
+        # Insert data into the staging table from CSVs
         insert_into_stagging(database=database, csv_folder="app/indicators_data/eredes/data/processed/")
         print("Stagging table completed")
 
-        # Procesar los datos de la tabla stg_table
+        # Move data from staging to the data warehouse
         stg_to_datawarehouse(database)
+        
+        # Uncomment this if you want to truncate the stg_table after processing
+        #truncate_stagging(database=database)
 
-        truncate_stagging(database=database)
-
+        # Uncomment this if you want to truncate all tables after processing
         # truncate_all_tables(database=database)
     
     except sqlite3.Error as db_err:
         print(f"Error: {db_err}")
 
     finally:
+        # Ensure the database connection is closed
         if database:
-            database.close()  # Aseguramos el cierre de la conexión
+            database.close()
             print("Database connection closed.")
 
 

@@ -38,7 +38,16 @@ import app.utils.settings as s
 
 root_dir = "app/indicators_data/eurostat/eurostat_metadata"
 
-def move_smdx_files_and_cleanup(root_dir):
+def move_smdx_files_and_cleanup(root_dir: str) -> None:
+    """
+    Moves .sdmx.xml files from subdirectories to the root directory and renames them if necessary to avoid overwrites.
+
+    Args:
+        root_dir (str): The root directory where the files should be moved.
+    
+    Returns:
+        None
+    """
     for entry in os.scandir(root_dir):
         if entry.is_dir():
             for subentry in os.scandir(entry.path):
@@ -46,7 +55,6 @@ def move_smdx_files_and_cleanup(root_dir):
                     xml_file_path = subentry.path
                     new_path = os.path.join(root_dir, subentry.name)
                     
-                    # Asegúrate de que el nombre del archivo no sobrescriba a otros
                     if os.path.exists(new_path):
                         base, extension = os.path.splitext(subentry.name)
                         counter = 1
@@ -57,21 +65,41 @@ def move_smdx_files_and_cleanup(root_dir):
                     shutil.move(xml_file_path, new_path)
                     print(f'Moved: {xml_file_path} to {new_path}')
 
-def remove_all_dirs(root_dir):
-    # Recorre los subdirectorios y archivos en el directorio dado
+
+def remove_all_dirs(root_dir: str) -> None:
+    """
+    Recursively removes all directories and their contents in the specified root directory.
+
+    Args:
+        root_dir (str): The root directory from which directories will be deleted.
+    
+    Returns:
+        None
+    """
+    # Browse through folders and files from the given path
     for entry in os.scandir(root_dir):
         if entry.is_dir():
-            # Elimina subdirectorios recursivamente
+            # Recursively delete folders
             remove_all_dirs(entry.path)
             
-            # Intenta eliminar el directorio actual y todo su contenido
+            # Delete current directory and its content
             try:
-                shutil.rmtree(entry.path)  # Elimina el directorio y todo su contenido
+                shutil.rmtree(entry.path)
                 print(f'Removed directory and its contents: {entry.path}')
             except OSError as e:
                 print(f'Could not remove directory: {entry.path}. Error: {e}')
 
 
-# Ejecutar la función
-move_smdx_files_and_cleanup(root_dir=s.eurostat_metadata_folder)
-remove_all_dirs(root_dir=s.eurostat_metadata_folder)
+def main() -> None:
+    """
+    Main function that moves .sdmx.xml files and removes directories in the specified root directory.
+    
+    Returns:
+        None
+    """
+    move_smdx_files_and_cleanup(root_dir=s.eurostat_metadata_folder)
+    remove_all_dirs(root_dir=s.eurostat_metadata_folder)
+
+
+if __name__ == "__main__":
+    main()

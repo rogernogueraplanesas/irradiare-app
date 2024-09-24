@@ -2,34 +2,83 @@ import requests
 import zipfile
 import os
 
-# URL de la API donde se descargará el archivo
-url = "https://api.worldbank.org/v2/en/country/PRT?downloadformat=csv&_gl=1*d5zsxg*_gcl_au*MTA2OTI2MTU1My4xNzI1NzE5Mzgy"
+
+def create_directories(paths: list[str]) -> None:
+    """
+    Create directories if they do not already exist.
+
+    Args:
+        paths (list[str]): List of directory paths to create.
+
+    Returns:
+        None
+    """
+    for path in paths:
+        os.makedirs(path, exist_ok=True)
 
 
-# Ruta donde quieres guardar el archivo ZIP descargado
+def download_zip_file(url: str, zip_path: str) -> None:
+    """
+    Download a ZIP file from the specified URL and save it to the given path.
 
-complementary_path = "app/indicators_data/worldbank/wb_data/wb_comp_files"
+    Args:
+        url (str): The URL to download the ZIP file from.
+        zip_path (str): The path where the downloaded ZIP file will be saved.
 
-ruta_zip = "app/indicators_data/worldbank/wb_data/wb_comp_files/files.zip"
-
-ruta_data = "app/indicators_data/worldbank/wb_data/raw"
-
-ruta_metadata = "app/indicators_data/worldbank/wb_metadata"
-
-os.makedirs(complementary_path, exist_ok=True)
-os.makedirs(ruta_data, exist_ok=True)
-os.makedirs(ruta_metadata, exist_ok=True)
-
-# Descargar el archivo ZIP
-response = requests.get(url)
-with open(ruta_zip, 'wb') as f:
-    f.write(response.content)
+    Returns:
+        None
+    """
+    response = requests.get(url)
+    with open(zip_path, 'wb') as f:
+        f.write(response.content)
 
 
-with zipfile.ZipFile(ruta_zip, 'r') as zip_ref:
-    # Extraer un archivo en específico
-    zip_ref.extract('API_PRT_DS2_en_csv_v2_3412148.csv', ruta_data)
-    zip_ref.extract('Metadata_Indicator_API_PRT_DS2_en_csv_v2_3412148.csv', ruta_metadata)
+def extract_zip_file(zip_path: str, extract_to: str, file_names: list[str]) -> None:
+    """
+    Extract specific files from a ZIP file to the specified directory.
+
+    Args:
+        zip_path (str): The path to the ZIP file.
+        extract_to (str): The directory to extract the files into.
+        file_names (list[str]): List of filenames to extract from the ZIP file.
+
+    Returns:
+        None
+    """
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        for file_name in file_names:
+            zip_ref.extract(file_name, extract_to)
 
 
-print("Proceso completado.")
+def main() -> None:
+    """
+    Main function to execute the download and extraction process.
+
+    Returns:
+        None
+    """
+    # URL of the WORLD BANK API from which a ZIP file including data+metadata is downloaded
+    url = "https://api.worldbank.org/v2/en/country/PRT?downloadformat=csv&_gl=1*d5zsxg*_gcl_au*MTA2OTI2NjE1My4xNzI1NzE5Mzgy"
+
+    # Paths for storing downloaded and extracted files
+    complementary_path = "app/indicators_data/worldbank/wb_data/wb_comp_files"
+    zip_path = os.path.join(complementary_path, "files.zip")
+    data_path = "app/indicators_data/worldbank/wb_data/raw"
+    metadata_path = "app/indicators_data/worldbank/wb_metadata"
+
+    # Create necessary directories
+    create_directories([complementary_path, data_path, metadata_path])
+
+    # Download the ZIP file
+    download_zip_file(url, zip_path)
+
+    # Extract the data and the metadata CSV files
+    extract_zip_file(zip_path, data_path, ['API_PRT_DS2_en_csv_v2_3412148.csv'])
+    extract_zip_file(zip_path, metadata_path, ['Metadata_Indicator_API_PRT_DS2_en_csv_v2_3412148.csv'])
+
+    print("Process completed.")
+
+
+if __name__ == "__main__":
+    main()
+

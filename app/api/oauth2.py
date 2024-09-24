@@ -89,10 +89,10 @@ def current_user(token: str = Depends(oauth2_schema), db: sqlite3.Connection = D
         headers={"WWW-Authenticate": "Bearer"}
     )
     
-    # Verificamos y decodificamos el token
+    # Verify the token and extract the user's id
     user_id = verify_token(token, credentials_exception)
     
-    # Buscamos el usuario en la base de datos
+    # Find the user data based on the id
     cursor = db.cursor()
     cursor.execute("""
         SELECT id_user, email 

@@ -43,69 +43,73 @@ import app.utils.settings as s
 
 def get_timecode_area(headers: List[str]) -> Tuple[Union[int, None], Union[int, None]]:
     """
-    Obtiene los índices de las columnas 'timecode' y 'area' en la lista de encabezados.
+    Gets the indices of the 'timecode' and 'area' columns from the list of headers.
 
     Args:
-        headers (List[str]): Lista de nombres de las columnas.
+        headers (List[str]): List of column names.
 
     Returns:
-        Tuple[Union[int, None], Union[int, None]]: Índices de las columnas 'timecode' y 'area'.
+        Tuple[Union[int, None], Union[int, None]]: Indices of the 'timecode' and 'area' columns.
     """
     timecode_idx = next((i for i, h in enumerate(headers) if h in ['timecode']), None)
     area_idx = next((i for i, h in enumerate(headers) if h in ["area"]), None)
     return timecode_idx, area_idx
 
+
 def clean_timecode(row: List[str], timecode_idx: int) -> str:
     """
-    Limpia el valor del 'timecode' eliminando caracteres no numéricos.
+    Cleans the 'timecode' value by removing non-numeric characters.
 
     Args:
-        row (List[str]): Lista de valores de la fila del archivo CSV.
-        timecode_idx (int): Índice de la columna 'timecode'.
+        row (List[str]): List of values from the CSV row.
+        timecode_idx (int): Index of the 'timecode' column.
 
     Returns:
-        str: Valor del 'timecode' limpio.
+        str: Cleaned 'timecode' value.
     """
     timecode = row[timecode_idx]
     timecode = re.sub(r'[^0-9]', '', timecode)
     return timecode
 
+
 def load_nuts_data(nuts_path: str) -> Dict[str, Any]:
     """
-    Carga los datos de NUTS desde un archivo JSON.
+    Loads NUTS data from a JSON file.
 
     Args:
-        nuts_path (str): Ruta del archivo JSON que contiene los datos de NUTS.
+        nuts_path (str): Path to the JSON file containing NUTS data.
 
     Returns:
-        Dict[str, Any]: Datos de NUTS cargados desde el archivo.
+        Dict[str, Any]: NUTS data loaded from the file.
     """
     with open(nuts_path, 'r', encoding='utf-8') as nuts_file:
         return json.load(nuts_file)
-    
+
+
 def load_dicofre_data(dicofre_path: str) -> Dict[str, Any]:
     """
-    Carga los datos de DICOFRE desde un archivo JSON.
+    Loads DICOFRE data from a JSON file.
 
     Args:
-        dicofre_path (str): Ruta del archivo JSON que contiene los datos de DICOFRE.
+        dicofre_path (str): Path to the JSON file containing DICOFRE data.
 
     Returns:
-        Dict[str, Any]: Datos de DICOFRE cargados desde el archivo.
+        Dict[str, Any]: DICOFRE data loaded from the file.
     """
     with open(dicofre_path, 'r', encoding='utf-8') as dicofre_file:
         return json.load(dicofre_file)
 
+
 def match_location(name: str, dicofre_data: Dict[str, Dict[str, str]]) -> Tuple[str, str, str]:
     """
-    Coincide un nombre con la ubicación en los datos de DICOFRE.
+    Matches a name with the location in the DICOFRE data.
 
     Args:
-        name (str): Nombre de la ubicación a coincidir.
-        dicofre_data (Dict[str, Dict[str, str]]): Datos de DICOFRE.
+        name (str): Name of the location to match.
+        dicofre_data (Dict[str, Dict[str, str]]): DICOFRE data.
 
     Returns:
-        Tuple[str, str, str]: Tuple con distrito, concelho y freguesia.
+        Tuple[str, str, str]: Tuple containing district, municipality, and parish.
     """
     for key, value in dicofre_data.items():
         if name == value["freguesia"]:
@@ -121,17 +125,18 @@ def match_location(name: str, dicofre_data: Dict[str, Dict[str, str]]) -> Tuple[
     
     return "undefined", "undefined", "undefined"
 
+
 def match_nuts_location(area: str, dicofre_data: Dict[str, Dict[str, str]], nuts_dict: Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]) -> Tuple[str, str, str, str, str, str]:
     """
-    Coincide un área con la ubicación NUTS correspondiente en los datos de DICOFRE y NUTS.
+    Matches an area with the corresponding NUTS location in the DICOFRE and NUTS data.
 
     Args:
-        area (str): Nombre del área a coincidir.
-        dicofre_data (Dict[str, Dict[str, str]]): Datos de DICOFRE.
-        nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): Datos de NUTS.
+        area (str): Name of the area to match.
+        dicofre_data (Dict[str, Dict[str, str]]): DICOFRE data.
+        nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): NUTS data.
 
     Returns:
-        Tuple[str, str, str, str, str, str]: Tuple con distrito, concelho, freguesia, y códigos NUTS.
+        Tuple[str, str, str, str, str, str]: Tuple containing district, municipality, parish, and NUTS codes.
     """
     if area == 'Continente':
         area = 'Portugal Continental'
@@ -161,19 +166,19 @@ def match_nuts_location(area: str, dicofre_data: Dict[str, Dict[str, str]], nuts
 
     return distrito, concelho, freguesia, area, nuts2, nuts3
 
+
 def main(final_data_path: str, dicofre_path: str, nuts_path: str) -> None:
     """
-    Procesa archivos CSV en el directorio final_data_path, agregando información de ubicación y NUTS.
+    Processes CSV files in the final_data_path directory, adding location and NUTS information.
 
     Args:
-        final_data_path (str): Ruta del directorio con los archivos CSV a procesar.
-        dicofre_dict (Dict[str, Dict[str, str]]): Datos de DICOFRE.
-        nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): Datos de NUTS.
+        final_data_path (str): Path of the directory containing the CSV files to process.
+        dicofre_dict (Dict[str, Dict[str, str]]): DICOFRE data.
+        nuts_dict (Dict[str, Dict[str, Dict[str, Union[Dict[str, str], List[str]]]]]): NUTS data.
 
     Returns:
         None
     """
-
     dicofre_dict = load_dicofre_data(dicofre_path)
     nuts_dict = load_nuts_data(nuts_path)
 
@@ -186,13 +191,12 @@ def main(final_data_path: str, dicofre_path: str, nuts_path: str) -> None:
                 try:
                     headers = next(reader)
                 except StopIteration:
-                    print(f"Archivo vacío: {filename}")
-                    continue  # Saltar archivo vacío
+                    print(f"Empty file: {filename}")
+                    continue
                 
-                # Verificar si las columnas necesarias existen
                 timecode_idx, area_idx = get_timecode_area(headers)
                 if timecode_idx is None or area_idx is None:
-                    print(f"Archivo no tiene las columnas necesarias: {filename}")
+                    print(f"The file does not have the required columns: {filename}")
                     continue
 
                 headers.extend(['distrito', 'concelho', 'freguesia', 'nuts1', 'nuts2', 'nuts3'])
@@ -210,8 +214,7 @@ def main(final_data_path: str, dicofre_path: str, nuts_path: str) -> None:
                 writer.writerow(headers)
                 writer.writerows(new_rows)
 
-            print(f"Archivo procesado y guardado en: {output_file}")
+            print(f"File processed and saved in: {output_file}")
 
 if __name__ == "__main__":
-    # Ejecutar la función principal del script con los parámetros configurados
     main(s.ine_processed_data, s.dicofre_data, s.nuts_data)

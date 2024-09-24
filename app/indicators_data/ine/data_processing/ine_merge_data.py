@@ -55,21 +55,21 @@ def merge_data(raw_data_path: str, metadata_path: str, output_folder: str) -> No
     Returns:
         None
     """
-    # Obtener los nombres de los archivos en ambas carpetas
+    # Get the names of the files from each folder
     data_files = [f for f in os.listdir(raw_data_path) if f.endswith('.json')]
     metadata_files = [f for f in os.listdir(metadata_path) if f.endswith('.json')]
 
-    # Extraer los identificadores numéricos de los nombres de los archivos
+    # Extract the numeric identifier codes
     data_ids = {f.split('_')[1].split('.')[0] for f in data_files}
     metadata_ids = {f.split('_')[1].split('.')[0] for f in metadata_files}
 
-    # Encontrar los identificadores que están presentes en ambas carpetas
+    # Find the codes present in both folders
     matching_ids = data_ids.intersection(metadata_ids)
 
-    # Diccionario para almacenar metadatos
+    # Create an empty dict to save metadata
     metadata_dict = {}
 
-    # Leer y procesar los archivos de metadata
+    # Read and process metadata files
     for file_id in matching_ids:
         metadata_filename = f"metadata_{file_id}.json"
         with open(os.path.join(metadata_path, metadata_filename), 'r', encoding='utf-8') as metadata_file:
@@ -79,7 +79,7 @@ def merge_data(raw_data_path: str, metadata_path: str, output_folder: str) -> No
             dimensiones = {dim["dim_num"]: dim["abrv"] for dim in metadata_json[0]["Dimensoes"]["Descricao_Dim"]}
             metadata_dict[indicador_cod] = {"units": unidades_medida, "dimensiones": dimensiones}
 
-    # Leer y procesar los archivos de data
+    # Read and process data files
     for file_id in matching_ids:
         data_filename = f"data_{file_id}.json"
         combined_data = []
@@ -123,24 +123,24 @@ def merge_data(raw_data_path: str, metadata_path: str, output_folder: str) -> No
 
                     combined_data.append(combined_entry)
 
-        # Determinar los nombres de las columnas del CSV a partir de las claves del primer elemento en combined_data
+        # Determine the headers of the combined csv based on the keys from the first element in combined_data
         fieldnames = list(set().union(*(entry.keys() for entry in combined_data)))
 
-        # Guardar los datos combinados en un archivo CSV separado
+        # Save the combined data
         filename = f'combined_data_{file_id}.csv'
         output_file = os.path.join(output_folder, filename)
         os.makedirs(output_folder, exist_ok=True)
         with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             
-            # Escribir los encabezados
+            # Write the headers
             writer.writeheader()
             
-            # Escribir las filas
+            # Write the combined data rows
             for entry in combined_data:
                 writer.writerow(entry)
 
-        print(f'Archivo CSV generado: {filename}')
+        print(f'CSV file generated: {filename}')
 
 
 def main():

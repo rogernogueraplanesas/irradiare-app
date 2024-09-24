@@ -1,5 +1,5 @@
 from data_extraction import eurostat_client_data, eurostat_get_metadata
-from data_processing import eurostat_datacodes, eurostat_join_codes, eurostat_final_data
+from data_processing import eurostat_datacodes, extract_xml_files, eurostat_join_codes, eurostat_final_data
 
 
 def eurostat_main():
@@ -9,12 +9,17 @@ def eurostat_main():
         print(f"Error: {e}")
     
     try:
+        eurostat_datacodes.main()
+    except Exception as e:
+        print(f"Error: {e}")
+
+    try:
         eurostat_get_metadata.main()
     except Exception as e:
         print(f"Error: {e}")
 
     try:
-        eurostat_datacodes.main()
+        extract_xml_files.main()
     except Exception as e:
         print(f"Error: {e}")
 

@@ -4,74 +4,110 @@ import sqlite3
 import sqlite_queries as sq
 
 
-def extract_and_save_row(input_csv, output_csv, row_number):
-    # Extraer el nombre del archivo sin la extensión
-    filename = os.path.basename(input_csv)
+def extract_and_save_row(input_csv: str, output_csv: str, row_number: int) -> list[str] | None:
+    """
+    Extracts a specific row from the input CSV file and saves it in an output CSV file under the filename.
+    If the filename already exists in the output file, the row is updated. Otherwise, the filename and row are appended.
+    
+    Args:
+        input_csv (str): Path to the input CSV file.
+        output_csv (str): Path to the output CSV file where the row will be saved or updated.
+        row_number (int): The row number (1-based index) to extract from the input CSV.
 
-    # Inicializamos la variable last_row que devolveremos
+    Returns:
+        list[str] | None: The extracted row as a list of strings, or None if the row does not exist.
+    """
+    # Extract the filename without extension
+    filename = os.path.basename(input_csv)
     last_row = None
 
-    # Leer el archivo original como texto
     with open(input_csv, 'r', encoding='utf-8') as infile:
         lines = infile.readlines()
-
-        # Obtenemos la fila específica basada en el número de fila dado (contando desde 1)
+        # Obtain the data written in the specified row number
         if row_number < len(lines):
-            row = lines[row_number].strip()  # Remover espacios y saltos de línea
-            # Dividir la fila en una lista usando el punto y coma como separador
+            row = lines[row_number].strip()  # Remove spaces and break lines
+            # Divide the row elements by ;
             row_data = row.split(';')
-
-            # Quitar las comillas dobles alrededor de los campos, si las hay
+            # Remove double quotes from any element
             row_data = [field.strip('"') for field in row_data]
         else:
             row_data = None
 
-    # Comprobar si el archivo output_csv existe
+    # If there's no output file, a new one is created inserting the first 2 rows (filename and data)
     if not os.path.exists(output_csv):
-        # Si no existe, crear el archivo con el filename y la fila de datos
         with open(output_csv, 'w', encoding='utf-8', newline='') as outfile:
-            outfile.write(f"{filename}\n")  # Escribir el nombre del archivo
+            outfile.write(f"{filename}\n")
             if row_data:
-                outfile.write(f"{';'.join(row_data)}\n")  # Escribir la fila de datos
-            last_row = []  # La última fila es vacía inicialmente
+                outfile.write(f"{';'.join(row_data)}\n")
+            last_row = []
+
+    # In case of existing it is read
     else:
-        # Si existe, leemos el archivo existente
-        with open(output_csv, 'r', encoding='utf-8') as outfile:
-            existing_content = outfile.read()
+            with open(output_csv, 'r', encoding='utf-8') as outfile:
+                existing_content = outfile.read()
 
-        # Verificamos si ya está el filename
-        if filename in existing_content:
-            # Actualizamos la fila bajo el nombre del archivo si ya existe
-            updated_content = ""
-            lines = existing_content.splitlines()
-            skip_next_line = False
+            # If the content has the filename written in any line
+            if filename in existing_content:
+                # A new variable will store the content to replace the original file content
+                updated_content = ""
+                lines = existing_content.splitlines()
+                # Do not 'skip' any line automatically
+                skip_next_line = False
 
-            for line in lines:
-                if line == filename:
-                    updated_content += f"{filename}\n"
-                    if row_data:
-                        updated_content += f"{';'.join(row_data)}\n"
-                    skip_next_line = True  # Saltamos la línea siguiente (la fila anterior)
-                elif skip_next_line:
-                    skip_next_line = False  # Saltar la fila previa
-                else:
-                    updated_content += f"{line}\n"
+                for line in lines:
+                    # If filename is found in a line
+                    if line == filename:
+                        # Extract the content from the next row after the match
+                        existing_row_data = None
+                        for i in range(len(lines) - 1):
+                            if lines[i] == filename:
+                                existing_row_data = lines[i + 1].strip()
+                                break
 
-            last_row = row_data
-        else:
-            # Si no está, agregamos el filename y la fila de datos al final
-            updated_content = existing_content + f"{filename}\n"
-            if row_data:
-                updated_content += f"{';'.join(row_data)}\n"
-            last_row = []  # No hay fila anterior
+                        if existing_row_data:
+                            # Save the content of the last row to be substituted by row_data (new last row for the same filename)
+                            last_row = existing_row_data.split(';')
 
-        # Guardamos el contenido actualizado
-        with open(output_csv, 'w', encoding='utf-8') as outfile:
-            outfile.write(updated_content)
+                        # Filename is added to the update content variable
+                        updated_content += f"{filename}\n"
+                        # A new last row substitutes the old one
+                        if row_data:
+                            updated_content += f"{';'.join(row_data)}\n"
+                        # Automatically skips the line after the filename coincident line
+                        skip_next_line = True 
+                    elif skip_next_line:
+                        # Reset automatic skipping to False
+                        skip_next_line = False
+                    else:
+                        # Processes a line (non-coincident) adding its content to updated_content
+                        updated_content += f"{line}\n"
+            
+            else:
+                # If filename not present, add the new filename and data row to update_content
+                updated_content = existing_content + f"{filename}\n"
+                if row_data:
+                    updated_content += f"{';'.join(row_data)}\n"
+                last_row = []  # No hay fila anterior
 
-    return last_row
+            # Write and save the content of update_data into the output file
+            with open(output_csv, 'w', encoding='utf-8') as outfile:
+                outfile.write(updated_content)
 
-def insert_into_stagging(database, csv_folder):
+            return last_row
+
+
+
+def insert_into_stagging(database: sqlite3.Connection, csv_folder: str) -> None:
+    """
+    Inserts data from CSV files in the specified folder into the staging table of the database.
+    
+    Args:
+        database (sqlite3.Connection): A connection object to the SQLite database.
+        csv_folder (str): Path to the folder containing the CSV files to be processed.
+    
+    Returns:
+        None
+    """
     try:
         cursor = database.cursor()
         
@@ -79,27 +115,26 @@ def insert_into_stagging(database, csv_folder):
             if filename.endswith('.csv'):
                 file_path = os.path.join(csv_folder, filename)
                 with open(file_path, 'r', encoding='utf-8') as data_file:
-                    if os.stat(file_path).st_size == 0:  # Si el tamaño del archivo es 0, se salta
-                        print(f"Archivo vacío: {filename}. Saltando...")
+                    if os.stat(file_path).st_size == 0:  
+                        print(f"Empty file: {filename}. Skipping...")
                         continue
                     
-                    # Convertimos el archivo a una lista para verificar si hay contenido aparte del encabezado
+                    
                     lines = data_file.readlines()
-                    if len(lines) < 2:  # Si solo tiene una línea (el encabezado), lo saltamos
-                        print(f"Archivo sin datos: {filename}. Saltando...")
+                    if len(lines) < 2:  # If there is only the headers row
+                        print(f"File without data recorded: {filename}. Skipping...")
                         continue
 
                     data_file.seek(0)
 
                     last_row = extract_and_save_row(
-                        input_csv=file_path,  # Pasamos la ruta del archivo CSV, no el objeto abierto
+                        input_csv=file_path,
                         output_csv="app/indicators_data/ine/ine_data/savepoint.csv",
                         row_number=2
                     )
                     reader = csv.reader(data_file, delimiter=';')
                     headers = next(reader)
 
-                    # Identificar índices de las columnas
                     nuts1_idx = headers.index('nuts1')
                     nuts2_idx = headers.index('nuts2')
                     nuts3_idx = headers.index('nuts3')
@@ -113,7 +148,7 @@ def insert_into_stagging(database, csv_folder):
                     units_idx = headers.index('units')
                     source_code_idx = headers.index('source_cod')
 
-                    # Manejar dimensiones opcionales
+                    # Managing the optional dimensions
                     dimension_3_idx = headers.index('dimension_3') if 'dimension_3' in headers else None
                     filter_value3_idx = headers.index('filter_value3') if 'filter_value3' in headers else None
                     dimension_4_idx = headers.index('dimension_4') if 'dimension_4' in headers else None
@@ -121,10 +156,9 @@ def insert_into_stagging(database, csv_folder):
 
                     for row in reader:
                         if row == last_row:
-                            print(f"Se alcanzó la última fila: {last_row}. Deteniendo la inserción de más filas.")
-                            break  # Salimos del loop para no procesar las filas posteriores
+                            print(f"Reached last row: {last_row}. Stopping row insertion process.")
+                            break 
 
-                        # Asignar valores, usar 'Undefined' como valor predeterminado
                         nuts1 = row[nuts1_idx] if nuts1_idx is not None else 'Undefined'
                         nuts2 = row[nuts2_idx] if nuts2_idx is not None else 'Undefined'
                         nuts3 = row[nuts3_idx] if nuts3_idx is not None else 'Undefined'
@@ -143,7 +177,7 @@ def insert_into_stagging(database, csv_folder):
                         source = 'INE (PT)'
                         source_code = row[source_code_idx] if source_code_idx is not None else 'Undefined'
 
-                        # Manejo de dimensiones y filtros (atributos)
+                        # Managing dimensions and attributes
                         attributes_names = []
                         attributes_values = []
                         if dimension_3_idx is not None and row[dimension_3_idx] != 'undefined':
@@ -156,7 +190,7 @@ def insert_into_stagging(database, csv_folder):
                         attributes_str = ', '.join(f"{name}" for name in attributes_names) if attributes_names else 'Undefined'
                         value_tag = 'Undefined'
 
-                        # Insertar en stg_table para cada combinación de atributos
+                        # Insert into stagging for each combination of attributes
                         for name_attr, value_attr in zip(attributes_names, attributes_values):
                             cursor.execute(sq.INSERT_DATA_STAGGING, (
                                 nuts1, nuts2, nuts3, geocode, type, 
@@ -166,16 +200,28 @@ def insert_into_stagging(database, csv_folder):
                                 attributes_str, name_attr, value_attr, value_tag
                             ))
 
+        # Changes commited to the db
         database.commit()
+        print("Stagging completed.")
 
     except Exception as e:
         database.rollback()
-        print(f"Error al procesar el archivo {filename}: {e}")
+        print(f"Error processing file {filename}: {e}")
 
     finally:
         cursor.close()
 
-def stg_to_datawarehouse(database):
+
+def stg_to_datawarehouse(database: sqlite3.Connection) -> None:
+    """
+    Transfers data from the staging table to the corresponding data warehouse tables.
+    
+    Args:
+        database (sqlite3.Connection): A connection object to the SQLite database.
+
+    Returns:
+        None
+    """
     cursor = database.cursor()
 
     try:
@@ -208,82 +254,92 @@ def stg_to_datawarehouse(database):
                 'value_tag': row[20]
             }
 
-            # Inserción en la tabla `nuts`
+            # Insert data into `nuts` table
             cursor.execute('INSERT OR IGNORE INTO nuts (nuts1, nuts2, nuts3) VALUES (?, ?, ?)', 
                            (row_dict['nuts1'], row_dict['nuts2'], row_dict['nuts3']))
             id_nuts = cursor.execute('SELECT id_nuts FROM nuts WHERE nuts1 = ? AND nuts2 = ? AND nuts3 = ?',
                                      (row_dict['nuts1'], row_dict['nuts2'], row_dict['nuts3'])).fetchone()[0]
 
-            # Inserción en la tabla `geolevel`
+            # Insert data into `geolevel` table
             cursor.execute('INSERT OR IGNORE INTO geolevel (distrito, concelho, freguesia) VALUES (?, ?, ?)', 
                            (row_dict['distrito'], row_dict['concelho'], row_dict['freguesia']))
             id_geolevel = cursor.execute('SELECT id_geolevel FROM geolevel WHERE distrito = ? AND concelho = ? AND freguesia = ?',
                                          (row_dict['distrito'], row_dict['concelho'], row_dict['freguesia'])).fetchone()[0]
 
-            # Inserción en la tabla `geodata`
+            # Insert data into `geodata` table
             cursor.execute('INSERT OR IGNORE INTO geodata (id_nuts, id_geolevel, geocode, type) VALUES (?, ?, ?, ?)', 
                            (id_nuts, id_geolevel, row_dict['geocode'], row_dict['type']))
             id_geodata = cursor.execute('SELECT id_geodata FROM geodata WHERE id_nuts = ? AND id_geolevel = ? AND geocode = ? AND type = ?',
                                         (id_nuts, id_geolevel, row_dict['geocode'], row_dict['type'])).fetchone()[0]
 
-            # Inserción en la tabla `indicator`
+            # Insert data into `indicator` table
             cursor.execute('INSERT OR IGNORE INTO indicator (name, description, units, units_desc, calculation, source, source_code) VALUES (?, ?, ?, ?, ?, ?, ?)', 
                            (row_dict['name_indicator'], row_dict['description'], row_dict['units'], row_dict['units_desc'],
                             row_dict['calculation'], row_dict['source'], row_dict['source_code']))
             id_indicator = cursor.execute('SELECT id_indicator FROM indicator WHERE name = ? AND source_code = ?',
                                           (row_dict['name_indicator'], row_dict['source_code'])).fetchone()[0]
             
+            # Validating data_value's value
             try:
-            # Convertir a float solo si el valor no está vacío y es válido
                 data_value = float(row_dict['data_value']) if row_dict['data_value'].strip() != '' else 0.0
             except ValueError:
-                # Manejar el caso de conversión inválida asignando un valor por defecto
                 data_value = None
-
-            # Inserción en la tabla `data_values`
+            
+            # Insert data into `data_values` table
             try:
                 cursor.execute('INSERT INTO data_values (id_geodata, id_indicator, timecode, value, attributes) VALUES (?, ?, ?, ?, ?)', 
                                (id_geodata, id_indicator, row_dict['timecode'], data_value, row_dict['attributes']))
                 id_value = cursor.lastrowid
             except sqlite3.IntegrityError:
-                print(f"Duplicado encontrado y saltado: {row_dict}")
+                print(f"Duplicated found and skipped: {row_dict}")
                 continue
 
-            # Inserción en la tabla `attributes`
+            # Insert data into `attributes` table
             if row_dict['name_attribute'] != 'Undefined' and row_dict['value_attribute'] != 'Undefined':
                 cursor.execute('INSERT OR IGNORE INTO attributes (name, value) VALUES (?, ?)', 
                                (row_dict['name_attribute'], row_dict['value_attribute']))
                 id_attribute = cursor.execute('SELECT id_attribute FROM attributes WHERE name = ? AND value = ?', 
                                               (row_dict['name_attribute'], row_dict['value_attribute'])).fetchone()[0]
 
-                # Inserción en la tabla `val_attr`
+                # Insert data into `val_attr` table
                 cursor.execute('INSERT OR IGNORE INTO val_attr (id_value, id_attribute) VALUES (?, ?)', 
                                (id_value, id_attribute))
 
-            # Inserción en la tabla `tags`
+            # Insert data into `tags` table
             if row_dict['value_tag'] != 'Undefined':
                 cursor.execute('INSERT OR IGNORE INTO tags (value) VALUES (?)', 
                                (row_dict['value_tag'],))
                 id_tag = cursor.execute('SELECT id_tag FROM tags WHERE value = ?', 
                                         (row_dict['value_tag'],)).fetchone()[0]
 
-                # Inserción en la tabla `type`
+                # Insert data into `type` table
                 cursor.execute('INSERT OR IGNORE INTO type (id_indicator, id_tag) VALUES (?, ?)', 
                                (id_indicator, id_tag))
 
         database.commit()
 
     except sqlite3.Error as e:
-        print(f"Error al procesar los datos de staging: {e}")
+        print(f"Error processing stagging data: {e}")
         database.rollback()
 
     finally:
         cursor.close()
 
-def truncate_all_tables(database):
+
+def truncate_all_tables(database: sqlite3.Connection) -> None:
+    """
+    Empties all specified tables in the database.
+
+    Args:
+        database (sqlite3.Connection): Connection to the SQLite database.
+
+    Returns:
+        None
+    """
     cursor = database.cursor()
 
     try:
+        # List of tables to empty
         tables = ['stg_table', 'nuts', 'geolevel', 'geodata', 'indicator', 'data_values', 'attributes', 'val_attr', 'tags', 'type']
         
         for table in tables:
@@ -291,27 +347,43 @@ def truncate_all_tables(database):
             cursor.execute(f'DELETE FROM sqlite_sequence WHERE name="{table}";')
 
         database.commit()
-        print("Todas las tablas han sido vaciadas.")
+        print("All tables empty.")
     except sqlite3.Error as e:
         database.rollback()
-        print(f"Error al vaciar las tablas: {e}")
+        print(f"Error emptying the tables: {e}")
     finally:
         cursor.close()
 
-if __name__ == "__main__":
+
+def main() -> None:
+    """
+    Main function that handles the database connection, inserts data from CSV to staging,
+    moves data from the staging table to the data warehouse, and manages the database connection lifecycle.
+    """
     try:
+        # Connect to the SQLite database
         database = sqlite3.connect('sqlite_db.db')
-        print("Conexión exitosa a la base de datos.")
+        print("Connected to the database (SQLITE).")
         
+        # Insert data into the staging table from CSVs
         insert_into_stagging(database=database, csv_folder="app/indicators_data/ine/ine_data/processed/")
+        
+        # Move data from staging to the data warehouse
         stg_to_datawarehouse(database)
 
-        #truncate_all_tables(database=database)
+        # Uncomment this if you want to truncate all tables after processing
+        # truncate_all_tables(database=database)
     
     except sqlite3.Error as db_err:
         print(f"Error: {db_err}")
-
+    
     finally:
+        # Ensure the database connection is closed
         if database:
             database.close()
-            print("Conexión a la base de datos cerrada.")
+            print("Database connection closed.")
+
+
+
+if __name__ == "__main__":
+    main()
