@@ -23,9 +23,24 @@ pip install -r requirements.txt
 ```
 <br>
 
+<h2 id="summary">
+  <img src="sample_images/summary.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
+  <span style="vertical-align: middle;">Summary</span>
+</h2>
 
+The development of the DevTrack App is driven by Irradiare's **strategic commitment to leveraging data for more informed decision-making**. As the company continues to implement diverse projects, it has become increasingly important to have a precise, data-driven summary of project evolution over time.<br>
+By integrating key economic, social, and environmental indicators, the app provides a comprehensive view of project performance and potential.<br>
+Furthermore, the ability to forecast these indicators offers the company valuable insights into the future impact of its initiatives, allowing for better prioritization of upcoming projects. This data-backed approach enables the company to assess, with greater accuracy, which projects to bid on next, ensuring more logical, safer, and efficient project selection and execution.<br>
+The flexibility to connect various dimensions of performance within the app strengthens decision-making, fostering an optimized, strategic, and long-term perspective for the company's future initiatives.
+
+> SQLite for the database creation (currently).
+
+> As explained in the docs for each data source, many different data retrieval and processing techniques were applied.
+
+<br>
 <div align="center">
   <img src="docs/images/irradiare-app-gif.gif" width="85%" height="85%" alt="app-data-pathway">
   <br style="margin-bottom: 0.25em;">
   <sub>DevTrack App's data pathway</sub>
 </div>
+<br>
