@@ -93,7 +93,7 @@ To set up the application and proceed with execution, check [here](/docs/Quick_S
 
 <br>
 <h2 id="upcoming-steps">
-  <img src="docs/images/postinstall.png" width="25" height="26" alt="Icon" style="vertical-align: middle;"/> 
+  <img src="docs/images/postinstall.jpg" width="25" height="26" alt="Icon" style="vertical-align: middle;"/> 
   <span style="vertical-align: middle;">Upcoming steps</span>
 </h2>
 
