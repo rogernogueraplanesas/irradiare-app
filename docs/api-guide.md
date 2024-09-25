@@ -66,13 +66,23 @@ INFO:     Stopping reloader process [15472]
 
 <br>
 
-The message "Uvicorn running on http://127.0.0.1:8000" indicates that a FastAPI or ASGI application is running locally on your machine, and you can access it via that URL. <br>
-In our case, the idea will be to check out the generated docs for the API, by entering the following URL to the Web Browser: http://127.0.0.1:8000/docs.<br>
-Swagger UI is accessible at /docs by default, provides a graphical interface for users to explore the API. It is possible to see available endpoints, their request methods, parameters, and response formats.
+The message "Uvicorn running on http://127.0.0.1:8000" indicates that a FastAPI or ASGI application is running locally on your machine. The idea will be to check out the FastAPI generated docs by entering the given URL and adding /docs at the end.<br>
+Swagger UI is accessible at /docs by default and provides a graphical interface for users to explore the API. It is possible to see available endpoints, their request methods, parameters, and response formats.
+<br><br>
 
+The data extraction process requires an authenticated user, meaning that a user must already exist in the database. To create a user, navigate to the API documentation site (Swagger UI) and use the endpoint under the "User" tag, as shown in the image below.
 <br>
+<div align="center">
+  <img src="images/create-user.jpg" width="80%" height="80% alt="Create User Endpoint">
+</div>
 
-The process for the data extraction requires a logged user, meaning that there should be an existing user saved. To create a user from the docs site, 
+Once the user is registered, the next step is logging in or validating the user before any data can be retrieved. During the login process, a JWT (JSON Web Token) is generated upon successful authentication. This token temporarily verifies the user's identity.<br><br>
+
+To interact with the API and retrieve data, you must provide the JWT for authorization. In the API documentation, this can be done by clicking the padlock icon located in the upper right corner of each endpoint. After entering the user credentials (username and password), a JWT token is issued. With this token, you are authorized to interact with the endpoints and retrieve data from the database.
+<br>
+<div align="center">
+  <img src="images/auth-user.jpg" width="80%" height="80% alt="User Authorization">
+</div>
 
 
 
