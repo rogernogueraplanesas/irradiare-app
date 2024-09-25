@@ -33,7 +33,7 @@ python fill_sqlite_db.py
 
 
 - **Important Consideration**: The selection of indicators for this project has not been finalized. While all indicators are relevant to socio-economic and environmental matters, many may not significantly contribute to the company's projects tracking. Consequently, the volume of data retrieved and processed could be substantial, potentially consuming terabytes of storage until only the essential indicators are retained. Reducing the number of involved indicators will streamline the database filling process. <br><br>
-- **Step 9**: Once the database is loaded, navigate back to the main project folder [irradiare-app](/irradiare-app). <br><br>
+- **Step 9**: Once the database is loaded, navigate back to the main project folder [irradiare-app](/). <br><br>
 - **Step 10**: Start the Uvicorn server for the FastAPI project with the following command:
 
 ```
