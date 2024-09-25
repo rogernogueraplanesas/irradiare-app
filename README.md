@@ -45,7 +45,7 @@ pip install -r requirements.txt
 </h2>
 
 The development of the DevTrack App is driven by Irradiare's **strategic commitment to leveraging data for more informed decision-making**. As the company continues to implement diverse projects, it has become increasingly important to have a precise, data-driven summary of project evolution over time.<br><br>
-By integrating key economic, social, and environmental indicators, the app provides a comprehensive view of project performance and potential. Furthermore, the ability to forecast these indicators offers the company valuable insights into the future impact of its initiatives, allowing for better prioritization of upcoming projects. This data-backed approach enables the company to assess, with greater accuracy, which projects to bid on next, ensuring more logical, safer, and efficient project selection and execution.<br>
+By integrating key economic, social, and environmental indicators, the app provides a **comprehensive view of project performance and potential**. Furthermore, the ability to forecast these indicators offers the company valuable insights into the future impact of its initiatives, allowing for better prioritization of upcoming projects. This **data-backed approach** enables the company to assess, with greater accuracy, which projects to bid on next, ensuring more logical, safer, and efficient project selection and execution.<br>
 The flexibility to connect various dimensions of performance within the app strengthens decision-making, fostering an optimized, strategic, and long-term perspective for the company's future initiatives.<br><br>
 
 > SQLite for the database creation (currently).
