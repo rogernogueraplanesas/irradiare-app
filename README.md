@@ -25,7 +25,7 @@ pip install -r requirements.txt
 <br>
 
 <h2>
-  <img src="sample_images/toc.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
+  <img src="docs/images/toc.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
   <span style="vertical-align: middle;">Table of Contents</span>
 </h2>
 
@@ -88,4 +88,19 @@ The flexibility to connect various dimensions of performance within the app stre
   <span style="vertical-align: middle;">Instructions</span>
 </h2>
 
-To set up the application and proceed with execution, check [here].
+To set up the application and proceed with execution, check [here](/docs/Quick_Start.md).
+<br>
+
+<br>
+<h2 id="upcoming-steps">
+  <img src="docs/images/postinstall.png" width="25" height="26" alt="Icon" style="vertical-align: middle;"/> 
+  <span style="vertical-align: middle;">Upcoming steps</span>
+</h2>
+
+Upcoming Steps to be Implemented:
+  - **Enhancing the API**: Adding more endpoints to improve functionality.
+  - **Tagging Indicators**: Implementing tag values for better categorization of indicators.
+  - **User Permissions**: Establishing exclusive permissions for specific users based on their department and type of indicator.
+  - **Database Migration**: Migrating the application to use a PostgreSQL database instead of SQLite.
+  - **Forecasting Integration**: Connecting the database to forecasting methods, potentially using R or Python, to populate the database with parameters such as forecasted_Value, which are currently absent.
+
