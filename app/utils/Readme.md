@@ -18,5 +18,5 @@ eredes
 ```
 
 <br>
-The `format_loc_codes.py` file contains the necessary code to transform the original dicofre and zipcode files found in the *loc_codes* folder, which provide geolocation data based on dicofre codes or zip codes, into clean, formatted JSON files saved in the same folder. These JSON files are utilized in various sections of the project.
+The ´format_loc_codes.py´ file contains the necessary code to transform the original dicofre and zipcode files found in the *loc_codes* folder, which provide geolocation data based on dicofre codes or zip codes, into clean, formatted JSON files saved in the same folder. These JSON files are utilized in various sections of the project.
 
