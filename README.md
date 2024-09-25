@@ -73,7 +73,9 @@ By integrating key economic, social, and environmental indicators, the app provi
   - **[utils](/app/utils)**: This folder contains various files that are reused throughout the application. It includes both one-time-use scripts and supplementary information that is valuable for a deeper understanding of the project.
 
 **[docs](/docs)**: Folder for documentation and images.
+
 <br>
+
 ***Other files***:
 - **.gitignore**: Specifies the files that are present in the local repository but not in the remote version.
 - **requirements.txt**: Needed libraries to execute the program. *It is important to have them all installed.*
