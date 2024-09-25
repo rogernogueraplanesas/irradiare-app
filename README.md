@@ -14,7 +14,7 @@ The app's database is populated with indicator data sourced from [E-REDES](https
 <br>
 <br>
 <h2>
-  <img src="sample_images/requisites.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
+  <img src="docs/images/requisites.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
   <span style="vertical-align: middle;">Requirements</span>
 </h2>
 
