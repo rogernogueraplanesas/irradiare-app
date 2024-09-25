@@ -21,10 +21,26 @@ The app's database is populated with indicator data sourced from [E-REDES](https
 ```
 pip install -r requirements.txt
 ```
+> It is recommended to set up a virtual environment (venv) first.
+<br>
+
+<h2>
+  <img src="sample_images/toc.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
+  <span style="vertical-align: middle;">Table of Contents</span>
+</h2>
+
+[Summary](#summary)
+
+[Folders and files](#folders-and-files)
+
+[Instructions](#instructions)
+
+[Upcoming Steps](#upcoming-steps)
+
 <br>
 
 <h2 id="summary">
-  <img src="sample_images/summary.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
+  <img src="docs/images/summary.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
   <span style="vertical-align: middle;">Summary</span>
 </h2>
 
@@ -44,3 +60,32 @@ The flexibility to connect various dimensions of performance within the app stre
   <sub>DevTrack App's data pathway</sub>
 </div>
 <br>
+
+<br>
+
+<h2 id="folders-and-files">
+  <img src="docs/images/docs.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
+  <span style="vertical-align: middle;">Folders and files</span>
+</h2>
+
+**[app](/app)**: Folder containing all the logic for the application.
+  - **[api](/api)**: Folder containing all the scripts needed to set up the FastAPI project.
+  - **[db](/db)**: Folder containing the logic needed to create and fill the database of the app once the data is already extracted, processed and saved.
+  - **[indicators_data](/indicators_data)**: This folder contains the scripts required for extracting and transforming data, organized by data source. Each dedicated subfolder includes a corresponding .md file redirecting to additional detailed Readme files available in the [docs](/docs) section. These Readme files provide step-by-step explanations of the processes followed for each data source.
+  - **[utils](/utils)**: This folder contains various files that are reused throughout the application. It includes both one-time-use scripts and supplementary information that is valuable for a deeper understanding of the project.
+
+**[docs](/docs)**: Folder for documentation and images.
+
+**Other files**:
+- **.gitignore**: Specifies the files that are present in the local repository but not in the remote version.
+- **requirements.txt**: Needed libraries to execute the program. *It is important to have them all installed.*
+- **.gitattributes**: Ensures consistent line endings across different platforms in the project. It automatically converts text files to native line endings (CRLF for Windows, LF for Unix), while specifying that certain file types, like .sh and .csv, always use LF, and .bat files always use CRLF. This prevents line-ending issues and keeps the project consistent across environments.
+<br>
+
+<br>
+<h2 id="instructions">
+  <img src="docs/images/execution.png" width="25" height="26" alt="Icon" style="vertical-align: middle;"/> 
+  <span style="vertical-align: middle;">Instructions</span>
+</h2>
+
+To set up the application and proceed with execution, check [here].
