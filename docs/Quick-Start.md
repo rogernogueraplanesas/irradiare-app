@@ -9,7 +9,8 @@ A brief guide for setting up and executing the application.
 pip install -r requirements.txt
 ```
 
+<br>
 
-- After the requirements are installed, set the current directory to the [indicators_data](/app/indicators_data folder.
+- After the requirements are installed, set the current directory to the [indicators_data](/app/indicators_data) folder.
 
   
