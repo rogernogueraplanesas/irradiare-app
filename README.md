@@ -46,7 +46,6 @@ pip install -r requirements.txt
 
 The development of the DevTrack App is driven by Irradiare's **strategic commitment to leveraging data for more informed decision-making**. As the company continues to implement diverse projects, it has become increasingly important to have a precise, data-driven summary of project evolution over time.<br><br>
 By integrating key economic, social, and environmental indicators, the app provides a **comprehensive view of project performance and potential**. Furthermore, the ability to forecast these indicators offers the company valuable insights into the future impact of its initiatives, allowing for better prioritization of upcoming projects. This **data-backed approach** enables the company to assess, with greater accuracy, which projects to bid on next, ensuring more logical, safer, and efficient project selection and execution.<br>
-The flexibility to connect various dimensions of performance within the app strengthens decision-making, fostering an optimized, strategic, and long-term perspective for the company's future initiatives.<br><br>
 
 > SQLite for the database creation (currently).
 
@@ -68,10 +67,10 @@ The flexibility to connect various dimensions of performance within the app stre
 </h2>
 
 **[app](/app)**: Folder containing all the logic for the application.
-  - **[api](/api)**: Folder containing all the scripts needed to set up the FastAPI project.
-  - **[db](/db)**: Folder containing the logic needed to create and fill the database of the app once the data is already extracted, processed and saved.
-  - **[indicators_data](/indicators_data)**: This folder contains the scripts required for extracting and transforming data, organized by data source. Each dedicated subfolder includes a corresponding .md file redirecting to additional detailed Readme files available in the [docs](/docs) section. These Readme files provide step-by-step explanations of the processes followed for each data source.
-  - **[utils](/utils)**: This folder contains various files that are reused throughout the application. It includes both one-time-use scripts and supplementary information that is valuable for a deeper understanding of the project.
+  - **[api](/app/api)**: Folder containing all the scripts needed to set up the FastAPI project.
+  - **[db](/app/db)**: Folder containing the logic needed to create and fill the database of the app once the data is already extracted, processed and saved.
+  - **[indicators_data](/app/indicators_data)**: This folder contains the scripts required for extracting and transforming data, organized by data source. Each dedicated subfolder includes a corresponding .md file redirecting to additional detailed Readme files available in the [docs](/docs) section. These Readme files provide step-by-step explanations of the processes followed for each data source.
+  - **[utils](/app/utils)**: This folder contains various files that are reused throughout the application. It includes both one-time-use scripts and supplementary information that is valuable for a deeper understanding of the project.
 
 **[docs](/docs)**: Folder for documentation and images.
 
