@@ -11,7 +11,7 @@ Irradiare's DevTrack App is an internal tool designed to **monitor the performan
 Project impact can be analyzed across **multiple geographical levels**, including parishes, municipalities, districts, and the national level. Additionally, the app supports tracking indicators based on NUTS (Nomenclature of Territorial Units for Statistics) levels.<br>
 The app's database is populated with indicator data sourced from [E-REDES](https://e-redes.opendatasoft.com/explore/?sort=modified), [Eurostat](https://ec.europa.eu/eurostat/data/database), [INE](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_api&INST=322751522), and [The World Bank](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation).
 
-<br>
+
 <br>
 <h2>
   <img src="docs/images/requisites.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
