@@ -28,7 +28,8 @@ TOKEN_EXPIRATION_MINUTES = 20
 ```
 
 <br>
-For the secret key generation, it is possible to use the Python's ´secrets´ module:
+For the secret key generation, it is possible to use the Python's `secrets` module:
+<br>
 
 ```
 import secrets
@@ -37,9 +38,41 @@ SECRET_KEY = secrets.token_hex(32)  # 32 bytes = 64 hex characters
 print("Generated Secret Key:", SECRET_KEY)
 ```
 
+<br>
 
+Once the *.env* file is saved, it is possible to run a local server by executing the following command line:
 
+```
+uvicorn app.api.main:app --reload
+```
 
+<br>
+If the setting up process was done correctly, the following message will appear in the terminal:
+
+```
+(venv) PS C:\path\to\irradiare-app> uvicorn app.api.main:app --reload
+INFO:     Will watch for changes in these directories: ['C:\\path\\to\\irradiare-app']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [15472] using WatchFiles
+INFO:     Started server process [25876]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [25876]
+INFO:     Stopping reloader process [15472]
+```
+
+<br>
+
+The message "Uvicorn running on http://127.0.0.1:8000" indicates that a FastAPI or ASGI application is running locally on your machine, and you can access it via that URL. <br>
+In our case, the idea will be to check out the generated docs for the API, by entering the following URL to the Web Browser: http://127.0.0.1:8000/docs.<br>
+Swagger UI is accessible at /docs by default, provides a graphical interface for users to explore the API. It is possible to see available endpoints, their request methods, parameters, and response formats.
+
+<br>
+
+The process for the data extraction requires a logged user, meaning that there should be an existing user saved. To create a user from the docs site, 
 
 
 
