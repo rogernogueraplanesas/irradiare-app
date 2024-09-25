@@ -2,6 +2,7 @@
 A brief guide for setting up and executing the application.
 <br>
 - **Step 1**: Create and activate a virtual environment (venv) in the project's folder (irradiare-app).<br>
+
   
 - **Step 2**: Install the required dependencies by executing the following command in the terminal:
 
