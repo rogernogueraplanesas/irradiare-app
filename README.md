@@ -73,14 +73,14 @@ By integrating key economic, social, and environmental indicators, the app provi
   - **[utils](/app/utils)**: This folder contains various files that are reused throughout the application. It includes both one-time-use scripts and supplementary information that is valuable for a deeper understanding of the project.
 
 **[docs](/docs)**: Folder for documentation and images.
-
-**Other files**:
+<br>
+***Other files***:
 - **.gitignore**: Specifies the files that are present in the local repository but not in the remote version.
 - **requirements.txt**: Needed libraries to execute the program. *It is important to have them all installed.*
 - **.gitattributes**: Ensures consistent line endings across different platforms in the project. It automatically converts text files to native line endings (CRLF for Windows, LF for Unix), while specifying that certain file types, like .sh and .csv, always use LF, and .bat files always use CRLF. This prevents line-ending issues and keeps the project consistent across environments.
 <br>
 
-<br>
+
 <h2 id="instructions">
   <img src="docs/images/execution.png" width="25" height="26" alt="Icon" style="vertical-align: middle;"/> 
   <span style="vertical-align: middle;">Instructions</span>
