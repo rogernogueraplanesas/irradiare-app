@@ -28,11 +28,10 @@ TOKEN_EXPIRATION_MINUTES = 20
 ```
 
 <br>
-For the secret key generation, it is possible to use the Python's `secrets` module:
+For the secret key generation, it is possible to use the Python's ´secrets´ module:
 
 ```
 import secrets
-
 # Generate a 64-character long random secret key
 SECRET_KEY = secrets.token_hex(32)  # 32 bytes = 64 hex characters
 print("Generated Secret Key:", SECRET_KEY)
