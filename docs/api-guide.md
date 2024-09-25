@@ -6,20 +6,20 @@ This guide provides instructions for setting up the FastAPI API for this applica
 
 ---
 ## API Setup
-As the API developed for this application includes a user validation method implemented through JSON Web Tokens (JWT), it is essential to complete a preliminary step before starting the server.<br>
+As the API developed for this application includes a user validation method implemented through **JSON Web Tokens (JWT)**, it is essential to complete a preliminary step before starting the server.<br>
 This step will ensure a correct and secure data retrieval from the database.
 
-It is needed to create a new file named .env in the [api](/app/api) folder.<br>
-In Python, a .env file is commonly used to store configuration settings, API keys, and other sensitive information.<br><br>
-In this case, there will be just three key-value pairs needed as environmental variables required for a correct user validation through JWT, named:
+It is needed to create a new file named `.env` in the [api](/app/api) folder.<br>
+In Python, a *.env* file is commonly used to store configuration settings, API keys, and other sensitive information.<br><br>
+In this case, there will be just **three key-value pairs needed as environmental variables** required for a correct user validation through JWT, named:
 
-- ALGORITHM: Encryption Algorithm used to encrypt input data. As the application was developed consuming JWTs, it is safe to use HS256, because you will have control on who uses the secret keys.
-- SECRET_KEY: Needed for a standard HS256 encryption for the signature, the secret should at least be 32 characters long, but the longer the better.
-- TOKEN_EXPIRATION_MINUTES: Configuration parameter that defines how long (in minutes) a generated token remains valid before it expires. Number of minutes allowed per user session.
+- **ALGORITHM**: Encryption Algorithm used to encrypt input data. As the application was developed consuming JWTs, it is safe to use HS256, because you will have control on who uses the secret keys.
+- **SECRET_KEY**: Needed for a standard HS256 encryption for the signature, the secret should at least be 32 characters long, but the longer the better.
+- **TOKEN_EXPIRATION_MINUTES**: Configuration parameter that defines how long (in minutes) a generated token remains valid before it expires. Number of minutes allowed per user session.
 
 <br>
 
-The .env file could be similar to:
+The `.env` file could be similar to:
 
 ```
 SECRET_KEY = 64 characters long key
@@ -27,6 +27,7 @@ ALGORITHM = HS256
 TOKEN_EXPIRATION_MINUTES = 20
 ```
 
+<br>
 For the secret key generation, it is possible to use the Python's `secrets` module:
 
 ```
