@@ -88,7 +88,7 @@ By integrating key economic, social, and environmental indicators, the app provi
   <span style="vertical-align: middle;">Instructions</span>
 </h2>
 
-To set up the application and proceed with execution, check [here](/docs/Quick_Start.md).
+To set up the application and proceed with execution, check [here](/docs/Quick-Start.md).
 <br>
 
 <br>
