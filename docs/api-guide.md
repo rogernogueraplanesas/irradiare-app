@@ -9,7 +9,7 @@ This guide provides instructions for setting up the FastAPI API for this applica
 As the API developed for this application includes a user validation method implemented through **JSON Web Tokens (JWT)**, it is essential to complete a preliminary step before starting the server.<br>
 This step will ensure a correct and secure data retrieval from the database.
 
-It is needed to create a new file named `.env` in the [api](/app/api) folder.<br>
+It is needed to create a new file named `.env` in the [project's main folder](/) folder.<br>
 In Python, a *.env* file is commonly used to store configuration settings, API keys, and other sensitive information.<br><br>
 In this case, there will be just **three key-value pairs needed as environmental variables** required for a correct user validation through JWT, named:
 
