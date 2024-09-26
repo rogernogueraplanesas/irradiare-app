@@ -71,14 +71,14 @@ Swagger UI is accessible at /docs by default and provides a graphical interface 
 <br><br>
 
 The data extraction process requires an authenticated user, meaning that a user must already exist in the database. To create a user, navigate to the API documentation site (Swagger UI) and use the endpoint under the "User" tag, as shown in the image below.
-<br>
+<br><br>
 <div align="center">
   <img src="images/create-user.jpg" width="80%" height="80% alt="Create User Endpoint">
   <br>
   <sub>Create User Endpoint</sub>
 </div>
 
-<br>
+<br><br>
 Once the user is registered, the next step is logging in or validating the user before any data can be retrieved. During the login process, a JWT (JSON Web Token) is generated upon successful authentication. This token temporarily verifies the user's identity.<br><br>
 
 To interact with the API and retrieve data, you must provide the JWT for authorization. In the API documentation, this can be done by clicking the padlock icon located in the upper right corner of each endpoint. After entering the user credentials (username and password), a JWT token is issued. With this token, you are authorized to interact with the endpoints and retrieve data from the database.
