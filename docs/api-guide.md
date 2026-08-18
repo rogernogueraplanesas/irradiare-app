@@ -50,8 +50,8 @@ uvicorn app.api.main:app --reload
 If the setting up process was done correctly, the following message will appear in the terminal:
 
 ```
-(venv) PS C:\path\to\irradiare-app> uvicorn app.api.main:app --reload
-INFO:     Will watch for changes in these directories: ['C:\\path\\to\\irradiare-app']
+(venv) PS C:\path\to\portugal-energy-transition> uvicorn app.api.main:app --reload
+INFO:     Will watch for changes in these directories: ['C:\\path\\to\\portugal-energy-transition']
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
 INFO:     Started reloader process [15472] using WatchFiles
 INFO:     Started server process [25876]

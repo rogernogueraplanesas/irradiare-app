@@ -14,7 +14,7 @@ To execute the data **extraction and transformation scripts** in order to obtain
 
 Set the current directory to the eurostat folder:
 ```
-cd /path/to/irradiare_app/app/indicators_data/eurostat
+cd /path/to/portugal-energy-transition/app/indicators_data/eurostat
 ```
 
 Execute the main script:

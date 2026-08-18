@@ -27,7 +27,7 @@ To execute the data **extraction and transformation scripts** in order to obtain
 
 Set the current directory to the ine folder:
 ```
-cd /path/to/irradiare_app/app/indicators_data/ine
+cd /path/to/portugal-energy-transition/app/indicators_data/ine
 ```
 
 Execute the main script:
@@ -63,7 +63,7 @@ Brief description of INE data lifecycle:
   
   <br><br>
   4. Similar to other data sources, a final cleaning and completion step is performed. In addition to key time data, location data is included in the final files. However, some indicators may lack complete zipcode/dicofre information, meaning that geolocation data, such as distrito, concelho, freguesia, or NUTS levels, may be **partially incomplete**. Once this processing step is completed, the data files are ready for insertion into the database.<br>
-  Some indicators present multiple values based on filters such as Age, Civil Status, Sex, etc. In these cases, they are treated as attributes with their own data values, since multivalued fields are not allowed in the database. An example of a final CSV file with attributes can be seen in the second image below this text. Detailed explanations regarding the insertion of these characteristic data rows can be found in the [database guide](irradiare-app/app/db).
+  Some indicators present multiple values based on filters such as Age, Civil Status, Sex, etc. In these cases, they are treated as attributes with their own data values, since multivalued fields are not allowed in the database. An example of a final CSV file with attributes can be seen in the second image below this text. Detailed explanations regarding the insertion of these characteristic data rows can be found in the [database guide](portugal-energy-transition/app/db).
   
   <div align="center">
     <img src="images/ine-attributes.png" width="80%" height="80%" alt="INE attributes">

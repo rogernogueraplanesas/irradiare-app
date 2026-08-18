@@ -19,8 +19,8 @@ Firstly, its basic configuration is set.
     - The format of the log messages is: timestamp - severity level - log message
 """
 
-# Get the path of the root directory (irradiare-app)
-irradiare_app_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..'))
+# Get the path of the root directory (project root)
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..'))
 
 """
 In order to import the settings module from the utils folder, it is needed to calculate the abolute path of the project's root.
@@ -31,7 +31,7 @@ In order to import the settings module from the utils folder, it is needed to ca
 """
 
 # Add the path to sys.path
-sys.path.append(irradiare_app_path)
+sys.path.append(project_root)
 
 """
 The previous abolute path is added to the system path 'sys.path'.

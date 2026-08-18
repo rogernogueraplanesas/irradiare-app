@@ -1,106 +1,90 @@
-<div align="center">
-  <img src="docs/images/logo.png" width="65%" height="65%" alt="Irradiare-app-logo">
-  <br style="margin-bottom: 0.25em;">
-</div>
-<br>
+# Portugal Energy Transition
 
-# DevTrack app - IrRadiare
-![Static Badge](https://img.shields.io/badge/language-python-blue) ![GitHub repo size](https://img.shields.io/github/repo-size/:rogernogueraplanesas/:portugal-weather-analysis) ![GitHub last commit](https://img.shields.io/github/last-commit/:rogernogueraplanesas/:portugal-weather-analysis) <br>
+![Python](https://img.shields.io/badge/language-python-blue)
+![Repo size](https://img.shields.io/github/repo-size/rogernogueraplanesas/portugal-energy-transition)
+![Last commit](https://img.shields.io/github/last-commit/rogernogueraplanesas/portugal-energy-transition)
 
-Irradiare's DevTrack App is an internal tool designed to **monitor the performance and efficiency** of the company’s implemented projects over time, utilizing key indicator data. In addition to tracking, the app facilitates **forecasting project outcomes**, enabling the company to optimize the timing of new initiatives based on predicted values for these indicators.<br><br>
-Project impact can be analyzed across **multiple geographical levels**, including parishes, municipalities, districts, and the national level. Additionally, the app supports tracking indicators based on NUTS (Nomenclature of Territorial Units for Statistics) levels.<br><br>
-The app's database is populated with indicator data sourced from [E-REDES](https://e-redes.opendatasoft.com/explore/?sort=modified), [Eurostat](https://ec.europa.eu/eurostat/data/database), [INE](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_api&INST=322751522), and [The World Bank](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation).
+Data project on **Portugal's energy transition and the regional adoption of renewables**,
+using distribution-grid data from **E-REDES** and placing it in a European context with
+**socioeconomic indicators from Eurostat**.
 
+## Research question
 
-<br>
-<h2>
-  <img src="docs/images/requisites.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
-  <span style="vertical-align: middle;">Requirements</span>
-</h2>
+> **Is the adoption of renewables across Portuguese regions associated with socioeconomic
+> factors, and how does Portugal compare with the broader European pattern?**
+
+The idea is to cross regional grid/energy data for Portugal (E-REDES) with socioeconomic
+indicators (Eurostat) to see whether renewable adoption tracks factors such as income,
+population or economic activity — and to benchmark Portugal against other European regions.
+
+## Background
+
+This project started in **2023–2024** as work done during an **internship** (early in my
+data-science path). That first version worked but was limited; I put real effort into its
+documentation (several READMEs, images, a data-flow GIF).
+
+In **2026** I'm picking it back up **on my own, as a personal / portfolio project** — with
+no relation to that company or to any formal studies. The goal now is to turn the existing
+multi-source ingestion work into a clean analytical project.
+
+## Roadmap
+
+The work is organized in phases. **Only the current phase is active** — the rest are planned.
+
+1. **Phase 1 — EDA (current):** exploratory analysis of the E-REDES × Eurostat data to
+   probe the research question above.
+2. **Phase 2 — ML pipeline (planned):** modelling on top of the cleaned data.
+3. **Phase 3 — Refactor (planned):** production hardening — type hints, tests, and a CLI.
+
+## Data sources
+
+| Source | Role |
+|---|---|
+| [E-REDES](https://e-redes.opendatasoft.com/explore/?sort=modified) | Portuguese distribution-grid / energy indicators (analytical core) |
+| [Eurostat](https://ec.europa.eu/eurostat/data/database) | European socioeconomic indicators (context / comparison) |
+| [INE Portugal](https://www.ine.pt/) | Portuguese national statistics |
+| [World Bank](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation) | Additional macro indicators |
+
+Data is stored in **SQLite** for now. Detailed, per-source method notes live in [`docs/`](docs/).
+
+## Project structure (indicative)
+
+> This layout is inherited from the original build and is a **starting point** — it may be
+> reorganized as the analytical phases progress.
 
 ```
+portugal-energy-transition/
+├── app/
+│   ├── api/                  # FastAPI layer from the original build (auth, data, users)
+│   ├── db/                   # SQLite creation/loading + E-R diagrams
+│   ├── indicators_data/      # Core: extraction → processing → loading, per source
+│   │   ├── eredes/           #   E-REDES   (processing / loading; see legacy/ for old extractor)
+│   │   ├── eurostat/         #   Eurostat  (extraction / processing / loading)
+│   │   ├── ine/              #   INE PT    (extraction / processing / loading)
+│   │   ├── worldbank/        #   World Bank(extraction / processing / loading)
+│   │   └── data_main.py      #   orchestrator
+│   └── utils/                # Location codes (dicofre/zip), NUTS levels, method PDFs
+├── docs/                     # Per-source guides (*.md) and images
+├── legacy/                   # Retired approaches kept as samples
+│   └── eredes-selenium-extractor/   # 2023–2024 Selenium bot (superseded by E-REDES API)
+├── requirements.txt
+└── README.md
+```
+
+Each source follows the same pattern: `data_extraction/` → `data_processing/` → `data_load/`,
+plus a `*_main.py` orchestrator.
+
+## Setup
+
+```bash
 pip install -r requirements.txt
 ```
-> It is recommended to set up a virtual environment (venv) first.
-<br>
 
-<h2>
-  <img src="docs/images/toc.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
-  <span style="vertical-align: middle;">Table of Contents</span>
-</h2>
+> A virtual environment (venv) is recommended.
 
-[Summary](#summary)
+## Notes
 
-[Folders and files](#folders-and-files)
-
-[Instructions](#instructions)
-
-[Upcoming Steps](#upcoming-steps)
-
-<br>
-
-<h2 id="summary">
-  <img src="docs/images/summary.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
-  <span style="vertical-align: middle;">Summary</span>
-</h2>
-
-The development of the DevTrack App is driven by Irradiare's **strategic commitment to leveraging data for more informed decision-making**. As the company continues to implement diverse projects, it has become increasingly important to have a precise, data-driven summary of project evolution over time.<br><br>
-By integrating key economic, social, and environmental indicators, the app provides a **comprehensive view of project performance and potential**. Furthermore, the ability to forecast these indicators offers the company valuable insights into the future impact of its initiatives, allowing for better prioritization of upcoming projects. This **data-backed approach** enables the company to assess, with greater accuracy, which projects to bid on next, ensuring more logical, safer, and efficient project selection and execution.<br>
-
-> SQLite for the database creation (currently).
-
-> As explained in the docs for each data source, many different data retrieval and processing techniques were applied.
-
-<br>
-<div align="center">
-  <img src="docs/images/irradiare-app-gif.gif" width="85%" height="85%" alt="app-data-pathway">
-  <br style="margin-bottom: 0.25em;">
-  <sub>DevTrack App's data pathway</sub>
-</div>
-<br>
-
-<br>
-
-<h2 id="folders-and-files">
-  <img src="docs/images/docs.jpg" width="25" height="25" alt="Icon" style="vertical-align: middle;"/> 
-  <span style="vertical-align: middle;">Folders and files</span>
-</h2>
-
-**[app](/app)**: Folder containing all the logic for the application.
-  - **[api](/app/api)**: Folder containing all the scripts needed to set up the FastAPI project.
-  - **[db](/app/db)**: Folder containing the logic needed to create and fill the database of the app once the data is already extracted, processed and saved.
-  - **[indicators_data](/app/indicators_data)**: This folder contains the scripts required for extracting and transforming data, organized by data source. Each dedicated subfolder includes a corresponding .md file redirecting to additional detailed Readme files available in the [docs](/docs) section. These Readme files provide step-by-step explanations of the processes followed for each data source.
-  - **[utils](/app/utils)**: This folder contains various files that are reused throughout the application. It includes both one-time-use scripts and supplementary information that is valuable for a deeper understanding of the project.
-
-**[docs](/docs)**: Folder for documentation and images.
-
-<br>
-
-***Other files***:
-- **.gitignore**: Specifies the files that are present in the local repository but not in the remote version.
-- **requirements.txt**: Needed libraries to execute the program. *It is important to have them all installed.*
-- **.gitattributes**: Ensures consistent line endings across different platforms in the project. It automatically converts text files to native line endings (CRLF for Windows, LF for Unix), while specifying that certain file types, like .sh and .csv, always use LF, and .bat files always use CRLF. This prevents line-ending issues and keeps the project consistent across environments.
-<br>
-
-
-<h2 id="instructions">
-  <img src="docs/images/execution.png" width="25" height="26" alt="Icon" style="vertical-align: middle;"/> 
-  <span style="vertical-align: middle;">Instructions</span>
-</h2>
-
-To set up the application and proceed with execution, check [here](/docs/Quick-Start.md).
-<br>
-
-<br>
-<h2 id="upcoming-steps">
-  <img src="docs/images/postinstall.jpg" width="25" height="26" alt="Icon" style="vertical-align: middle;"/> 
-  <span style="vertical-align: middle;">Upcoming steps</span>
-</h2>
-
-Upcoming Steps to be Implemented:
-  - **Enhancing the API**: Adding more endpoints to improve functionality.
-  - **Tagging Indicators**: Implementing tag values for better categorization of indicators.
-  - **User Permissions**: Establishing exclusive permissions for specific users based on their department and type of indicator.
-  - **Database Migration**: Migrating the application to use a PostgreSQL database instead of SQLite.
-  - **Forecasting Integration**: Connecting the database to forecasting methods, potentially using R or Python, to populate the database with parameters such as forecasted_Value, which are currently absent.
-
+- The **E-REDES Selenium extractor** used in 2023–2024 now lives under
+  [`legacy/`](legacy/eredes-selenium-extractor/); E-REDES has since offered an official
+  open-data API, which is the intended way to ingest its data going forward.
+- Git history from the original build is kept as-is.

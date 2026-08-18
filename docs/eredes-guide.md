@@ -26,7 +26,7 @@ To execute the data **extraction and transformation scripts** in order to obtain
 
 Set the current directory to the eredes folder:
 ```
-cd /path/to/irradiare_app/app/indicators_data/eredes
+cd /path/to/portugal-energy-transition/app/indicators_data/eredes
 ```
 
 Execute the main script:
